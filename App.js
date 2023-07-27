@@ -28,9 +28,12 @@ function App() {
                         let iconName;
                         if (route.name === 'Home') {
                             iconName = 'home-outline';
-                        } else if (route.name === 'DetailsScreen') {
+                        } else if (route.name === 'Categories') {
                             iconName = 'person-outline';
-                        } else if (route.name === 'LoginScreen') {
+                        } else if (route.name === 'Cart') {
+                            iconName = 'settings-outline';
+                        }
+                        else{
                             iconName = 'settings-outline';
                         }
                         return <Icon name={iconName} color={color} size={size} />;
@@ -55,7 +58,7 @@ function App() {
 
                 {/* Profil ekranı */}
                 <Tab.Screen
-                    name="DetailsScreen"
+                    name="Categories"
                     component={DetailsScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
@@ -66,7 +69,16 @@ function App() {
 
                 {/* Ayarlar ekranı */}
                 <Tab.Screen
-                    name="LoginScreen"
+                    name="Cart"
+                    component={LoginScreen}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon name="settings-outline" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Account"
                     component={LoginScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
