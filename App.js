@@ -5,6 +5,7 @@ import LoginScreen from './src/LoginScreen';
 import RegisterScreen from './src/RegisterScreen';
 import HomeScreen from './src/HomeScreen';
 import DetailsScreen from './src/DetailsScreen';
+import ContactScreen from './src/ContactScreen';
 
 
 
@@ -16,10 +17,11 @@ function App() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                {isLoggedIn ? (
+                {true ? (
                     <>
                         <Stack.Screen name="Home" component={HomeScreen} />
                         <Stack.Screen name="Details" component={DetailsScreen} />
+                        <Stack.Screen name="Contact" component={ContactScreen} />
                     </>
                 ) : (
                     <>
