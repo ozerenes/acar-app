@@ -4,14 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 
 const CompanyLocation = () => {
     // Şirketin konumu (enlem ve boylam değerleri)
-    const [currentLocation,setCurrentLocation] = useState({
-        latitude: 41.01513555405315,
-        longitude: 28.967504267999328
-    })
-    const companyLocation = {
-        latitude: 41.0082,   // Örnek bir enlem değeri
-        longitude: 28.9784,  // Örnek bir boylam değeri
-    };
+    const [currentLocation,setCurrentLocation] = useState(0)
 
     // Şirketin iletişim bilgileri
     const companyContactInfo = [
@@ -49,24 +42,34 @@ const CompanyLocation = () => {
 
     return (
         <View style={styles.container}>
-            <MapView
-                style={styles.map}
-                initialRegion={{
-                    latitude: currentLocation.latitude,
-                    longitude: currentLocation.longitude,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01,
-                }}
-            >
-                <Marker
-                    coordinate={currentLocation}
-                    title="Şirket Adı"
-                    description={companyContactInfo.address}
-                />
-            </MapView>
+
+            {
+                companyContactInfo.map((item,index) => {
+                    if(currentLocation == index) {
+                        return (
+                            <MapView
+                                style={styles.map}
+                                initialRegion={{
+                                    latitude: item.location.latitude,
+                                    longitude: item.location.longitude,
+                                    latitudeDelta: 0.01,
+                                    longitudeDelta: 0.01,
+                                }}
+                            >
+                                <Marker
+                                    coordinate={item.location}
+                                    title={item.title}
+                                    description={item.address}
+                                />
+                            </MapView>
+                        )
+                    }
+                })
+            }
+
             <View style={styles.contactInfoContainer}>
                 {
-                    companyContactInfo.map(item => {
+                    companyContactInfo.map((item,index) => {
                         return (
                             <>
                                 <Text style={styles.title}>{item.title}</Text>
@@ -75,7 +78,7 @@ const CompanyLocation = () => {
                                 <Text style={styles.contactInfoText}>E-posta: {item.email}</Text>
                                 <Button
                                     title="Change Location"
-                                    onPress={() => setCurrentLocation(item.location)}
+                                    onPress={() => setCurrentLocation(index)}
                                 />
                                 </>
                             )
