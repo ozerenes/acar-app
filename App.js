@@ -33,6 +33,9 @@ function App() {
                         } else if (route.name === 'Cart') {
                             iconName = 'settings-outline';
                         }
+                        else if (route.name === 'Contact') {
+                            iconName = 'person-outline';
+                        }
                         else{
                             iconName = 'settings-outline';
                         }
@@ -91,7 +94,7 @@ function App() {
                     component={ContactScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <Icon name="contact-outline" color={color} size={size} />
+                            <Icon name="person-outline" color={color} size={size} />
                         ),
                     }}
                 />
