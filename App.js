@@ -72,7 +72,7 @@ function App() {
                     component={ProductsScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <Icon name="person-outline" color={color} size={size} />
+                            <Icon name="grid-outline" color={color} size={size} />
                         ),
                     }}
                 />
@@ -83,7 +83,7 @@ function App() {
                     component={CategoryScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <Icon name="settings-outline" color={color} size={size} />
+                            <Icon name="medkit-outline" color={color} size={size} />
                         ),
                     }}
                 />
@@ -101,7 +101,7 @@ function App() {
                     component={ContactScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <Icon name="person-outline" color={color} size={size} />
+                            <Icon name="mail-outline" color={color} size={size} />
                         ),
                     }}
                 />
