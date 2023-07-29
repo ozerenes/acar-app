@@ -10,7 +10,6 @@ const service = axios.create({
 // Örnek bir GET isteği
 export const getData = async (url,params = []) => {
     try {
-
         let parameter = []
 
         Object.keys(params).map((param) => {
@@ -31,9 +30,10 @@ export const getData = async (url,params = []) => {
 // Örnek bir POST isteği
 export const postData = async (url,data) => {
     try {
+        console.log(data);
         const response = await service.post(url, data); // API'nizin verilere veri göndermek için uygun endpoint'i kullanın
         return response.data; // API'den dönen yanıtı döndürür
     } catch (error) {
-        throw error; // Hata durumunda hata nesnesini fırlatır
+        console.log(error); // Hata durumunda hata nesnesini fırlatır
     }
 };
