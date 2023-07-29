@@ -8,6 +8,7 @@ import DetailsScreen from './src/DetailsScreen';
 import Icon from "react-native-vector-icons/Ionicons";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ContactScreen from './src/ContactScreen';
+import ProductsScreen from './src/ProductsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -67,8 +68,8 @@ function App() {
 
                 {/* Profil ekranı */}
                 <Tab.Screen
-                    name="Details"
-                    component={DetailsScreen}
+                    name="Ürün Listesi"
+                    component={ProductsScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <Icon name="person-outline" color={color} size={size} />
