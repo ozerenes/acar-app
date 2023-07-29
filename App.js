@@ -45,7 +45,13 @@ function App() {
                 tabBarOptions={{
                     activeTintColor: 'blue',
                     inactiveTintColor: 'gray',
-                    showLabel: false, // Sekme etiketlerini gösterme
+                    showLabel: false,
+                    "tabBarStyle": [
+                        {
+                            "display": "flex"
+                        }
+                     ]
+                    // Sekme etiketlerini gösterme
                 }}
             >
                 {/* Ana ekran */}
