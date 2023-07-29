@@ -1,7 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
 
+import {postData} from "./services/service";
+import axios from "axios";
+
 function LoginScreen({ navigation }) {
+    const [userName,setUserName] = useState("");
+    const [password, setPassword] = useState("");
+    const [error ,setError] = useState(false);
+    const login = () => {
+        setError(0);
+        postData('api/login', {
+            email: userName,
+            password: password
+        }).then(response => {
+            if(response?.userId){
+                localStorage.setItem(response.userId);
+                navigation.navigate('Home')
+            }
+            else{
+                setError(true);
+            }
+        })
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.titleHead}>Acar App</Text>
@@ -10,7 +31,8 @@ function LoginScreen({ navigation }) {
                     style={styles.customInput}
                     placeholder={"Username"}
                     placeholderTextColor="#A0A0A0"
-                />
+                    onChangeText={setUserName}
+             />
             </View>
             <View style={styles.inputContainer}>
                 <TextInput
@@ -18,15 +40,18 @@ function LoginScreen({ navigation }) {
                     placeholder={"Password"}
                     placeholderTextColor="#A0A0A0"
                     secureTextEntry={true}
+                    onChangeText={setPassword}
                 />
             </View>
             <View style={styles.map}>
                 <TouchableOpacity style={styles.customButton}
                     onPress={() => {
+                        login()
                         // Burada giriş kontrolü yapabilirsiniz.
                         // Eğer giriş başarılıysa ana ekrana geçiş yapabilirsiniz.
                         // Örnek olarak, navigation.navigate('Home') gibi bir yönlendirme yapabilirsiniz.
                     }}
+
                 >
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
@@ -37,6 +62,10 @@ function LoginScreen({ navigation }) {
                 >
                     <Text style={styles.buttonText}>Register</Text>
                 </TouchableOpacity>
+                 {
+                     error ?
+                     <Text style={styles.errorText}> Kullanıcı Adı veya Şifre Yanlış</Text> : <></>
+                 }
             </View>
 
         </View>
@@ -99,6 +128,12 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    errorText : {
+        fontSize: 15,
+        marginTop: 20,
+        justifyContent: 'center',
+        color:'black'
     }
 });
 
