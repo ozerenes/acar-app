@@ -9,7 +9,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ContactScreen from './src/ContactScreen';
 import ProductsScreen from './src/ProductsScreen';
-
+import CategoryScreen from "./src/CategoryScreen";
 const Tab = createBottomTabNavigator();
 
 
@@ -80,7 +80,7 @@ function App() {
                 {/* Ayarlar ekranı */}
                 <Tab.Screen
                     name="Cart"
-                    component={LoginScreen}
+                    component={CategoryScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <Icon name="settings-outline" color={color} size={size} />
