@@ -1,42 +1,42 @@
 import React from 'react';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
+import {View, Text, FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import Icon from "react-native-vector-icons/Ionicons";
 
 const CategoryList = ({ categories }) => {
     const renderCategoryItem = ({ item }) => (
         <View style={styles.productItem}>
-            <Image source={{uri:item.image}} style={styles.productImage} />
-            <Text style={styles.productName}>{item.name}</Text>
+            <Image source={{ uri: item.image }} style={styles.productImage} />
+            <View style={styles.productItemFooter}>
+                <Text style={styles.productName}>{item.name}</Text>
+            </View>
+
         </View>
     );
 
     return (
-        <View style={styles.container}>
-            <FlatList
-                data={categories}
-                renderItem={renderCategoryItem}
-                keyExtractor={(item) => item.id.toString()}
-            />
-        </View>
+        <FlatList
+            data={categories}
+            renderItem={renderCategoryItem}
+            keyExtractor={(item) => item.id.toString()}
+            contentContainerStyle={styles.container}
+            numColumns={2} // İki elemanı yan yana sıralamak için numColumns'u 2 olarak ayarlayın
+        />
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         padding: 20,
         backgroundColor: '#fff',
     },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
     productItem: {
-        marginBottom: 10,
-        padding: 10,
+        flex: 1,
+        marginBottom: 20, // Yan yana elemanların arasında boşluk bırakmak için marginBottom ekleyin
         borderWidth: 1,
+        paddingVertical: 15,
         borderColor: '#ccc',
-        borderRadius: 5,
+        alignItems: 'center', // Elemanları yatayda merkezlemek için alignItems'u 'center' olarak ayarlayın
+        maxWidth: '50%', // Yan yana sıralanan elemanların maksimum genişliğini yüzde 50 olarak ayarlayın
     },
     productImage: {
         width: 100,
@@ -52,6 +52,16 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#666',
     },
+    productItemFooter: {
+        width: '100%',
+        paddingLeft: 15
+    },
+    heart: {
+        width: 28,
+        height: 28,
+        position: "absolute",
+        right: 15,
+        top: 15
+    }
 });
-
 export default CategoryList;

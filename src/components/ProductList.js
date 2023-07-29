@@ -1,8 +1,12 @@
 import React from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
+import TextSlider from "./TextSlider";
 
 const ProductList = ({ products }) => {
+
+    const texts = ['Merhaba', 'Hello', 'Bonjour', 'Hola','test','deneme'];
+
     const renderProductItem = ({ item }) => (
         <View style={styles.productItem}>
             <TouchableOpacity style={styles.heart}>
@@ -18,13 +22,17 @@ const ProductList = ({ products }) => {
     );
 
     return (
-        <FlatList
-            data={products}
-            renderItem={renderProductItem}
-            keyExtractor={(item) => item.id.toString()}
-            contentContainerStyle={styles.container}
-            numColumns={2} // İki elemanı yan yana sıralamak için numColumns'u 2 olarak ayarlayın
-        />
+        <View>
+            <TextSlider texts={texts} duration={3000} />
+            <FlatList
+                data={products}
+                renderItem={renderProductItem}
+                keyExtractor={(item) => item.id.toString()}
+                contentContainerStyle={styles.container}
+                numColumns={2} // İki elemanı yan yana sıralamak için numColumns'u 2 olarak ayarlayın
+            />
+        </View>
+
     );
 };
 
