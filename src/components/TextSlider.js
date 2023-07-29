@@ -1,33 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 
-const TextSlider = ({ texts, duration = 2000 }) => {
+const TextSlider = ({ categories,setCurrentCategory }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) =>
-                prevIndex === texts.length - 1 ? 0 : prevIndex + 1
-            );
-        }, duration);
-
-        return () => clearInterval(interval);
-    }, [texts, duration]);
+    const changeCategory = (index,item) => {
+        setCurrentIndex(index)
+        setCurrentCategory(item.id)
+    }
 
     return (
         <View style={styles.container}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {texts.map((text, index) => (
+                {categories.map((item, index) => (
                     <TouchableOpacity
                         key={index}
                         style={[
                             styles.textContainer,
                             index === currentIndex ? styles.activeTextContainer : {},
                         ]}
-                        onPress={() => setCurrentIndex(index)}
+                        onPress={() => changeCategory(index,item)}
                     >
                         <Text style={[styles.text, index === currentIndex ? styles.activeText : {}]}>
-                            {text}
+                            {item.name}
                         </Text>
                     </TouchableOpacity>
                 ))}

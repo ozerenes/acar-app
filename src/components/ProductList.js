@@ -1,11 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 import TextSlider from "./TextSlider";
+import {getData} from "../services/service";
+import axios from "axios";
 
-const ProductList = ({ products }) => {
+const ProductList = ({ categories }) => {
 
-    const texts = ['Merhaba', 'Hello', 'Bonjour', 'Hola','test','deneme'];
+    const [products,setProducts]  = useState([]);
+    const [currentCategory,setCurrentCategory] = useState(categories[0]?.id ?? 0);
+
+    useEffect(() => {
+        if(currentCategory){
+            getData('api/category/'+ currentCategory).then(response => {
+                setProducts(
+                    response.products.map(item => {
+                        return {
+                            id : item.id,
+                            name: item.name,
+                            price : item.price,
+                            image :"https://www.acar.kodlanabilir.com/storage/products/thumbnails/"+item.picture,
+                        }
+                    })
+                );
+            });
+        }
+    },[currentCategory])
 
     const renderProductItem = ({ item }) => (
         <View style={styles.productItem}>
@@ -23,7 +43,7 @@ const ProductList = ({ products }) => {
 
     return (
         <View>
-            <TextSlider texts={texts} duration={3000} />
+            <TextSlider categories={categories}  setCurrentCategory={setCurrentCategory} />
             <FlatList
                 data={products}
                 renderItem={renderProductItem}

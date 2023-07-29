@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import { View, StyleSheet } from 'react-native';
-import ProductList from './components/ProductList';
 import {getData} from "./services/service";
 import CategoryList from "./components/CategoryList";
 
