@@ -28,7 +28,7 @@ function App() {
                         let iconName;
                         if (route.name === 'Home') {
                             iconName = 'home-outline';
-                        } else if (route.name === 'Categories') {
+                        } else if (route.name === 'Details') {
                             iconName = 'person-outline';
                         } else if (route.name === 'Cart') {
                             iconName = 'settings-outline';
@@ -67,7 +67,7 @@ function App() {
 
                 {/* Profil ekranı */}
                 <Tab.Screen
-                    name="Categories"
+                    name="Details"
                     component={DetailsScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
