@@ -11,6 +11,7 @@ const products = [
 const ProductsScreen = () => {
 
     const [products,setProducts] = useState([]);
+    const [categories,setCategories] = useState([]);
 
     useEffect(() => {
         getData('api/urunler').then(response => {
@@ -23,13 +24,20 @@ const ProductsScreen = () => {
                     image :"https://www.acar.kodlanabilir.com/storage/products/thumbnails/"+item.picture,
                 }
             }));
+            setCategories(response.categories.map(item => {
+                return {
+                    id : item.id,
+                    name: item.name,
+                    image :"https://www.acar.kodlanabilir.com/storage/products/thumbnails/"+item.picture,
+                }
+            }));
         });
     },[]);
 
 
     return (
         <View style={styles.container}>
-            <ProductList products={products} />
+            <ProductList products={products} categories={categories} />
         </View>
     );
 };
