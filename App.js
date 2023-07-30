@@ -4,12 +4,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/LoginScreen';
 import RegisterScreen from './src/RegisterScreen';
 import HomeScreen from './src/HomeScreen';
-import DetailsScreen from './src/DetailsScreen';
 import Icon from "react-native-vector-icons/Ionicons";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ContactScreen from './src/ContactScreen';
 import ProductsScreen from './src/ProductsScreen';
 import CategoryScreen from "./src/CategoryScreen";
+import DetailsScreen from "./src/DetailsScreen";
 const Tab = createBottomTabNavigator();
 
 
@@ -18,11 +18,9 @@ const Stack = createStackNavigator();
 function App() {
     const isLoggedIn = false; // Bu değişkeni giriş kontrolü sonucunda true/false olarak ayarlayın.
 
-    return (
-        <>
 
-        <NavigationContainer>
-
+    const Home2 = () => {
+        return (
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ color, size }) => {
@@ -51,11 +49,12 @@ function App() {
                         {
                             "display": "flex"
                         }
-                     ]
+                    ]
                     // Sekme etiketlerini gösterme
                 }}
             >
                 {/* Ana ekran */}
+
                 <Tab.Screen
                     name="Home"
                     component={HomeScreen}
@@ -107,6 +106,26 @@ function App() {
                 />
 
             </Tab.Navigator>
+        )
+    }
+
+
+    return (
+        <>
+
+        <NavigationContainer>
+
+            <Stack.Navigator>
+
+                <Stack.Screen
+                    name="Details2"
+                    component={Home2}
+                    options={{
+                        headerShown: false, // Hide the header for this screen
+                    }}
+                />
+                <Stack.Screen name="Details" component={DetailsScreen} />
+            </Stack.Navigator>
         </NavigationContainer>
         </>
     );

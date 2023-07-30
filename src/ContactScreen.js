@@ -1,41 +1,48 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, Button  } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import {getData} from "./services/service";
 
 const CompanyLocation = () => {
     // Şirketin konumu (enlem ve boylam değerleri)
-    const [currentLocation,setCurrentLocation] = useState(0)
+    const [currentLocation,setCurrentLocation] = useState(0);
+    const [info,setInfo] = useState({})
+    useEffect(() => {
+        getData('api/store').then( (response) => {
+             setInfo(response.data)
+        });
+    })
 
     // Şirketin iletişim bilgileri
     const companyContactInfo = [
         {
-            title: "EMİNÖNÜ MERKEZ",
-                address: 'Eminönü Mercan Mah. Uzunçarşı Caddesi No:126/1 Fatih – İstanbul / Türkiye',
-            phone: '+90 (212) 522 78 07',
-            email: 'info@acardegirmenleri.com.tr',
+            title: info.store_long_name,
+                address:info.store_address_1,
+            phone: info.store_phone_1,
+            email: info.store_mail,
             location: {
                 latitude: 41.01513555405315,
                 longitude: 28.967504267999328
             }
         },
         {
-            title: "İSTOÇ ŞUBE",
-            address: 'İstoç Toptancılar Çarşısı 3.Ada No:155 Bağcılar / İstanbul',
-            phone: '+90 (212) 659 33 37',
-            email: 'info@acardegirmenleri.com.tr',
+            title: info.store_long_name,
+            address:info.store_address_2,
+            phone: info.store_phone_2,
+            email: info.store_mail,
             location: {
-                latitude: 41.068981343890414,
-                longitude: 28.821694840243694
+                latitude: 41.01513555405315,
+                longitude: 28.967504267999328
             }
         },
         {
-            title: "ARNAVUTKÖY FABRİKA",
-            address: 'Haraççı Mah. Haraççı – Hadımköy Yolu Cad. No:2 Arnavutköy / İstanbul',
-            phone: '+90 (212) 485 30 22',
-            email: 'info@acardegirmenleri.com.tr',
+            title: info.store_long_name,
+            address:info.store_address_3,
+            phone: info.store_phone_3,
+            email: info.store_mail,
             location: {
-                latitude: 41.157767315348416,
-                longitude: 28.642693810335047
+                latitude: 41.01513555405315,
+                longitude: 28.967504267999328
             }
         },
     ]

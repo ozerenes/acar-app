@@ -3,9 +3,12 @@ import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react
 import Icon from "react-native-vector-icons/Ionicons";
 import TextSlider from "./TextSlider";
 import {getData} from "../services/service";
+import { useNavigation } from '@react-navigation/native';
+
 import axios from "axios";
 
 const ProductList = ({ categories }) => {
+    const navigation = useNavigation();
 
     const [products,setProducts]  = useState([]);
     const [currentCategory,setCurrentCategory] = useState(categories[0]?.id ?? 0);
@@ -32,11 +35,17 @@ const ProductList = ({ categories }) => {
             <TouchableOpacity style={styles.heart}>
                 <Icon name="ios-heart-outline" size={30} color="red" />
             </TouchableOpacity>
-            <Image source={{ uri: item.image }} style={styles.productImage} />
-            <View style={styles.productItemFooter}>
-                <Text style={styles.productName}>{item.name}</Text>
-                <Text style={styles.productPrice}>{item.price} TL</Text>
-            </View>
+            <TouchableOpacity
+             onPress={ () => {
+                navigation.navigate('Details', {
+                 itemId: item.id,
+             })}}>
+                <Image source={{ uri: item.image }} style={styles.productImage} />
+                <View style={styles.productItemFooter}>
+                    <Text style={styles.productName}>{item.name}</Text>
+                    <Text style={styles.productPrice}>{item.price} TL</Text>
+                </View>
+            </TouchableOpacity>
 
         </View>
     );
