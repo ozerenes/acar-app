@@ -65,7 +65,7 @@ const StoryComponent = ({ stories }) => {
     const currentStory = stories[currentStoryIndex];
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{height:115}}>
             {renderThumbnails()}
             <TouchableOpacity onPress={handleStoryPress} activeOpacity={1} style={{ flex: 1 }}>
                 <View
@@ -97,9 +97,9 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
     },
     thumbnail: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
+        width: 80,
+        height: 80,
+        borderRadius: 5,
         marginHorizontal: 5,
         overflow: 'hidden',
         borderWidth: 2,

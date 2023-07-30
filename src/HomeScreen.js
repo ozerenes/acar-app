@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button, Image, StyleSheet} from 'react-native';
+import {View, Text, Button, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import StoryComponent from "./components/Story";
 
 function HomeScreen({ navigation }) {
@@ -47,10 +47,43 @@ function HomeScreen({ navigation }) {
     ];
 
     return (
-        <View style={{height:85}}>
+        <View style={{flex: 1}}>
             <StoryComponent stories={stories} />
+            <View style={{flexDirection: 'row', flex: 1}}>
+                <Image source={require('../assets/cups.jpg')} style={styles.modalImage} />
+                <View style={styles.rightPanel}>
+                    <Text>Hoşgeldiniz</Text>
+                    <TouchableOpacity style={styles.customButton}>
+                        <Text style={styles.customText}>Ürünler</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    modalImage: {
+        height: '100%',
+        width: 220,
+        borderTopRightRadius: 550,
+        borderBottomRightRadius: 350,
+    },
+    rightPanel: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    customButton: {
+        backgroundColor: '#ec1c3c',
+        padding: 15,
+        marginTop: 85,
+        borderRadius: 4,
+        marginLeft: 55,
+    },
+    customText: {
+        color: '#fff'
+    }
+});
 
 export default HomeScreen;
