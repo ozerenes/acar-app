@@ -79,7 +79,7 @@ function App() {
 
                 {/* Ayarlar ekranı */}
                 <Tab.Screen
-                    name="Cart"
+                    name="Ürünler"
                     component={CategoryScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (

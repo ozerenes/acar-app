@@ -3,15 +3,19 @@ import {View, Text, FlatList, Image, StyleSheet, TouchableOpacity} from 'react-n
 import Icon from "react-native-vector-icons/Ionicons";
 
 const CategoryList = ({ categories }) => {
-    const renderCategoryItem = ({ item }) => (
-        <View style={styles.productItem}>
-            <Image source={{ uri: item.image }} style={styles.productImage} />
-            <View style={styles.productItemFooter}>
-                <Text style={styles.productName}>{item.name}</Text>
+    const renderCategoryItem = ({ item,index }) => {
+        const isLastItem = index === categories.length - 1;
+        const notEven = (index % 2 !== 0 && index === categories.length - 2);
+        return (
+            <View style={[styles.productItem,(isLastItem || notEven) && styles.lastItem]}>
+                <Image source={{uri: item.image}} style={styles.productImage}/>
+                <View style={styles.productItemFooter}>
+                    <Text style={styles.productName}>{item.name}</Text>
+                </View>
             </View>
+        )
 
-        </View>
-    );
+    };
 
     return (
         <FlatList
@@ -26,22 +30,21 @@ const CategoryList = ({ categories }) => {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
         backgroundColor: '#fff',
     },
     productItem: {
         flex: 1,
-        marginBottom: 20, // Yan yana elemanların arasında boşluk bırakmak için marginBottom ekleyin
         borderWidth: 1,
+        borderColor: '#ec1c3c',
         paddingVertical: 15,
-        borderColor: '#ccc',
         alignItems: 'center', // Elemanları yatayda merkezlemek için alignItems'u 'center' olarak ayarlayın
         maxWidth: '50%', // Yan yana sıralanan elemanların maksimum genişliğini yüzde 50 olarak ayarlayın
+        borderBottomWidth: 0,
+        borderRightWidth: 0
     },
     productImage: {
         width: 100,
         height: 100,
-        marginBottom: 5,
         resizeMode: 'contain',
     },
     productName: {
@@ -62,6 +65,10 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 15,
         top: 15
+    },
+    lastItem: {
+        borderBottomWidth: 1,
+        borderRightWidth: 1
     }
 });
 export default CategoryList;
