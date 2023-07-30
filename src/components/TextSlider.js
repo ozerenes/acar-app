@@ -33,17 +33,14 @@ const TextSlider = ({ categories,setCurrentCategory }) => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 10,
         backgroundColor: '#f5f5f5',
-        borderRadius: 10,
     },
     textContainer: {
         paddingHorizontal: 20,
         paddingVertical: 10,
     },
     activeTextContainer: {
-        backgroundColor: 'gray',
-        borderRadius: 10,
+        backgroundColor: '#cf7381',
     },
     text: {
         fontSize: 18,

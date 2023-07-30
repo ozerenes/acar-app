@@ -44,7 +44,7 @@ function App() {
                     },
                 })}
                 tabBarOptions={{
-                    activeTintColor: 'red',
+                    activeTintColor: '#ec1c3c',
                     inactiveTintColor: 'gray',
                     showLabel: false,
                     "tabBarStyle": [

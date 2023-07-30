@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 import {postData} from "./services/service";
 import axios from "axios";
@@ -25,7 +25,7 @@ function LoginScreen({ navigation }) {
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.titleHead}>Acar App</Text>
+            <Image source={require('../assets/acar.png')} style={styles.modalImage} />
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.customInput}
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         color: '#333333',
     },
     customButton: {
-        backgroundColor: '#FF5733',
+        backgroundColor: '#ec1c3c',
         borderRadius: 8,
         paddingVertical: 12,
         paddingHorizontal: 24,
@@ -134,7 +134,13 @@ const styles = StyleSheet.create({
         marginTop: 20,
         justifyContent: 'center',
         color:'black'
-    }
+    },
+    modalImage: {
+        width: 200,
+        height: 80,
+        resizeMode: 'contain',
+        marginBottom: 20
+    },
 });
 
 export default LoginScreen;

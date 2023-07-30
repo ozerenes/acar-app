@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { View, Image, Text, TouchableOpacity, Modal, StyleSheet, ScrollView } from 'react-native';
 
 const StoryComponent = ({ stories }) => {
     const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
@@ -23,56 +23,51 @@ const StoryComponent = ({ stories }) => {
     };
 
     const handleStoryPress = () => {
-        // Handle when a user taps on the screen to go to the next story or exit
         if (currentStoryIndex === stories.length - 1) {
-            // End of stories, exit the story view
             setCurrentStoryIndex(0);
             setProgress(0);
         } else {
-            // Go to the next story
             setCurrentStoryIndex((prevIndex) => prevIndex + 1);
             setProgress(0);
             startTimer();
         }
     };
 
-    const handleThumbnailPress = () => {
-        // Show the full-screen image when a thumbnail is pressed
+    const handleThumbnailPress = (index) => {
+        setCurrentStoryIndex(index);
         setShowModal(true);
     };
 
     const handleModalClose = () => {
-        // Close the full-screen image modal
         setShowModal(false);
     };
-    const renderThumbnails = () => {
-        if (stories.length === 0) {
-            return null;
-        }
 
+    const renderThumbnails = () => {
         return (
-            <View style={styles.thumbnailContainer}>
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.thumbnailContainer}
+            >
                 {stories.map((story, index) => (
                     <TouchableOpacity
                         key={index}
-                        onPress={() => setCurrentStoryIndex(index)}
-                        onPressIn={handleThumbnailPress} // Değişiklik burada
+                        onPress={() => handleThumbnailPress(index)}
                         style={[styles.thumbnail, index === currentStoryIndex && styles.activeThumbnail]}
                     >
                         <Image source={{ uri: story.imageUrl }} style={styles.thumbnailImage} />
                     </TouchableOpacity>
                 ))}
-            </View>
+            </ScrollView>
         );
     };
-
 
     const currentStory = stories[currentStoryIndex];
 
     return (
         <View style={{ flex: 1 }}>
             {renderThumbnails()}
-            <TouchableOpacity onPress={handleThumbnailPress} activeOpacity={1} style={{ flex: 1 }}>
+            <TouchableOpacity onPress={handleStoryPress} activeOpacity={1} style={{ flex: 1 }}>
                 <View
                     style={{
                         position: 'absolute',
@@ -80,16 +75,10 @@ const StoryComponent = ({ stories }) => {
                         left: 0,
                         right: 0,
                         height: 5,
-                        backgroundColor: '#fff',
+                        backgroundColor: '#f48c9c',
+                        width: (progress / (currentStory.duration || 5)) * 100 + '%',
                     }}
                 >
-                    <View
-                        style={{
-                            width: `${(progress / currentStory.duration) * 100}%`,
-                            height: 5,
-                            backgroundColor: '#55acee',
-                        }}
-                    />
                 </View>
             </TouchableOpacity>
             <Modal visible={showModal} transparent={true} onRequestClose={handleModalClose}>
@@ -105,9 +94,7 @@ const StoryComponent = ({ stories }) => {
 const styles = StyleSheet.create({
     thumbnailContainer: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 10,
+        paddingVertical: 15,
     },
     thumbnail: {
         width: 50,
@@ -116,10 +103,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         overflow: 'hidden',
         borderWidth: 2,
-        borderColor: '#fff',
+        borderColor: '#A0A0A0',
     },
     activeThumbnail: {
-        borderColor: '#55acee',
+        borderColor: '#cf7381',
     },
     thumbnailImage: {
         width: '100%',

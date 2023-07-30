@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import {View, Text, Button, Image, StyleSheet} from 'react-native';
 import StoryComponent from "./components/Story";
 
 function HomeScreen({ navigation }) {
@@ -13,11 +13,41 @@ function HomeScreen({ navigation }) {
             imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
             duration: 8, // 8 seconds
         },
+        ,
+        {
+            imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
+            duration: 8, // 8 seconds
+        },
+        ,
+        {
+            imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
+            duration: 8, // 8 seconds
+        },
+        ,
+        {
+            imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
+            duration: 8, // 8 seconds
+        },
+        ,
+        {
+            imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
+            duration: 8, // 8 seconds
+        },
+        ,
+        {
+            imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
+            duration: 8, // 8 seconds
+        },
+        ,
+        {
+            imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
+            duration: 8, // 8 seconds
+        },
         // Add more stories as needed
     ];
 
     return (
-        <View style={{height:100}}>
+        <View style={{height:85}}>
             <StoryComponent stories={stories} />
         </View>
     );
