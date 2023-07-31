@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, Button  } from 'react-native';
+import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import {getData} from "./services/service";
 
@@ -83,10 +83,9 @@ const CompanyLocation = () => {
                                 <Text style={styles.contactInfoText}>Adres: {item.address}</Text>
                                 <Text style={styles.contactInfoText}>Telefon: {item.phone}</Text>
                                 <Text style={styles.contactInfoText}>E-posta: {item.email}</Text>
-                                <Button
-                                    title="Change Location"
-                                    onPress={() => setCurrentLocation(index)}
-                                />
+                                <TouchableOpacity style={styles.customButton}>
+                                    <Text style={styles.customText}>Konumu İncele</Text>
+                                </TouchableOpacity>
                                 </>
                             )
 
@@ -118,6 +117,19 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 5,
+    },
+    customButton: {
+        backgroundColor: '#ec1c3c',
+        padding: 15,
+        marginTop: 85,
+        borderRadius: 4,
+        marginLeft: 55,
+    },
+    customText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 5,
+        color: 'ffffff'
     },
 });
 

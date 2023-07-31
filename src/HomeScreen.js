@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         marginLeft: 55,
     },
     customText: {
-        color: '#fff'
+        color: '#ffffff'
     }
 });
 

@@ -68,17 +68,18 @@ const ProductList = ({ categories }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#fff',
+        backgroundColor: '#fdf9f9',
     },
     productItem: {
         flex: 1,
-        marginBottom: 20, // Yan yana elemanların arasında boşluk bırakmak için marginBottom ekleyin
         borderWidth: 1,
+        borderColor: '#ec1c3c',
         paddingVertical: 15,
-        borderColor: '#ccc',
         alignItems: 'center', // Elemanları yatayda merkezlemek için alignItems'u 'center' olarak ayarlayın
         maxWidth: '50%', // Yan yana sıralanan elemanların maksimum genişliğini yüzde 50 olarak ayarlayın
-    },
+        borderBottomWidth: 0,
+        borderRightWidth: 0
+        },
     productImage: {
         width: 100,
         height: 100,
