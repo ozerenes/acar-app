@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
     },
     productItemFooter: {
         width: '100%',
-        paddingLeft: 15
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     heart: {
         width: 28,

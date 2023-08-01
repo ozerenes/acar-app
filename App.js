@@ -40,18 +40,14 @@ function App() {
                         }
                         return <Icon name={iconName} color={color} size={size} />;
                     },
+                    tabBarLabel: ({ focused, color }) => {
+                        // Return the label text for each tab based on the route name and focused state
+                        // Example: return focused ? 'Home' : 'Home';
+                    },
+                    tabBarInactiveTintColor: 'gray',
+                    tabBarActiveTintColor: '#ec1c3c',
+                    tabBarStyle: { backgroundColor: 'white' },
                 })}
-                screeenOptions={{
-                    activeTintColor: '#ec1c3c',
-                    inactiveTintColor: 'gray',
-                    showLabel: false,
-                    "tabBarStyle": [
-                        {
-                            "display": "flex"
-                        }
-                    ]
-                    // Sekme etiketlerini gösterme
-                }}
             >
                 {/* Ana ekran */}
 
