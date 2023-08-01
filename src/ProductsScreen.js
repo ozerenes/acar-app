@@ -16,6 +16,7 @@ const ProductsScreen = () => {
     useEffect(() => {
         getData('api/urunler').then(response => {
             console.log(response);
+            console.log("test")
             setProducts(response.products.map(item => {
                 return {
                     id : item.id,
