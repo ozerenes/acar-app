@@ -41,7 +41,7 @@ function App() {
                         return <Icon name={iconName} color={color} size={size} />;
                     },
                 })}
-                tabBarOptions={{
+                screeenOptions={{
                     activeTintColor: '#ec1c3c',
                     inactiveTintColor: 'gray',
                     showLabel: false,

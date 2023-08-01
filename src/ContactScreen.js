@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 5,
-        color: 'ffffff'
+        color: '#ffffff'
     },
 });
 

@@ -14,7 +14,7 @@ const CategoryScreen = () => {
                 return {
                     id : item.id,
                     name: item.name,
-                    image :"https://www.acar.kodlanabilir.com/storage/products/thumbnails/"+item.picture,
+                    image :"https://www.acar.kodlanabilir.com/storage/categories/"+item.picture,
                 }
             }));
         });
