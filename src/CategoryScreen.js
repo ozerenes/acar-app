@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { View, StyleSheet } from 'react-native';
-import {getData} from "./services/service";
+import service from "./services/service";
 import CategoryList from "./components/CategoryList";
 
 const CategoryScreen = () => {
@@ -8,7 +8,7 @@ const CategoryScreen = () => {
     const [categories,setCategories] = useState([]);
 
     useEffect(() => {
-        getData('api/urunler').then(response => {
+        service.getData('api/urunler').then(response => {
             console.log(response);
             setCategories(response.categories.map(item => {
                 return {

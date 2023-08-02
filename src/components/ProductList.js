@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 import TextSlider from "./TextSlider";
-import {getData} from "../services/service";
+import service from "../services/service";
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from "axios";
 
@@ -15,7 +16,7 @@ const ProductList = ({ categories }) => {
 
     useEffect(() => {
         if(currentCategory){
-            getData('api/category/'+ currentCategory).then(response => {
+            service.getData('api/category/'+ currentCategory).then(response => {
                 setProducts(
                     response.products.map(item => {
                         return {
@@ -30,9 +31,26 @@ const ProductList = ({ categories }) => {
         }
     },[currentCategory])
 
+
+    const likeUnlike = async (product_id,like) => {
+        const userId = JSON.parse(await AsyncStorage.getItem('user')).userId;
+        let url = "product-like"
+        if(!like){
+            url = 'product-unlike'
+        }
+        url = `api/${url}/${product_id}/${userId}`;
+
+        console.log(url);
+        service.getData(url).then(response => {
+            console.log(response);
+        })
+    }
+
     const renderProductItem = ({ item }) => (
         <View style={styles.productItem}>
-            <TouchableOpacity style={styles.heart}>
+            <TouchableOpacity onPress={() => {
+                likeUnlike(item.id,1)
+            }} style={styles.heart}>
                 <Icon name="ios-heart-outline" size={30} color="red" />
             </TouchableOpacity>
             <TouchableOpacity
@@ -102,6 +120,7 @@ const styles = StyleSheet.create({
         width: 28,
         height: 28,
         position: "absolute",
+        zIndex:122122,
         right: 15,
         top: 15
     }

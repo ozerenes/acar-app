@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {postData} from "./services/service";
 import axios from "axios";
@@ -13,10 +14,10 @@ function LoginScreen({ navigation }) {
         postData('api/login', {
             email: userName,
             password: password
-        }).then(response => {
+        }).then(async (response) => {
             if(response?.userId){
-                localStorage.setItem(response.userId);
-                navigation.navigate('Home')
+                await AsyncStorage.setItem('user',JSON.stringify({userId:response.userId}));
+                navigation.navigate('Ana sayfa')
             }
             else{
                 setError(true);

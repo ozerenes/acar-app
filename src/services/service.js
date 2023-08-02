@@ -1,15 +1,64 @@
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BASE_URL = 'https://www.acar.kodlanabilir.com/'; // API'nizin temel URL'si
+import NavigationService from "./navigationService";
+const BASE_URL = 'https://www.acar.kodlanabilir.com/';
+const TIMEOUT = 10000;
 
 const service = axios.create({
     baseURL: BASE_URL,
-    timeout: 10000, // İsteğin zaman aşımı süresi (ms cinsinden)
+    timeout: TIMEOUT,
 });
 
-// Örnek bir GET isteği
-export const getData = async (url,params = []) => {
+
+const handleAuthenticationAndNavigation = async () => {
     try {
+        let userId = await AsyncStorage.getItem('user').userId;
+
+        if (!userId) {
+            console.log("navigateeeee");
+            NavigationService.navigate('Login');
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Error handling authentication and navigation:', error);
+        return false;
+    }
+};
+
+
+// Interceptor tanımı
+service.interceptors.response.use(
+    (response) => {
+
+
+        return response;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+service.interceptors.request.use(
+    async(config) => {
+        const isAuthenticated = await handleAuthenticationAndNavigation();
+
+        if (!isAuthenticated) {
+            // Optionally, you can return a rejected promise to stop the request
+            return Promise.reject({});
+        }
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+
+service.getData = async (url,params = []) => {
+    try {
+        console.log("get data");
         let parameter = []
 
         Object.keys(params).map((param) => {
@@ -28,12 +77,20 @@ export const getData = async (url,params = []) => {
 };
 
 // Örnek bir POST isteği
-export const postData = async (url,data) => {
+service.postData = async (url,data) => {
     try {
-        console.log(data);
+
         const response = await service.post(url, data); // API'nizin verilere veri göndermek için uygun endpoint'i kullanın
         return response.data; // API'den dönen yanıtı döndürür
     } catch (error) {
         console.log(error); // Hata durumunda hata nesnesini fırlatır
     }
 };
+
+
+
+export default service;
+
+
+
+

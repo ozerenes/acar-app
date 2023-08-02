@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { View, StyleSheet } from 'react-native';
 import ProductList from './components/ProductList';
-import {getData} from "./services/service";
+import service from "./services/service";
 import FilterComponent from './components/Filter';
 
 const products = [
@@ -16,7 +16,7 @@ const ProductsScreen = () => {
     const [categories,setCategories] = useState([]);
 
     useEffect(() => {
-        getData('api/urunler').then(response => {
+        service.getData('api/urunler').then(response => {
             console.log(response);
             console.log("test")
             setProducts(response.products.map(item => {

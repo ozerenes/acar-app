@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Button, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import StoryComponent from "./components/Story";
 import PhotoSlider from '../src/components/PhotoSlider';
-import {getData} from "./services/service";
+import service from "./services/service";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function HomeScreen({ navigation }) {
 
@@ -45,7 +46,7 @@ function HomeScreen({ navigation }) {
     ];
 
     useEffect(() => {
-        getData('api/sliders-api').then(response => {
+        service.getData('api/sliders-api').then(response => {
             setImages(response.sliders.map(item => "https://www.acar.kodlanabilir.com/storage/sliders/"+item.picture));
         });
     },[]);

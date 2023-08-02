@@ -1,7 +1,7 @@
 import React, {useEffect, useState,useRef} from 'react';
 import {View, Text, StyleSheet, Button, TouchableOpacity,ScrollView} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import {getData} from "./services/service";
+import service from "./services/service";
 
 const CompanyLocation = () => {
     // Şirketin konumu (enlem ve boylam değerleri)
@@ -10,7 +10,7 @@ const CompanyLocation = () => {
     const scrollViewRef = useRef(); // Create a ref for the ScrollView
 
     useEffect(() => {
-        getData('api/store').then( (response) => {
+        service.getData('api/store').then( (response) => {
              setInfo(response.data)
         });
     },[])

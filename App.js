@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,7 +12,7 @@ import ProductsScreen from './src/ProductsScreen';
 import CategoryScreen from "./src/CategoryScreen";
 import DetailsScreen from "./src/DetailsScreen";
 import BasketScreen from "./src/BasketScreen";
-
+import NavigationService from "./src/services/navigationService";
 const Tab = createBottomTabNavigator();
 
 
@@ -29,7 +29,12 @@ const CustomButton = ({ onPress, title }) => {
 };
 function App() {
     const isLoggedIn = false; // Bu değişkeni giriş kontrolü sonucunda true/false olarak ayarlayın.
+    const navigatorRef = React.useRef();
 
+
+    useEffect(() => {
+        NavigationService.setTopLevelNavigator(navigatorRef.current);
+    },[]);
 
     const Home2 = () => {
         return (
@@ -116,22 +121,6 @@ function App() {
                     })}
                 />
                 <Tab.Screen
-                    name="Hesap İşlemleri"
-                    component={LoginScreen}
-                    options={({ navigation }) => ({
-                        tabBarIcon: ({ color, size }) => (
-                            <Icon name="settings-outline" color={color} size={size} />
-                        ),
-                        headerShown: true,
-                        headerRight: () => (
-                            <CustomButton
-                                onPress={() => navigation.navigate('Basket')}
-                                title="Düğme"
-                            />
-                        ),
-                    })}
-                />
-                <Tab.Screen
                     name="İletişim"
                     component={ContactScreen}
                     options={({ navigation }) => ({
@@ -156,7 +145,7 @@ function App() {
     return (
         <>
 
-        <NavigationContainer>
+        <NavigationContainer ref={navigatorRef}>
 
             <Stack.Navigator>
 
@@ -169,6 +158,7 @@ function App() {
                 />
                 <Stack.Screen name="Details" component={DetailsScreen} />
                 <Stack.Screen name="Basket" component={BasketScreen} />
+                <Stack.Screen name="Login" component={LoginScreen} />
             </Stack.Navigator>
         </NavigationContainer>
         </>
