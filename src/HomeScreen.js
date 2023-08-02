@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Button, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import StoryComponent from "./components/Story";
-import PhotoSlider from '../src/components/PhotoSlider'; // Bileşenin yolu, kendi proje yapısınıza göre ayarlanmalıdır
+import PhotoSlider from '../src/components/PhotoSlider';
 
 function HomeScreen({ navigation }) {
 
