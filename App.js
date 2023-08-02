@@ -44,7 +44,7 @@ function App() {
                         // Return the label text for each tab based on the route name and focused state
                         // Example: return focused ? 'Home' : 'Home';
                     },
-                    tabBarInactiveTintColor: 'gray',
+                    tabBarInactiveTintColor: '#040404',
                     tabBarActiveTintColor: '#ec1c3c',
                     tabBarStyle: { backgroundColor: 'white' },
                 })}
@@ -52,7 +52,7 @@ function App() {
                 {/* Ana ekran */}
 
                 <Tab.Screen
-                    name="Home"
+                    name="Ana sayfa"
                     component={HomeScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
@@ -83,7 +83,7 @@ function App() {
                     }}
                 />
                 <Tab.Screen
-                    name="Account"
+                    name="Hesap İşlemleri"
                     component={LoginScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (
@@ -92,7 +92,7 @@ function App() {
                     }}
                 />
                 <Tab.Screen
-                    name="Contact"
+                    name="İletişim"
                     component={ContactScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => (

@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { View, StyleSheet } from 'react-native';
 import ProductList from './components/ProductList';
 import {getData} from "./services/service";
+import MainComponent from './components/Filter';
+
 const products = [
     { id: 1, name: 'Ürün 1', price: 100, image: "https://www.acar.kodlanabilir.com/storage/products/thumbnails/product-97-main-try-07-24-2023_04-25-pm.jpg" },
     { id: 2, name: 'Ürün 2', price: 150, image: "https://www.acar.kodlanabilir.com/storage/products/thumbnails/product-97-main-try-07-24-2023_04-25-pm.jpg" },
@@ -39,6 +41,7 @@ const ProductsScreen = () => {
     return (
         <View style={styles.container}>
             <ProductList products={products} categories={categories} />
+            <MainComponent data={categories}/>
         </View>
     );
 };

@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     productItem: {
         flex: 1,
         borderWidth: 1,
-        borderColor: '#ec1c3c',
+        borderColor: '#040404',
         paddingVertical: 15,
         alignItems: 'center', // Elemanları yatayda merkezlemek için alignItems'u 'center' olarak ayarlayın
         maxWidth: '50%', // Yan yana sıralanan elemanların maksimum genişliğini yüzde 50 olarak ayarlayın

@@ -56,12 +56,6 @@ function LoginScreen({ navigation }) {
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
                 <View style={styles.space} />
-                <TouchableOpacity
-                    style={styles.customButton}
-                    onPress={() => navigation.navigate('Register')}
-                >
-                    <Text style={styles.buttonText}>Register</Text>
-                </TouchableOpacity>
                  {
                      error ?
                      <Text style={styles.errorText}> Kullanıcı Adı veya Şifre Yanlış</Text> : <></>
@@ -114,7 +108,7 @@ const styles = StyleSheet.create({
     },
     customInput: {
         fontSize: 16,
-        color: '#333333',
+        color: '#040404',
     },
     customButton: {
         backgroundColor: '#ec1c3c',
@@ -133,7 +127,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginTop: 20,
         justifyContent: 'center',
-        color:'black'
+        color:'#ec1c3c'
     },
     modalImage: {
         width: 200,

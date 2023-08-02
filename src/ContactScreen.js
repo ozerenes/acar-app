@@ -11,7 +11,7 @@ const CompanyLocation = () => {
         getData('api/store').then( (response) => {
              setInfo(response.data)
         });
-    })
+    },[])
 
     // Şirketin iletişim bilgileri
     const companyContactInfo = [
@@ -41,7 +41,7 @@ const CompanyLocation = () => {
             phone: info.store_phone_3,
             email: info.store_mail,
             location: {
-                latitude: 41.01513555405315,
+                latitude: 41.11513555405315,
                 longitude: 28.967504267999328
             }
         },

@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     activeTextContainer: {
-        backgroundColor: '#cf7381',
+        backgroundColor: '#040404',
     },
     text: {
         fontSize: 18,

@@ -1,8 +1,14 @@
 import React from 'react';
 import {View, Text, Button, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import StoryComponent from "./components/Story";
+import PhotoSlider from '../src/components/PhotoSlider'; // Bileşenin yolu, kendi proje yapısınıza göre ayarlanmalıdır
 
 function HomeScreen({ navigation }) {
+
+    const images = [
+        'https://images.pexels.com/photos/16503530/pexels-photo-16503530/free-photo-of-man-wearing-bright-clothing-standing-in-a-muddy-field.jpeg',
+        'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
+    ];
 
     const stories = [
         {
@@ -50,13 +56,7 @@ function HomeScreen({ navigation }) {
         <View style={{flex: 1}}>
             <StoryComponent stories={stories} />
             <View style={{flexDirection: 'row', flex: 1}}>
-                <Image source={require('../assets/cups.jpg')} style={styles.modalImage} />
-                <View style={styles.rightPanel}>
-                    <Text>Hoşgeldiniz</Text>
-                    <TouchableOpacity style={styles.customButton}>
-                        <Text style={styles.customText}>Ürünler</Text>
-                    </TouchableOpacity>
-                </View>
+                <PhotoSlider images={images} slideDuration={4000} />
             </View>
         </View>
     );
