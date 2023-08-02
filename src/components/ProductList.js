@@ -6,12 +6,14 @@ import {getData} from "../services/service";
 import { useNavigation } from '@react-navigation/native';
 
 import axios from "axios";
+import FilterComponent from "./Filter";
 
 const ProductList = ({ categories }) => {
     const navigation = useNavigation();
 
     const [products,setProducts]  = useState([]);
     const [currentCategory,setCurrentCategory] = useState(categories[0]?.id ?? 0);
+    const [isFilterOpen, setFilterOpen] = useState(false);
 
     useEffect(() => {
         if(currentCategory){
@@ -55,9 +57,17 @@ const ProductList = ({ categories }) => {
         )
     };
 
+    const handleFilterToggle = () => {
+        setFilterOpen(!isFilterOpen);
+    };
+
     return (
         <View>
             <TextSlider categories={categories}  setCurrentCategory={setCurrentCategory} />
+            <TouchableOpacity style={styles.filterButton} onPress={handleFilterToggle}>
+                <Text style={styles.filterButtonText}>Filtrele</Text>
+            </TouchableOpacity>
+            {isFilterOpen && <FilterComponent data={products} />}
             <FlatList
                 style={{marginTop: 15}}
                 data={products}
@@ -112,7 +122,20 @@ const styles = StyleSheet.create({
     lastItem: {
         borderBottomWidth: 1,
         borderRightWidth: 1
-    }
+    },
+    filterButton: {
+        backgroundColor: '#ec1c3c',
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: 8,
+        marginTop: 10,
+        alignSelf: 'center',
+    },
+    filterButtonText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
 });
 
 export default ProductList;
