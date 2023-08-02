@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,useRef} from 'react';
 import {View, Text, StyleSheet, Button, TouchableOpacity,ScrollView} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import {getData} from "./services/service";
@@ -7,12 +7,19 @@ const CompanyLocation = () => {
     // Şirketin konumu (enlem ve boylam değerleri)
     const [currentLocation,setCurrentLocation] = useState(0);
     const [info,setInfo] = useState({})
+    const scrollViewRef = useRef(); // Create a ref for the ScrollView
+
     useEffect(() => {
         getData('api/store').then( (response) => {
              setInfo(response.data)
         });
     },[])
 
+    const scrollToTop = () => {
+        if (scrollViewRef?.current) {
+            scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+        }
+    };
     // Şirketin iletişim bilgileri
     const companyContactInfo = [
         {
@@ -49,7 +56,7 @@ const CompanyLocation = () => {
 
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container} ref={scrollViewRef}>
 
             {
                 companyContactInfo.map((item,index) => {
@@ -84,7 +91,11 @@ const CompanyLocation = () => {
                                 <Text style={styles.contactInfoText}>Adres: {item.address}</Text>
                                 <Text style={styles.contactInfoText}>Telefon: {item.phone}</Text>
                                 <Text style={styles.contactInfoText}>E-posta: {item.email}</Text>
-                                <TouchableOpacity onPress={() => {setCurrentLocation(index)}} style={styles.customButton}>
+                                <TouchableOpacity onPress={() => {
+                                    setCurrentLocation(index);
+                                    scrollToTop()
+
+                                }} style={styles.customButton}>
                                     <Text  style={styles.customText}>Konumu İncele</Text>
                                 </TouchableOpacity>
                                 </>
