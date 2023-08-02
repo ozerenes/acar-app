@@ -1,15 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Button, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import StoryComponent from "./components/Story";
 import PhotoSlider from '../src/components/PhotoSlider';
+import {getData} from "./services/service";
 
 function HomeScreen({ navigation }) {
 
-    const images = [
-        'https://images.pexels.com/photos/16503530/pexels-photo-16503530/free-photo-of-man-wearing-bright-clothing-standing-in-a-muddy-field.jpeg',
-        'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
-        'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
-    ];
+    const [images,setImages] = useState([])
 
     const stories = [
         {
@@ -46,6 +43,12 @@ function HomeScreen({ navigation }) {
         },
         // Add more stories as needed
     ];
+
+    useEffect(() => {
+        getData('api/sliders-api').then(response => {
+            setImages(response.sliders.map(item => "https://www.acar.kodlanabilir.com/storage/sliders/"+item.picture));
+        });
+    },[]);
 
     return (
         <View style={{flex: 1}}>
