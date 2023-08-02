@@ -7,8 +7,9 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from "axios";
+import FilterComponent from "./Filter";
 
-const ProductList = ({ categories }) => {
+const ProductList = ({ categories,isFilterOpen }) => {
     const navigation = useNavigation();
 
     const [products,setProducts]  = useState([]);
@@ -46,32 +47,41 @@ const ProductList = ({ categories }) => {
         })
     }
 
-    const renderProductItem = ({ item }) => (
-        <View style={styles.productItem}>
-            <TouchableOpacity onPress={() => {
+    const renderProductItem = ({ item ,index }) => {
+        const isLastItem = index === categories.length - 1;
+        const notEven = (index % 2 !== 0 && index === categories.length - 2);
+        return (
+            <View style={[styles.productItem,(isLastItem || notEven) && styles.lastItem]}>
+                <TouchableOpacity onPress={() => {
                 likeUnlike(item.id,1)
             }} style={styles.heart}>
-                <Icon name="ios-heart-outline" size={30} color="red" />
-            </TouchableOpacity>
-            <TouchableOpacity
-             onPress={ () => {
-                navigation.navigate('Details', {
-                 itemId: item.id,
-             })}}>
-                <Image source={{ uri: item.image }} style={styles.productImage} />
-                <View style={styles.productItemFooter}>
-                    <Text style={styles.productName}>{item.name}</Text>
-                    <Text style={styles.productPrice}>{item.price} TL</Text>
-                </View>
-            </TouchableOpacity>
+                    <Icon name="ios-heart-outline" size={30} color="red"/>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('Details', {
+                            itemId: item.id,
+                        })
+                    }}>
+                    <Image source={{uri: item.image}} style={styles.productImage}/>
+                    <View style={styles.productItemFooter}>
+                        <Text style={styles.productName}>{item.name}</Text>
+                        <Text style={styles.productPrice}>{item.price} TL</Text>
+                    </View>
+                </TouchableOpacity>
 
-        </View>
-    );
+            </View>
+        )
+    };
+
+
 
     return (
         <View>
             <TextSlider categories={categories}  setCurrentCategory={setCurrentCategory} />
+            {isFilterOpen && <FilterComponent data={products} />}
             <FlatList
+                style={{marginTop: 15}}
                 data={products}
                 renderItem={renderProductItem}
                 keyExtractor={(item) => item.id.toString()}
@@ -85,8 +95,7 @@ const ProductList = ({ categories }) => {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
-        backgroundColor: '#fdf9f9',
+        backgroundColor: '#fff',
     },
     productItem: {
         flex: 1,
@@ -95,13 +104,11 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         alignItems: 'center', // Elemanları yatayda merkezlemek için alignItems'u 'center' olarak ayarlayın
         maxWidth: '50%', // Yan yana sıralanan elemanların maksimum genişliğini yüzde 50 olarak ayarlayın
-        borderBottomWidth: 0,
         borderRightWidth: 0
-        },
+    },
     productImage: {
         width: 100,
         height: 100,
-        marginBottom: 5,
         resizeMode: 'contain',
     },
     productName: {
@@ -114,7 +121,8 @@ const styles = StyleSheet.create({
     },
     productItemFooter: {
         width: '100%',
-        paddingLeft: 15
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     heart: {
         width: 28,
@@ -123,6 +131,10 @@ const styles = StyleSheet.create({
         zIndex:122122,
         right: 15,
         top: 15
+    },
+    lastItem: {
+        borderBottomWidth: 1,
+        borderRightWidth: 1
     }
 });
 

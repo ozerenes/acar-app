@@ -86,19 +86,22 @@ const CompanyLocation = () => {
                 {
                     companyContactInfo.map((item,index) => {
                         return (
-                            <>
+                            <View style={styles.card}>
                                 <Text style={styles.title}>{item.title}</Text>
                                 <Text style={styles.contactInfoText}>Adres: {item.address}</Text>
                                 <Text style={styles.contactInfoText}>Telefon: {item.phone}</Text>
                                 <Text style={styles.contactInfoText}>E-posta: {item.email}</Text>
-                                <TouchableOpacity onPress={() => {
-                                    setCurrentLocation(index);
-                                    scrollToTop()
+                                <View style={styles.detailFooter}>
+                                    <TouchableOpacity onPress={() => {
+                                        setCurrentLocation(index);
+                                        scrollToTop()
 
-                                }} style={styles.customButton}>
-                                    <Text  style={styles.customText}>Konumu İncele</Text>
-                                </TouchableOpacity>
-                                </>
+                                    }} style={styles.customButton}>
+                                        <Text  style={styles.customText}>Konumu İncele</Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                </View>
                             )
 
 
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     map: {
-        minHeight:100
+        minHeight:230
     },
     contactInfoContainer: {
         backgroundColor: 'white',
@@ -133,11 +136,13 @@ const styles = StyleSheet.create({
     },
     customButton: {
         backgroundColor: '#ec1c3c',
-        padding: 15,
-        marginTop: 15,
+        paddingHorizontal: 15,
+        paddingVertical: 5,
+        marginTop: 0,
         borderRadius: 4,
         marginLeft: 0,
-        marginBottom : 30
+        marginBottom : 15,
+        width: 150
     },
     customText: {
         fontSize: 16,
@@ -145,6 +150,17 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         color: '#ffffff'
     },
+    detailFooter: {
+        width: "100%",
+        justifyContent: "flex-end",
+        alignItems: "flex-end"
+    },
+    card: {
+        borderBottomWidth: 2,
+        borderColor: "red",
+        borderStyle: "solid",
+        marginBottom: 15
+    }
 });
 
 export default CompanyLocation;

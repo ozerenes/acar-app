@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import React, {useEffect,useState} from 'react';
+import { View, TouchableOpacity, Text,StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/LoginScreen';
@@ -18,11 +18,11 @@ const Tab = createBottomTabNavigator();
 
 const Stack = createStackNavigator();
 
-const CustomButton = ({ onPress, title }) => {
+const CustomButton = ({ onPress, icon }) => {
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={{ marginRight: 10 }}>
-                <Icon name="basket-outline" color={"#040404"} size={40} />
+                <Icon name={icon} color={"#040404"} size={40} />
             </View>
         </TouchableOpacity>
     );
@@ -30,11 +30,15 @@ const CustomButton = ({ onPress, title }) => {
 function App() {
     const isLoggedIn = false; // Bu değişkeni giriş kontrolü sonucunda true/false olarak ayarlayın.
     const navigatorRef = React.useRef();
+    const [isFilterOpen, setFilterOpen] = useState(false);
 
 
     useEffect(() => {
         NavigationService.setTopLevelNavigator(navigatorRef.current);
     },[]);
+    const handleFilterToggle = () => {
+        setFilterOpen(!isFilterOpen);
+    };
 
     const Home2 = () => {
         return (
@@ -78,6 +82,7 @@ function App() {
                         headerShown: true,
                         headerRight: () => (
                             <CustomButton
+                                icon={"basket-outline"}
                                 onPress={() => navigation.navigate('Basket')}
                                 title="Düğme"
                             />
@@ -95,10 +100,14 @@ function App() {
                         ),
                         headerShown: true,
                         headerRight: () => (
-                            <CustomButton
-                                onPress={() => navigation.navigate('Basket')}
-                                title="Düğme"
-                            />
+                            <View style={styles.flex}>
+                                <CustomButton icon={"filter-outline"} style={styles.filterButton} onPress={handleFilterToggle}>
+                                </CustomButton>
+                                <CustomButton icon={"basket-outline"}
+                                    onPress={() => navigation.navigate('Basket')}
+                                    title="Düğme"
+                                />
+                            </View>
                         ),
                     })}
                 />
@@ -114,6 +123,7 @@ function App() {
                         headerShown: true,
                         headerRight: () => (
                             <CustomButton
+                                icon={"basket-outline"}
                                 onPress={() => navigation.navigate('Basket')}
                                 title="Düğme"
                             />
@@ -130,6 +140,7 @@ function App() {
                         headerShown: true,
                         headerRight: () => (
                             <CustomButton
+                                icon={"basket-outline"}
                                 onPress={() => navigation.navigate('Basket')}
                                 title="Düğme"
                             />
@@ -164,5 +175,24 @@ function App() {
         </>
     );
 }
+
+const styles = StyleSheet.create({
+    filterButton: {
+        backgroundColor: '#ec1c3c',
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: 8,
+        alignSelf: 'center',
+    },
+    filterButtonText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    flex: {
+        alignItems: "center",
+        flexDirection: "row"
+    }
+});
 
 export default App;
