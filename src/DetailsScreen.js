@@ -1,27 +1,96 @@
-import React, {useEffect, useState} from 'react';
-import { View, Text, Button } from 'react-native';
-import { getData,postData } from "./services/service";
-import {get} from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { getData, postData } from "./services/service";
 
-function DetailsScreen({navigation,route}) {
+function DetailsScreen({ navigation, route }) {
+    const [product, setProduct] = useState({});
 
-    const [product,setProduct] = useState({})
+    const stripHtmlTags = (htmlString) => {
+        return htmlString.replace(/<[^>]+>/g, '');
+    };
 
     useEffect(() => {
-        getData("api/urunler/"+route.params.itemId).then(response => {
-             setProduct(response.product);
+        getData("api/urunler/" + route.params.itemId).then(response => {
+            setProduct(response.product);
         });
-    },[])
+    }, []);
 
     return (
-        <View>
-            <Text>{JSON.stringify(product)}</Text>
-            <Button
-                title="Go back"
-                onPress={() => navigation.goBack()}
+        <ScrollView contentContainerStyle={styles.container}>
+            <Image
+                source={{ uri: "https://www.acar.kodlanabilir.com/storage/products/thumbnails/" + product.picture }}
+                style={styles.productImage}
             />
-        </View>
+            <View style={styles.detailsContainer}>
+                <Text style={styles.productName}>{product.name}</Text>
+                <Text style={styles.price}>{product.price} TL</Text>
+                <Text style={styles.description}>{product.description}</Text>
+            </View>
+            <TouchableOpacity style={styles.addToCartButton}>
+                <Text style={styles.addToCartButtonText}>Add to Cart</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buyNowButton}>
+                <Text style={styles.buyNowButtonText}>Buy Now</Text>
+            </TouchableOpacity>
+        </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexGrow: 1,
+        padding: 16,
+    },
+    productImage: {
+        width: '100%',
+        height: 300,
+        resizeMode: 'cover',
+        borderRadius: 8,
+    },
+    detailsContainer: {
+        marginTop: 20,
+    },
+    productName: {
+        fontSize: 24,
+        fontWeight: "bold",
+        marginBottom: 10,
+    },
+    price: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#FABE00',
+        marginBottom: 10,
+    },
+    description: {
+        fontSize: 16,
+        lineHeight: 24,
+        marginBottom: 20,
+    },
+    addToCartButton: {
+        backgroundColor: '#FABE00',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 4,
+        marginBottom: 10,
+    },
+    addToCartButtonText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    buyNowButton: {
+        backgroundColor: '#FF4D4D',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 4,
+    },
+    buyNowButtonText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+});
 
 export default DetailsScreen;
