@@ -41,8 +41,8 @@ const CompanyLocation = () => {
             phone: info.store_phone_3,
             email: info.store_mail,
             location: {
-                latitude: 41.11513555405315,
-                longitude: 28.967504267999328
+                latitude: 41.157767315348416,
+                longitude: 28.642693810335047
             }
         },
     ]

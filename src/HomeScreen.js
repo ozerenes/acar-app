@@ -14,38 +14,32 @@ function HomeScreen({ navigation }) {
     const stories = [
         {
             imageUrl: 'https://images.pexels.com/photos/16503530/pexels-photo-16503530/free-photo-of-man-wearing-bright-clothing-standing-in-a-muddy-field.jpeg',
-            duration: 5, // 5 seconds
+            duration: 8, // 5 seconds
         },
         {
             imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
             duration: 8, // 8 seconds
         },
-        ,
         {
             imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
             duration: 8, // 8 seconds
         },
-        ,
         {
             imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
             duration: 8, // 8 seconds
         },
-        ,
         {
             imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
             duration: 8, // 8 seconds
         },
-        ,
         {
             imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
             duration: 8, // 8 seconds
         },
-        ,
         {
             imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
             duration: 8, // 8 seconds
         },
-        ,
         {
             imageUrl: 'https://images.pexels.com/photos/15134001/pexels-photo-15134001.jpeg',
             duration: 8, // 8 seconds

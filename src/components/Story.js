@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, Modal, StyleSheet, ScrollView } from 'react-native';
-
+import { View,Dimensions, Image, Text, TouchableOpacity, Modal, StyleSheet, ScrollView } from 'react-native';
+const SCREEN_WIDTH = Dimensions.get("screen").width;
 const StoryComponent = ({ stories }) => {
     const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
     const [timer, setTimer] = useState(null);
     const [progress, setProgress] = useState(0);
     const [showModal, setShowModal] = useState(false);
-
+    const [currentStory,setCurrentStory] = useState(stories[currentStoryIndex])
     useEffect(() => {
         startTimer();
         return () => {
@@ -62,7 +62,12 @@ const StoryComponent = ({ stories }) => {
         );
     };
 
-    const currentStory = stories[currentStoryIndex];
+    useEffect(() => {
+        const story =  stories[currentStoryIndex];
+        setCurrentStory(story);
+    },[currentStoryIndex])
+
+
 
     return (
         <View style={{height:115}}>
@@ -83,8 +88,25 @@ const StoryComponent = ({ stories }) => {
             </TouchableOpacity>
             <Modal visible={showModal} transparent={true} onRequestClose={handleModalClose}>
                 <View style={styles.modalContainer}>
-                    <TouchableOpacity style={styles.modalBackground} onPress={handleModalClose} />
-                    <Image source={{ uri: currentStory.imageUrl }} style={styles.modalImage} />
+                    <TouchableOpacity  style={styles.modalBackground} onPress={handleModalClose} />
+                    <TouchableOpacity style= {styles.modalBackground}
+                        onPress={(e) => {
+                            const x = e.nativeEvent.pageX;
+                            console.log(SCREEN_WIDTH)
+                            if(x < SCREEN_WIDTH/2) {
+                                console.log("geri");
+                               setCurrentStoryIndex(currentStoryIndex === 0 ? (stories.length -1) : (currentStoryIndex -1) );
+                            }
+                            else {
+                                console.log("ileri");
+                                setCurrentStoryIndex(currentStoryIndex === stories.length -1 ? 0 : (currentStoryIndex +1) );
+                            }
+
+                        }}
+                        style={styles.modalBackground}>
+                        <Image   source={{ uri: currentStory.imageUrl }} style={styles.modalImage} />
+                    </TouchableOpacity>
+
                 </View>
             </Modal>
         </View>
@@ -123,8 +145,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.9)',
     },
     modalImage: {
-        width: '80%',
-        height: '80%',
+        left:'5%',
+        width: '90%',
+        height: '50%',
         resizeMode: 'contain',
     },
 });
