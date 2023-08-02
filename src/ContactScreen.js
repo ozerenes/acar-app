@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState,useRef} from 'react';
+import {View, Text, StyleSheet, Button, TouchableOpacity,ScrollView} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import {getData} from "./services/service";
 
@@ -7,12 +7,19 @@ const CompanyLocation = () => {
     // Şirketin konumu (enlem ve boylam değerleri)
     const [currentLocation,setCurrentLocation] = useState(0);
     const [info,setInfo] = useState({})
+    const scrollViewRef = useRef(); // Create a ref for the ScrollView
+
     useEffect(() => {
         getData('api/store').then( (response) => {
              setInfo(response.data)
         });
     },[])
 
+    const scrollToTop = () => {
+        if (scrollViewRef?.current) {
+            scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+        }
+    };
     // Şirketin iletişim bilgileri
     const companyContactInfo = [
         {
@@ -47,8 +54,9 @@ const CompanyLocation = () => {
         },
     ]
 
+
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container} ref={scrollViewRef}>
 
             {
                 companyContactInfo.map((item,index) => {
@@ -83,8 +91,12 @@ const CompanyLocation = () => {
                                 <Text style={styles.contactInfoText}>Adres: {item.address}</Text>
                                 <Text style={styles.contactInfoText}>Telefon: {item.phone}</Text>
                                 <Text style={styles.contactInfoText}>E-posta: {item.email}</Text>
-                                <TouchableOpacity style={styles.customButton}>
-                                    <Text style={styles.customText}>Konumu İncele</Text>
+                                <TouchableOpacity onPress={() => {
+                                    setCurrentLocation(index);
+                                    scrollToTop()
+
+                                }} style={styles.customButton}>
+                                    <Text  style={styles.customText}>Konumu İncele</Text>
                                 </TouchableOpacity>
                                 </>
                             )
@@ -94,20 +106,21 @@ const CompanyLocation = () => {
                 }
 
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
     },
     map: {
-        flex: 1,
+        minHeight:100
     },
     contactInfoContainer: {
         backgroundColor: 'white',
         padding: 10,
+
     },
     contactInfoText: {
         fontSize: 16,
@@ -121,9 +134,10 @@ const styles = StyleSheet.create({
     customButton: {
         backgroundColor: '#ec1c3c',
         padding: 15,
-        marginTop: 85,
+        marginTop: 15,
         borderRadius: 4,
-        marginLeft: 55,
+        marginLeft: 0,
+        marginBottom : 30
     },
     customText: {
         fontSize: 16,
