@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {postData} from "./services/service";
+import service from "./services/service";
 import axios from "axios";
 
 function LoginScreen({ navigation }) {
@@ -11,7 +11,7 @@ function LoginScreen({ navigation }) {
     const [error ,setError] = useState(false);
     const login = () => {
         setError(0);
-        postData('api/login', {
+        service.postData('api/login', {
             email: userName,
             password: password
         }).then(async (response) => {

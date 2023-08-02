@@ -43,12 +43,17 @@ service.interceptors.response.use(
 );
 service.interceptors.request.use(
     async(config) => {
-        const isAuthenticated = await handleAuthenticationAndNavigation();
+       /* if(config.url != 'api/login'){
+            const isAuthenticated = await handleAuthenticationAndNavigation();
 
-        if (!isAuthenticated) {
-            // Optionally, you can return a rejected promise to stop the request
-            return Promise.reject({});
+            if (!isAuthenticated) {
+                // Optionally, you can return a rejected promise to stop the request
+                return Promise.reject({});
+            }
         }
+        */
+        return config
+
     },
     (error) => {
         return Promise.reject(error);

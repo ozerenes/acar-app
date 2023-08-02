@@ -93,7 +93,6 @@ function App() {
                 {/* Profil ekranı */}
                 <Tab.Screen
                     name="Ürün Listesi"
-                    component={ProductsScreen}
                     options={({ navigation }) => ({
                         tabBarIcon: ({ color, size }) => (
                             <Icon name="grid-outline" color={color} size={size} />
@@ -110,7 +109,10 @@ function App() {
                             </View>
                         ),
                     })}
-                />
+                >
+                    {() => <ProductsScreen isFilterOpen={isFilterOpen} />}
+                </Tab.Screen>
+
 
                 {/* Ayarlar ekranı */}
                 <Tab.Screen
