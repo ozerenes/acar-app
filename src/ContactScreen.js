@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Button, TouchableOpacity,ScrollView} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import {getData} from "./services/service";
 
@@ -47,8 +47,9 @@ const CompanyLocation = () => {
         },
     ]
 
+
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
 
             {
                 companyContactInfo.map((item,index) => {
@@ -83,8 +84,8 @@ const CompanyLocation = () => {
                                 <Text style={styles.contactInfoText}>Adres: {item.address}</Text>
                                 <Text style={styles.contactInfoText}>Telefon: {item.phone}</Text>
                                 <Text style={styles.contactInfoText}>E-posta: {item.email}</Text>
-                                <TouchableOpacity style={styles.customButton}>
-                                    <Text style={styles.customText}>Konumu İncele</Text>
+                                <TouchableOpacity onPress={() => {setCurrentLocation(index)}} style={styles.customButton}>
+                                    <Text  style={styles.customText}>Konumu İncele</Text>
                                 </TouchableOpacity>
                                 </>
                             )
@@ -94,20 +95,21 @@ const CompanyLocation = () => {
                 }
 
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
     },
     map: {
-        flex: 1,
+        minHeight:100
     },
     contactInfoContainer: {
         backgroundColor: 'white',
         padding: 10,
+
     },
     contactInfoText: {
         fontSize: 16,
@@ -121,9 +123,10 @@ const styles = StyleSheet.create({
     customButton: {
         backgroundColor: '#ec1c3c',
         padding: 15,
-        marginTop: 85,
+        marginTop: 15,
         borderRadius: 4,
-        marginLeft: 55,
+        marginLeft: 0,
+        marginBottom : 30
     },
     customText: {
         fontSize: 16,
