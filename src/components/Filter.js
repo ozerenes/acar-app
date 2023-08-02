@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
 
 
-const FilterComponent = ({ onSearch, onSort }) => {
+const Filter = ({ onSearch, onSort }) => {
     const [searchText, setSearchText] = useState('');
 
     const handleInputChange = (text) => {
@@ -33,7 +33,7 @@ const Item = ({ title }) => (
     <Text style={styles.item}>{title}</Text>
 );
 
-const MainComponent = ({data}) => {
+const FilterComponent = ({data}) => {
     const [searchedText, setSearchedText] = useState('');
     const [sortedData, setSortedData] = useState(data);
 
@@ -56,7 +56,7 @@ const MainComponent = ({data}) => {
 
     return (
         <>
-            <FilterComponent onSearch={handleSearch} onSort={handleSort} />
+            <Filter onSearch={handleSearch} onSort={handleSort} />
             <FlatList
                 data={sortedData}
                 keyExtractor={(item) => item.id}
@@ -95,4 +95,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MainComponent;
+export default FilterComponent;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/LoginScreen';
@@ -10,11 +11,22 @@ import ContactScreen from './src/ContactScreen';
 import ProductsScreen from './src/ProductsScreen';
 import CategoryScreen from "./src/CategoryScreen";
 import DetailsScreen from "./src/DetailsScreen";
+import BasketScreen from "./src/BasketScreen";
+
 const Tab = createBottomTabNavigator();
 
 
 const Stack = createStackNavigator();
 
+const CustomButton = ({ onPress, title }) => {
+    return (
+        <TouchableOpacity onPress={onPress}>
+            <View style={{ marginRight: 10 }}>
+                <Icon name="basket-outline" color={"#040404"} size={40} />
+            </View>
+        </TouchableOpacity>
+    );
+};
 function App() {
     const isLoggedIn = false; // Bu değişkeni giriş kontrolü sonucunda true/false olarak ayarlayın.
 
@@ -54,51 +66,86 @@ function App() {
                 <Tab.Screen
                     name="Ana sayfa"
                     component={HomeScreen}
-                    options={{
+                    options={({ navigation }) => ({
                         tabBarIcon: ({ color, size }) => (
                             <Icon name="home-outline" color={color} size={size} />
                         ),
-                    }}
+                        headerShown: true,
+                        headerRight: () => (
+                            <CustomButton
+                                onPress={() => navigation.navigate('Basket')}
+                                title="Düğme"
+                            />
+                        ),
+                    })}
                 />
 
                 {/* Profil ekranı */}
                 <Tab.Screen
                     name="Ürün Listesi"
                     component={ProductsScreen}
-                    options={{
+                    options={({ navigation }) => ({
                         tabBarIcon: ({ color, size }) => (
                             <Icon name="grid-outline" color={color} size={size} />
                         ),
-                    }}
+                        headerShown: true,
+                        headerRight: () => (
+                            <CustomButton
+                                onPress={() => navigation.navigate('Basket')}
+                                title="Düğme"
+                            />
+                        ),
+                    })}
                 />
 
                 {/* Ayarlar ekranı */}
                 <Tab.Screen
                     name="Ürünler"
                     component={CategoryScreen}
-                    options={{
+                    options={({ navigation }) => ({
                         tabBarIcon: ({ color, size }) => (
                             <Icon name="medkit-outline" color={color} size={size} />
                         ),
-                    }}
+                        headerShown: true,
+                        headerRight: () => (
+                            <CustomButton
+                                onPress={() => navigation.navigate('Basket')}
+                                title="Düğme"
+                            />
+                        ),
+                    })}
                 />
                 <Tab.Screen
                     name="Hesap İşlemleri"
                     component={LoginScreen}
-                    options={{
+                    options={({ navigation }) => ({
                         tabBarIcon: ({ color, size }) => (
                             <Icon name="settings-outline" color={color} size={size} />
                         ),
-                    }}
+                        headerShown: true,
+                        headerRight: () => (
+                            <CustomButton
+                                onPress={() => navigation.navigate('Basket')}
+                                title="Düğme"
+                            />
+                        ),
+                    })}
                 />
                 <Tab.Screen
                     name="İletişim"
                     component={ContactScreen}
-                    options={{
+                    options={({ navigation }) => ({
                         tabBarIcon: ({ color, size }) => (
                             <Icon name="mail-outline" color={color} size={size} />
                         ),
-                    }}
+                        headerShown: true,
+                        headerRight: () => (
+                            <CustomButton
+                                onPress={() => navigation.navigate('Basket')}
+                                title="Düğme"
+                            />
+                        ),
+                    })}
                 />
 
             </Tab.Navigator>
@@ -121,6 +168,7 @@ function App() {
                     }}
                 />
                 <Stack.Screen name="Details" component={DetailsScreen} />
+                <Stack.Screen name="Basket" component={BasketScreen} />
             </Stack.Navigator>
         </NavigationContainer>
         </>
