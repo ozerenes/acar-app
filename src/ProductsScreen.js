@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text, SafeAreaView } from 'react-na
 import ProductList from './components/ProductList';
 import { getData } from "./services/service";
 
-const ProductsScreen = () => {
+const ProductsScreen = ({isFilterOpen}) => {
 
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -31,7 +31,7 @@ const ProductsScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ProductList products={products} categories={categories} />
+            <ProductList isFilterOpen={isFilterOpen} products={products} categories={categories} />
         </SafeAreaView>
     );
 };
