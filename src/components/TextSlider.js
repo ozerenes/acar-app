@@ -38,17 +38,20 @@ const styles = StyleSheet.create({
     textContainer: {
         paddingHorizontal: 20,
         paddingVertical: 10,
+        color: '#8a8a8a',
     },
     activeTextContainer: {
-        backgroundColor: '#040404',
+        color: '#040404',
     },
     text: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: 500,
         textAlign: 'center',
+        color: '#737373',
     },
     activeText: {
-        color: 'white',
+        color: '#040404',
+        fontWeight: "bold"
     },
 });
 

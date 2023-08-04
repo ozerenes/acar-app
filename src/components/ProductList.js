@@ -55,7 +55,7 @@ const ProductList = ({ categories,isFilterOpen }) => {
                 <TouchableOpacity onPress={() => {
                 likeUnlike(item.id,1)
             }} style={styles.heart}>
-                    <Icon name="ios-heart-outline" size={30} color="red"/>
+                    <Icon name={true ? "ios-heart" : "ios-heart-outline"} size={30} color="red"/>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => {
