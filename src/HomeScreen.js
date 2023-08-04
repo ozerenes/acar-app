@@ -45,10 +45,14 @@ function HomeScreen({ navigation }) {
         // Add more stories as needed
     ];
 
-    useEffect(() => {
+    const getSliderData = () => {
         service.getData('api/sliders-api').then(response => {
             setImages(response.sliders.map(item => "https://www.acar.kodlanabilir.com/storage/sliders/"+item.picture));
         });
+    }
+
+    useEffect(() => {
+        getSliderData();
     },[]);
 
     return (
