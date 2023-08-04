@@ -2,14 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, SafeAreaView } from 'react-native';
 import ProductList from './components/ProductList';
 import service from "./services/service";
+import {getUserId} from "./services/userService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProductsScreen = ({isFilterOpen}) => {
 
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
 
-    useEffect(() => {
-        service.getData('api/urunler').then(response => {
+    useEffect( () => {
+        fetchData()
+    }, []);
+    const fetchData = async () => {
+        const userId =  await getUserId();
+
+        service.getData('api/urunler/'+ userId).then(response => {
             setProducts(response.products.map(item => {
                 return {
                     id: item.id,
@@ -26,8 +33,7 @@ const ProductsScreen = ({isFilterOpen}) => {
                 }
             }));
         });
-    }, []);
-
+    }
 
     return (
         <SafeAreaView style={styles.container}>
