@@ -6,8 +6,8 @@ import service from "./services/service";
 import axios from "axios";
 
 function LoginScreen({ navigation }) {
-    const [userName,setUserName] = useState("");
-    const [password, setPassword] = useState("");
+    const [userName,setUserName] = useState("admin@kodlanabilir.com");
+    const [password, setPassword] = useState("123123");
     const [error ,setError] = useState(false);
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -47,6 +47,7 @@ function LoginScreen({ navigation }) {
             <Image source={require('../assets/acar.png')} style={styles.modalImage} />
             <View style={styles.inputContainer}>
                 <TextInput
+                    value={"admin@kodlanabilir.com"}
                     style={styles.customInput}
                     placeholder={"Username"}
                     placeholderTextColor="#A0A0A0"
@@ -55,6 +56,7 @@ function LoginScreen({ navigation }) {
             </View>
             <View style={styles.inputContainer}>
                 <TextInput
+                    value={"123123"}
                     style={styles.customInput}
                     placeholder={"Password"}
                     placeholderTextColor="#A0A0A0"
