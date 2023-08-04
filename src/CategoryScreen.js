@@ -2,13 +2,20 @@ import React, {useEffect, useState} from 'react';
 import { View, StyleSheet } from 'react-native';
 import service from "./services/service";
 import CategoryList from "./components/CategoryList";
+import {getUserId} from "./services/userService";
 
 const CategoryScreen = () => {
 
     const [categories,setCategories] = useState([]);
 
     useEffect(() => {
-        service.getData('api/urunler').then(response => {
+        fetchData();
+    },[]);
+
+    const fetchData = async () => {
+
+        const userId = await getUserId();
+        service.getData('api/urunler/'+userId).then(response => {
             console.log(response);
             setCategories(response.categories.map(item => {
                 return {
@@ -18,7 +25,7 @@ const CategoryScreen = () => {
                 }
             }));
         });
-    },[]);
+    }
 
 
     return (
