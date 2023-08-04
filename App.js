@@ -162,6 +162,9 @@ function App() {
 
             <Stack.Navigator>
 
+                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Details" component={DetailsScreen} />
+                <Stack.Screen name="Basket" component={BasketScreen} />
                 <Stack.Screen
                     name="Details2"
                     component={Home2}
@@ -169,9 +172,7 @@ function App() {
                         headerShown: false, // Hide the header for this screen
                     }}
                 />
-                <Stack.Screen name="Details" component={DetailsScreen} />
-                <Stack.Screen name="Basket" component={BasketScreen} />
-                <Stack.Screen name="Login" component={LoginScreen} />
+
             </Stack.Navigator>
         </NavigationContainer>
         </>

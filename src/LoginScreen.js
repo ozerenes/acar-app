@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import React, {useState,useEffect} from 'react';
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image,BackHandler} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import service from "./services/service";
@@ -9,15 +9,33 @@ function LoginScreen({ navigation }) {
     const [userName,setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [error ,setError] = useState(false);
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown:false, // Hide the back button
+        });
+    }, [navigation]);
+    useEffect(() => {
+        // Disable the back button functionality
+        const backAction = () => {
+            return true; // Returning true will prevent the back action
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, []);
     const login = () => {
         setError(0);
         service.postData('api/login', {
             email: userName,
             password: password
         }).then(async (response) => {
-            if(response?.userId){
-                await AsyncStorage.setItem('user',JSON.stringify({userId:response.userId}));
-                navigation.navigate('Ana sayfa')
+            if(response?.user?.id){
+                await AsyncStorage.setItem('user',JSON.stringify(response.user));
+                navigation.navigate('Details2', { screen: 'Ana sayfa' });
             }
             else{
                 setError(true);

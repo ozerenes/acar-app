@@ -34,7 +34,7 @@ const ProductList = ({ categories,isFilterOpen }) => {
 
 
     const likeUnlike = async (product_id,like) => {
-        const userId = JSON.parse(await AsyncStorage.getItem('user')).userId;
+        const userId = JSON.parse(await AsyncStorage.getItem('user')).id;
         let url = "product-like"
         if(!like){
             url = 'product-unlike'

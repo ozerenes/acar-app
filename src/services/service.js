@@ -14,9 +14,12 @@ const service = axios.create({
 
 const handleAuthenticationAndNavigation = async () => {
     try {
-        let userId = await AsyncStorage.getItem('user').userId;
+        console.log("controlldeyim");
+        let user = await AsyncStorage.getItem('user');
 
-        if (!userId) {
+        user = JSON.parse(user);
+
+        if (typeof user !==  'object' ||  !user?.id) {
             console.log("navigateeeee");
             NavigationService.navigate('Login');
             return false;
@@ -25,6 +28,7 @@ const handleAuthenticationAndNavigation = async () => {
         return true;
     } catch (error) {
         console.error('Error handling authentication and navigation:', error);
+        NavigationService.navigate('Login');
         return false;
     }
 };
@@ -43,7 +47,7 @@ service.interceptors.response.use(
 );
 service.interceptors.request.use(
     async(config) => {
-       /* if(config.url != 'api/login'){
+        if(config.url != 'api/login'){
             const isAuthenticated = await handleAuthenticationAndNavigation();
 
             if (!isAuthenticated) {
@@ -51,7 +55,8 @@ service.interceptors.request.use(
                 return Promise.reject({});
             }
         }
-        */
+        console.log(config)
+
         return config
 
     },
@@ -85,7 +90,9 @@ service.getData = async (url,params = []) => {
 service.postData = async (url,data) => {
     try {
 
+        console.log(data);
         const response = await service.post(url, data); // API'nizin verilere veri göndermek için uygun endpoint'i kullanın
+        console.log(response.data);
         return response.data; // API'den dönen yanıtı döndürür
     } catch (error) {
         console.log(error); // Hata durumunda hata nesnesini fırlatır

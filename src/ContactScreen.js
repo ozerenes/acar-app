@@ -63,6 +63,7 @@ const CompanyLocation = () => {
                     if(currentLocation == index) {
                         return (
                             <MapView
+                                key={index}
                                 style={styles.map}
                                 initialRegion={{
                                     latitude: item.location.latitude,
