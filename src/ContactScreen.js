@@ -1,7 +1,8 @@
 import React, {useEffect, useState,useRef} from 'react';
-import {View, Text, StyleSheet, Button, TouchableOpacity,ScrollView} from 'react-native';
+import {View, Text, StyleSheet, Button, TouchableOpacity,ScrollView, Linking} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import service from "./services/service";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const CompanyLocation = () => {
     // Şirketin konumu (enlem ve boylam değerleri)
@@ -52,7 +53,30 @@ const CompanyLocation = () => {
                 longitude: 28.642693810335047
             }
         },
-    ]
+    ];
+
+    const openLink = (url) => {
+        Linking.canOpenURL(url)
+            .then((supported) => {
+                if (!supported) {
+                    // Eğer Instagram uygulaması cihazda yüklü değilse, Instagram'ı tarayıcıda açmayı deneyin
+                    return Linking.openURL(postUrl);
+                } else {
+                    return Linking.openURL(url);
+                }
+            })
+            .catch((err) => console.error('Instagram açılamadı: ', err));
+    };
+
+    const getCustomButtons = (icon,link) => {
+        return (
+            <TouchableOpacity onPress={()=>openLink(link)}
+                              style={styles.customButtonWithIcon}>
+                <Icon name={icon} size={24} color="white" />
+            </TouchableOpacity>
+            )
+
+    }
 
 
     return (
@@ -81,6 +105,16 @@ const CompanyLocation = () => {
                     }
                 })
             }
+
+            <View style={styles.flexContainer}>
+                {getCustomButtons("logo-facebook",info?.social_facebook)}
+                {getCustomButtons("logo-instagram",info?.social_instagram)}
+                {getCustomButtons("logo-pinterest",info?.social_pinterest)}
+                {getCustomButtons("logo-twitter",info?.social_twitter)}
+                {getCustomButtons("logo-youtube",info?.social_youtube)}
+                {getCustomButtons("logo-wordpress",info?.store_web_site)}
+            </View>
+
 
             <View style={styles.contactInfoContainer}>
                 {
@@ -160,6 +194,21 @@ const styles = StyleSheet.create({
         borderColor: "red",
         borderStyle: "solid",
         marginBottom: 15
+    },
+    flexContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginVertical: 10
+    },
+    customButtonWithIcon: {
+        backgroundColor: '#ec1c3c',
+        margin: 5,
+        borderRadius: 50,
+        width: 40,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
