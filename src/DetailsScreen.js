@@ -10,7 +10,7 @@ function DetailsScreen({ navigation, route }) {
     };
 
     useEffect(() => {
-        service.getData("api/urunler/" + route.params.itemId).then(response => {
+        service.getData("api/urundetay/" + route.params.itemId).then(response => {
             setProduct(response.product);
         });
     }, []);
