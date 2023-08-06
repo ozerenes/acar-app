@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import service from "./services/service";
+import {getUserId} from "./services/userService";
 
 function DetailsScreen({ navigation, route }) {
     const [product, setProduct] = useState({});
@@ -14,6 +15,13 @@ function DetailsScreen({ navigation, route }) {
             setProduct(response.product);
         });
     }, []);
+    const addToCart =  async () => {
+        console.log("burdayım");
+        const userId = await getUserId();
+        service.getData(`api/add-to-cart-api/${userId}/${product.id}/1`).then((response) => {
+              console.log(response);
+        });
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -26,7 +34,7 @@ function DetailsScreen({ navigation, route }) {
                 <Text style={styles.price}>{product.price} TL</Text>
                 <Text style={styles.description}>{product.description}</Text>
             </View>
-            <TouchableOpacity style={styles.addToCartButton}>
+            <TouchableOpacity onPress={() => { addToCart()  }} style={styles.addToCartButton}>
                 <Text style={styles.addToCartButtonText}>Add to Cart</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buyNowButton}>
