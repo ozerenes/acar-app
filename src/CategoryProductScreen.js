@@ -31,23 +31,43 @@ const CategoryProductScreen = ({ route }) => {
                         name: item.name,
                         price : item.price,
                         image :"https://www.acar.kodlanabilir.com/storage/products/thumbnails/"+item.picture,
+                        ...item
                     }
                 })
             );
         });
     }
 
-    const likeUnlike = async (product_id,like) => {
+    const likeUnlike = async (product_id, like) => {
         const userId = JSON.parse(await AsyncStorage.getItem('user')).id;
         let url = "product-like"
-        if(!like){
+        if (like) {
             url = 'product-unlike'
         }
-        url = `api/${url}/${product_id}/${userId}`;
+        url = `api/${url}`;
 
         console.log(url);
-        service.getData(url).then(response => {
-            console.log(response);
+        console.log(url);
+        let params = {
+            userid : userId,
+            product_id : product_id
+        }
+
+        service.postData(url,params).then(response => {
+            if(response === 'OK'){
+                setProducts(products.map(item => {
+                    if(item.id == product_id){
+                        return {
+                            ...item,
+                            liked : !like,
+                        }
+                    }
+                    else{
+                        return  item;
+                    }
+
+                }))
+            }
         })
     }
 
@@ -56,9 +76,9 @@ const CategoryProductScreen = ({ route }) => {
         return (
             <View style={[styles.productItem, styles.lastItem]}>
                 <TouchableOpacity onPress={() => {
-                    likeUnlike(item.id,1)
+                    likeUnlike(item.id, item.liked)
                 }} style={styles.heart}>
-                    <Icon name="ios-heart-outline" size={30} color="red"/>
+                    <Icon name={item.liked ? "ios-heart" : "ios-heart-outline"} size={30} color="red" />
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => {
