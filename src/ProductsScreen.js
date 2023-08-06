@@ -33,11 +33,6 @@ const ProductsScreen = ({ isFilterOpen }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity style={styles.filterButton} onPress={() => console.log("Filter Pressed")}>
-                    <Text style={styles.filterButtonText}>Filtrele</Text>
-                </TouchableOpacity>
-            </View>
             <ProductList isFilterOpen={isFilterOpen} products={products} categories={categories} />
         </SafeAreaView>
     );
