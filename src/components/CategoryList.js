@@ -1,17 +1,25 @@
 import React from 'react';
 import {View, Text, FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
+import {useNavigation} from "@react-navigation/native";
 
 const CategoryList = ({ categories }) => {
+    const navigation =useNavigation()
     const renderCategoryItem = ({ item,index }) => {
         const isLastItem = index === categories.length - 1;
         const notEven = (index % 2 !== 0 && index === categories.length - 2);
         return (
             <View style={[styles.productItem,(isLastItem || notEven) && styles.lastItem]}>
-                <Image source={{uri: item.image}} style={styles.productImage}/>
-                <View style={styles.productItemFooter}>
-                    <Text style={styles.productName}>{item.name}</Text>
-                </View>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('CatPro', {
+                        currentCategory: item.id,
+                    })
+                }}>
+                    <Image source={{uri: item.image}} style={styles.productImage}/>
+                    <View style={styles.productItemFooter}>
+                        <Text style={styles.productName}>{item.name}</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         )
 

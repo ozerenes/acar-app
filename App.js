@@ -13,6 +13,8 @@ import CategoryScreen from "./src/CategoryScreen";
 import DetailsScreen from "./src/DetailsScreen";
 import BasketScreen from "./src/BasketScreen";
 import NavigationService from "./src/services/navigationService";
+import categoryProductScreen from "./src/CategoryProductScreen";
+import CategoryProductScreen from "./src/CategoryProductScreen";
 const Tab = createBottomTabNavigator();
 
 
@@ -165,6 +167,7 @@ function App() {
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Details" component={DetailsScreen} />
                 <Stack.Screen name="Basket" component={BasketScreen} />
+                <Stack.Screen name="CatPro" component={CategoryProductScreen} />
                 <Stack.Screen
                     name="Details2"
                     component={Home2}
