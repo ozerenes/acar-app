@@ -22,6 +22,8 @@ const StoryComponent = ({ stories }) => {
         setTimer(newTimer);
     };
 
+    const DEFAULT_DURATION = 5; // Varsayılan süre 5 saniye
+
     const handleStoryPress = () => {
         if (currentStoryIndex === stories.length - 1) {
             setCurrentStoryIndex(0);
@@ -81,7 +83,7 @@ const StoryComponent = ({ stories }) => {
                         right: 0,
                         height: 5,
                         backgroundColor: '#f48c9c',
-                        width: (progress / (currentStory.duration || 5)) * 100 + '%',
+                        width: (progress / (currentStory?.duration || DEFAULT_DURATION)) * 100 + '%',
                     }}
                 >
                 </View>
@@ -104,7 +106,7 @@ const StoryComponent = ({ stories }) => {
 
                         }}
                         style={styles.modalBackground}>
-                        <Image   source={{ uri: currentStory.imageUrl }} style={styles.modalImage} />
+                        <Image   source={{ uri: currentStory?.imageUrl }} style={styles.modalImage} />
                     </TouchableOpacity>
 
                 </View>
