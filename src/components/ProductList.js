@@ -51,7 +51,7 @@ const ProductList = ({ categories, isFilterOpen }) => {
         console.log(url);
         let params = {
             userid : userId,
-            product_id : product_id
+            productid : product_id
         }
 
         service.postData(url,params).then(response => {
