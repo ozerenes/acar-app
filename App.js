@@ -92,7 +92,24 @@ function App() {
                     })}
                 />
 
-                {/* Profil ekranı */}
+                <Tab.Screen
+                    name="Kategoriler"
+                    component={CategoryScreen}
+                    options={({ navigation }) => ({
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon name="medkit-outline" color={color} size={size} />
+                        ),
+                        headerShown: true,
+                        headerRight: () => (
+                            <CustomButton
+                                icon={"basket-outline"}
+                                onPress={() => navigation.navigate('Sepet')}
+                                title="Düğme"
+                            />
+                        ),
+                    })}
+                />
+
                 <Tab.Screen
                     name="Ürün Listesi"
                     options={({ navigation }) => ({
@@ -115,25 +132,6 @@ function App() {
                     {() => <ProductsScreen isFilterOpen={isFilterOpen} />}
                 </Tab.Screen>
 
-
-                {/* Ayarlar ekranı */}
-                <Tab.Screen
-                    name="Ürünler"
-                    component={CategoryScreen}
-                    options={({ navigation }) => ({
-                        tabBarIcon: ({ color, size }) => (
-                            <Icon name="medkit-outline" color={color} size={size} />
-                        ),
-                        headerShown: true,
-                        headerRight: () => (
-                            <CustomButton
-                                icon={"basket-outline"}
-                                onPress={() => navigation.navigate('Sepet')}
-                                title="Düğme"
-                            />
-                        ),
-                    })}
-                />
                 <Tab.Screen
                     name="İletişim"
                     component={ContactScreen}
@@ -164,7 +162,7 @@ function App() {
 
             <Stack.Navigator>
 
-                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Giriş" component={LoginScreen} />
                 <Stack.Screen name="Detaylar" component={DetailsScreen}
                               options={({ navigation }) => ({
                                   headerShown: true,
