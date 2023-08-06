@@ -15,15 +15,21 @@ const ShoppingCart = () => {
 
         const userId = await getUserId();
         service.getData(`api/cart-api/${userId}`).then((response) => {
-            console.log(response);
             setCartItems(response)
         });
     }
 
-    const handleRemoveItem = (itemId) => {
+    const handleRemoveItem = async (itemId) => {
+
+        const userId = await getUserId();
+        service.getData(`api/remove-items-from-cart-api/${userId}/${itemId}`).then((response) => {
+            if(response === 'OK'){
+                const updatedCart = cartItems.filter((item) => item.id !== itemId);
+                setCartItems(updatedCart);
+            }
+        });
         // Silinecek öğeyi filtrele ve yeni sepet listesini ayarla
-        const updatedCart = cartItems.filter((item) => item.id !== itemId);
-        setCartItems(updatedCart);
+
     };
 
     const renderItem = ({ item }) => (
