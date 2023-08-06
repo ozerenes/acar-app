@@ -4,11 +4,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import service from "./services/service";
 import axios from "axios";
+import {getUserId} from "./services/userService";
 
 function LoginScreen({ navigation }) {
     const [userName,setUserName] = useState("admin@kodlanabilir.com");
     const [password, setPassword] = useState("123123");
     const [error ,setError] = useState(false);
+    const [userId,setUserId] = useState(1);
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerShown:false, // Hide the back button
@@ -16,6 +18,7 @@ function LoginScreen({ navigation }) {
     }, [navigation]);
     useEffect(() => {
         // Disable the back button functionality
+        controlLogin();
         const backAction = () => {
             return true; // Returning true will prevent the back action
         };
@@ -27,6 +30,18 @@ function LoginScreen({ navigation }) {
 
         return () => backHandler.remove();
     }, []);
+
+    const controlLogin = async () => {
+
+        let userId = await getUserId();
+        console.log(userId);
+        if(userId){
+            navigation.navigate('Details2', { screen: 'Ana sayfa' });
+        }else
+        {
+            setUserId(userId);
+        }
+    }
     const login = () => {
         setError(0);
         service.postData('api/login', {
@@ -43,7 +58,7 @@ function LoginScreen({ navigation }) {
         })
     }
     return (
-        <View style={styles.container}>
+       !userId ?  <View style={styles.container}>
             <Image source={require('../assets/acar.png')} style={styles.modalImage} />
             <View style={styles.inputContainer}>
                 <TextInput
@@ -83,7 +98,7 @@ function LoginScreen({ navigation }) {
                  }
             </View>
 
-        </View>
+        </View> : <></>
     );
 }
 
