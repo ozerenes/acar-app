@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View,Dimensions, Image, Text, TouchableOpacity, Modal, StyleSheet, ScrollView } from 'react-native';
-const SCREEN_WIDTH = Dimensions.get("screen").width;
+import { View, Dimensions, Image, Text, TouchableOpacity, Modal, StyleSheet, ScrollView, PanResponder, Animated } from 'react-native';
+
+const SCREEN_WIDTH = Dimensions.get('screen').width;
+
 const StoryComponent = ({ stories }) => {
     const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
     const [timer, setTimer] = useState(null);
     const [progress, setProgress] = useState(0);
     const [showModal, setShowModal] = useState(false);
-    const [currentStory,setCurrentStory] = useState(stories[currentStoryIndex])
+    const [currentStory,setCurrentStory] = useState(stories[currentStoryIndex]);
+    const [pan, setPan] = useState(new Animated.ValueXY());
+
     useEffect(() => {
         startTimer();
         return () => {
@@ -44,6 +48,21 @@ const StoryComponent = ({ stories }) => {
         setShowModal(false);
     };
 
+    const panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onPanResponderMove: Animated.event([null, { dy: pan.y }], { useNativeDriver: false }),
+        onPanResponderRelease: (_, gestureState) => {
+            if (gestureState.dy > 50) {
+                handleModalClose();
+            } else {
+                Animated.spring(pan, {
+                    toValue: { x: 0, y: 0 },
+                    useNativeDriver: false,
+                }).start();
+            }
+        },
+    });
+
     const renderThumbnails = () => {
         return (
             <ScrollView
@@ -65,14 +84,12 @@ const StoryComponent = ({ stories }) => {
     };
 
     useEffect(() => {
-        const story =  stories[currentStoryIndex];
+        const story = stories[currentStoryIndex];
         setCurrentStory(story);
-    },[currentStoryIndex])
-
-
+    }, [currentStoryIndex]);
 
     return (
-        <View style={{height:115}}>
+        <View style={{ height: 115 }}>
             {renderThumbnails()}
             <TouchableOpacity onPress={handleStoryPress} activeOpacity={1} style={{ flex: 1 }}>
                 <View
@@ -83,32 +100,19 @@ const StoryComponent = ({ stories }) => {
                         right: 0,
                         height: 5,
                         backgroundColor: '#f48c9c',
-                        width: (progress / (currentStory?.duration || DEFAULT_DURATION)) * 100 + '%',
+                        width: (progress / (currentStory?.duration || DEFAULT_DURATION)) * 100 + '%'
                     }}
-                >
-                </View>
+                />
             </TouchableOpacity>
             <Modal visible={showModal} transparent={true} onRequestClose={handleModalClose}>
                 <View style={styles.modalContainer}>
-                    <TouchableOpacity  style={styles.modalBackground} onPress={handleModalClose} />
-                    <TouchableOpacity style= {styles.modalBackground}
-                        onPress={(e) => {
-                            const x = e.nativeEvent.pageX;
-                            console.log(SCREEN_WIDTH)
-                            if(x < SCREEN_WIDTH/2) {
-                                console.log("geri");
-                               setCurrentStoryIndex(currentStoryIndex === 0 ? (stories.length -1) : (currentStoryIndex -1) );
-                            }
-                            else {
-                                console.log("ileri");
-                                setCurrentStoryIndex(currentStoryIndex === stories.length -1 ? 0 : (currentStoryIndex +1) );
-                            }
-
-                        }}
-                        style={styles.modalBackground}>
-                        <Image   source={{ uri: currentStory?.imageUrl }} style={styles.modalImage} />
-                    </TouchableOpacity>
-
+                    <TouchableOpacity style={styles.modalBackground} onPress={handleModalClose} />
+                    <Animated.View
+                        style={[styles.modalContent, pan.getLayout()]}
+                        {...panResponder.panHandlers}
+                    >
+                        <Image source={{ uri: currentStory?.imageUrl }} style={styles.modalImage} />
+                    </Animated.View>
                 </View>
             </Modal>
         </View>
@@ -144,12 +148,16 @@ const styles = StyleSheet.create({
     },
     modalBackground: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        overflow: 'hidden',
     },
     modalImage: {
-        left:'5%',
-        width: '90%',
-        height: '50%',
+        width: SCREEN_WIDTH - 40,
+        height: "100%",
         resizeMode: 'contain',
     },
 });
