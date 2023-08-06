@@ -44,7 +44,7 @@ function HomeScreen({ navigation }) {
     ];
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             {/* Hikaye Bileşeni */}
             <StoryComponent stories={stories} />
 
@@ -79,7 +79,7 @@ function HomeScreen({ navigation }) {
             <View style={styles.sliderContainer}>
                 <PhotoSlider images={images} slideDuration={4000} />
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
