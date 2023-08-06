@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, SafeAreaView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import ProductList from './components/ProductList';
 import service from "./services/service";
 import { getUserId } from "./services/userService";
@@ -32,9 +32,9 @@ const ProductsScreen = ({ isFilterOpen }) => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <ProductList isFilterOpen={isFilterOpen} products={products} categories={categories} />
-        </SafeAreaView>
+        </View>
     );
 };
 
