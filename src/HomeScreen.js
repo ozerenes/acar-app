@@ -18,7 +18,7 @@ function HomeScreen({ navigation }) {
         service.getData('api/storys-api').then(response => {
             setStories(response.sliders.map(item => {
                 return {
-                    imageUrl: "https://www.acar.kodlanabilir.com/storage/sliders/" + item.picture,
+                    imageUrl: "https://www.acar.kodlanabilir.com/storage/storys/" + item.picture,
                     duration : 8
                 }
             }));
