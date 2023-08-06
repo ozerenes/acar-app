@@ -5,6 +5,7 @@ import TextSlider from "./components/TextSlider";
 import service from "./services/service";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getUserId} from "./services/userService";
 
 
 const CategoryProductScreen = ({ route }) => {
@@ -14,21 +15,27 @@ const CategoryProductScreen = ({ route }) => {
 
     useEffect(() => {
 
-            service.getData('api/category/'+ route.params.currentCategory).then(response => {
-                setProducts(
-                    response.products.map(item => {
-                        return {
-                            id : item.id,
-                            name: item.name,
-                            price : item.price,
-                            image :"https://www.acar.kodlanabilir.com/storage/products/thumbnails/"+item.picture,
-                        }
-                    })
-                );
-            });
+            fetchData()
 
     },[route.params.currentCategory])
 
+
+    const fetchData = async () => {
+
+        const userId = await getUserId();
+        service.getData('api/category/'+userId+'/'+route.params.currentCategory).then(response => {
+            setProducts(
+                response.products.map(item => {
+                    return {
+                        id : item.id,
+                        name: item.name,
+                        price : item.price,
+                        image :"https://www.acar.kodlanabilir.com/storage/products/thumbnails/"+item.picture,
+                    }
+                })
+            );
+        });
+    }
 
     const likeUnlike = async (product_id,like) => {
         const userId = JSON.parse(await AsyncStorage.getItem('user')).id;
