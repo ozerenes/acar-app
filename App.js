@@ -48,14 +48,14 @@ function App() {
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ color, size }) => {
                         let iconName;
-                        if (route.name === 'Home') {
+                        if (route.name === 'Ana sayfa') {
                             iconName = 'home-outline';
-                        } else if (route.name === 'Details') {
+                        } else if (route.name === 'Detaylar') {
                             iconName = 'person-outline';
-                        } else if (route.name === 'Cart') {
+                        } else if (route.name === 'Kategoriler') {
                             iconName = 'settings-outline';
                         }
-                        else if (route.name === 'Contact') {
+                        else if (route.name === 'İletişim') {
                             iconName = 'person-outline';
                         }
                         else{
@@ -85,7 +85,7 @@ function App() {
                         headerRight: () => (
                             <CustomButton
                                 icon={"basket-outline"}
-                                onPress={() => navigation.navigate('Basket')}
+                                onPress={() => navigation.navigate('Sepet')}
                                 title="Düğme"
                             />
                         ),
@@ -105,7 +105,7 @@ function App() {
                                 <CustomButton icon={"filter-outline"} style={styles.filterButton} onPress={handleFilterToggle}>
                                 </CustomButton>
                                 <CustomButton icon={"basket-outline"}
-                                    onPress={() => navigation.navigate('Basket')}
+                                    onPress={() => navigation.navigate('Sepet')}
                                     title="Düğme"
                                 />
                             </View>
@@ -128,7 +128,7 @@ function App() {
                         headerRight: () => (
                             <CustomButton
                                 icon={"basket-outline"}
-                                onPress={() => navigation.navigate('Basket')}
+                                onPress={() => navigation.navigate('Sepet')}
                                 title="Düğme"
                             />
                         ),
@@ -145,7 +145,7 @@ function App() {
                         headerRight: () => (
                             <CustomButton
                                 icon={"basket-outline"}
-                                onPress={() => navigation.navigate('Basket')}
+                                onPress={() => navigation.navigate('Sepet')}
                                 title="Düğme"
                             />
                         ),
@@ -165,8 +165,19 @@ function App() {
             <Stack.Navigator>
 
                 <Stack.Screen name="Login" component={LoginScreen} />
-                <Stack.Screen name="Details" component={DetailsScreen} />
-                <Stack.Screen name="Basket" component={BasketScreen} />
+                <Stack.Screen name="Detaylar" component={DetailsScreen}
+                              options={({ navigation }) => ({
+                                  headerShown: true,
+                                  headerRight: () => (
+                                      <CustomButton
+                                          icon={"basket-outline"}
+                                          onPress={() => navigation.navigate('Sepet')}
+                                          title="Düğme"
+                                      />
+                                  ),
+                              })}
+                />
+                <Stack.Screen name="Sepet" component={BasketScreen} />
                 <Stack.Screen name="CatPro" component={CategoryProductScreen} />
                 <Stack.Screen
                     name="Details2"

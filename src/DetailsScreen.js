@@ -35,10 +35,7 @@ function DetailsScreen({ navigation, route }) {
                 <Text style={styles.description}>{product.description}</Text>
             </View>
             <TouchableOpacity onPress={() => { addToCart()  }} style={styles.addToCartButton}>
-                <Text style={styles.addToCartButtonText}>Add to Cart</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buyNowButton}>
-                <Text style={styles.buyNowButtonText}>Buy Now</Text>
+                <Text style={styles.addToCartButtonText}>Sepete Ekle</Text>
             </TouchableOpacity>
         </ScrollView>
     );
