@@ -16,7 +16,7 @@ function DetailsScreen({ navigation, route }) {
         });
     }, []);
     const addToCart =  async () => {
-        console.log("burdayım");
+        console.log("burdayım")
         const userId = await getUserId();
         service.getData(`api/add-to-cart-api/${userId}/${product.id}/1`).then((response) => {
               console.log(response);

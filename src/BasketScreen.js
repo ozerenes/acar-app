@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {getUserId} from "./services/userService";
+import service from "./services/service";
 
 const ShoppingCart = () => {
-    const [cartItems, setCartItems] = useState([
-        { id: 1, name: 'Ürün 1', price: 10.0 },
-        { id: 2, name: 'Ürün 2', price: 15.0 },
-        { id: 3, name: 'Ürün 3', price: 20.0 },
-    ]);
+    const [cartItems, setCartItems] = useState([]);
+
+    useEffect(() => {
+         fechData()
+    },[]);
+
+    const fechData = async () => {
+
+        const userId = await getUserId();
+        service.getData(`api/cart-api/${userId}`).then((response) => {
+            console.log(response);
+            setCartItems(response.map(item => {
+                return {
+                    id : Math.floor(Math.random() * 1000),
+                        ...item
+                }
+            }))
+        });
+    }
 
     const handleRemoveItem = (itemId) => {
         // Silinecek öğeyi filtrele ve yeni sepet listesini ayarla
