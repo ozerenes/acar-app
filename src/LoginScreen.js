@@ -36,6 +36,7 @@ function LoginScreen({ navigation }) {
         let userId = await getUserId();
         console.log(userId);
         if(userId){
+            setUserId(0);
             navigation.navigate('Details2', { screen: 'Ana sayfa' });
         }else
         {
