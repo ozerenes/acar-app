@@ -121,7 +121,7 @@ const CompanyLocation = () => {
                 {
                     companyContactInfo.map((item,index) => {
                         return (
-                            <View style={styles.card}>
+                            <View style={styles.card} key={index}>
                                 <Text style={styles.title}>{item.title}</Text>
                                 <Text style={styles.contactInfoText}>Adres: {item.address}</Text>
                                 <Text style={styles.contactInfoText}>Telefon: {item.phone}</Text>

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList, Image, TouchableOpacity, Text } from 'react-native';
 import service from "./services/service";
 import { getUserId } from "./services/userService";
+import {useNavigation} from "@react-navigation/native";
 
 const CategoryScreen = () => {
+    const navigation =useNavigation()
+
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -22,7 +25,13 @@ const CategoryScreen = () => {
     }
 
     const renderCategoryItem = ({ item }) => (
-        <TouchableOpacity style={styles.categoryItem}>
+        <TouchableOpacity onPress={
+            () => {
+                navigation.navigate('CatPro', {
+                    currentCategory: item.id
+                })
+            }
+        } style={styles.categoryItem}>
             <Image source={{ uri: item.image }} style={styles.categoryImage} resizeMode="cover" />
             <Text style={styles.categoryName}>{item.name}</Text>
         </TouchableOpacity>
