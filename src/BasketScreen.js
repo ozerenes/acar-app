@@ -16,12 +16,7 @@ const ShoppingCart = () => {
         const userId = await getUserId();
         service.getData(`api/cart-api/${userId}`).then((response) => {
             console.log(response);
-            setCartItems(response.map(item => {
-                return {
-                    id : Math.floor(Math.random() * 1000),
-                        ...item
-                }
-            }))
+            setCartItems(response)
         });
     }
 
