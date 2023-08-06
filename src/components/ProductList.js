@@ -64,7 +64,7 @@ const ProductList = ({ categories, isFilterOpen }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('Details', {
+                        navigation.navigate('Detaylar', {
                             itemId: item.id,
                         })
                     }}>
