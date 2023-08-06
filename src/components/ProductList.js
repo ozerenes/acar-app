@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from "axios";
 import FilterComponent from "./Filter";
+import {getUserId} from "../services/userService";
 
 const ProductList = ({ categories,isFilterOpen }) => {
     const navigation = useNavigation();
@@ -16,8 +17,13 @@ const ProductList = ({ categories,isFilterOpen }) => {
     const [currentCategory,setCurrentCategory] = useState(categories[0]?.id ?? 0);
 
     useEffect(() => {
+        fetchData()
+    },[currentCategory])
+
+    const fetchData = async() => {
+        const userId = await getUserId();
         if(currentCategory){
-            service.getData('api/category/'+ currentCategory).then(response => {
+            service.getData('api/category/'+userId+'/'+ currentCategory).then(response => {
                 setProducts(
                     response.products.map(item => {
                         return {
@@ -30,8 +36,7 @@ const ProductList = ({ categories,isFilterOpen }) => {
                 );
             });
         }
-    },[currentCategory])
-
+    }
 
     const likeUnlike = async (product_id,like) => {
         const userId = JSON.parse(await AsyncStorage.getItem('user')).id;
