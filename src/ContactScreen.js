@@ -83,28 +83,24 @@ const CompanyLocation = () => {
         <ScrollView style={styles.container} ref={scrollViewRef}>
 
             {
-                companyContactInfo.map((item,index) => {
-                    if(currentLocation == index) {
-                        return (
-                            <MapView
-                                key={index}
-                                style={styles.map}
-                                initialRegion={{
-                                    latitude: item.location.latitude,
-                                    longitude: item.location.longitude,
-                                    latitudeDelta: 0.01,
-                                    longitudeDelta: 0.01,
-                                }}
-                            >
-                                <Marker
-                                    coordinate={item.location}
-                                    title={item.title}
-                                    description={item.address}
-                                />
-                            </MapView>
-                        )
-                    }
-                })
+                <MapView
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: companyContactInfo[currentLocation].location.latitude,
+                        longitude: companyContactInfo[currentLocation].location.longitude,
+                        latitudeDelta: 0.5,
+                        longitudeDelta: 0.5,
+                    }}
+                >
+                    {companyContactInfo.map((item, index) => (
+                        <Marker
+                            key={index}
+                            coordinate={companyContactInfo[currentLocation].location}
+                            title={companyContactInfo[currentLocation].title}
+                            description={companyContactInfo[currentLocation].address}
+                        />
+                    ))}
+                </MapView>
             }
 
             <View style={styles.flexContainer}>
@@ -121,7 +117,7 @@ const CompanyLocation = () => {
                 {
                     companyContactInfo.map((item,index) => {
                         return (
-                            <View style={styles.card}>
+                            <View style={styles.card} key={index}>
                                 <Text style={styles.title}>{item.title}</Text>
                                 <Text style={styles.contactInfoText}>Adres: {item.address}</Text>
                                 <Text style={styles.contactInfoText}>Telefon: {item.phone}</Text>

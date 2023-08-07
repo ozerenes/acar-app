@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Image, StyleSheet, Dimensions, ScrollView, Text, TouchableOpacity } from 'react-native';
+import {View, Image, StyleSheet, Dimensions, ScrollView, Text, TouchableOpacity, BackHandler} from 'react-native';
 import StoryComponent from "./components/Story";
 import PhotoSlider from '../src/components/PhotoSlider';
 import service from "./services/service";
@@ -27,6 +27,16 @@ function HomeScreen({ navigation }) {
 
     useEffect(() => {
         getSliderData();
+        const backAction = () => {
+            return true; // Returning true will prevent the back action
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+        );
+
+        return () => backHandler.remove();
     }, []);
 
     const featuredProducts = [
