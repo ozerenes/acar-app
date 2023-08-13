@@ -80,7 +80,7 @@ function HomeScreen({ navigation }) {
                 </ScrollView>
 
                 {/* "Ürünleri Gör" Butonu */}
-                <TouchableOpacity style={styles.customButton} onPress={() => navigation.navigate('ProductList')}>
+                <TouchableOpacity style={styles.customButton} onPress={() => navigation.navigate('Ürün Listesi')}>
                     <Text style={styles.customText}>Tüm Ürünleri Gör</Text>
                 </TouchableOpacity>
             </View>

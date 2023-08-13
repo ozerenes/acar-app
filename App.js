@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import { View, TouchableOpacity, Text,StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/LoginScreen';
 import RegisterScreen from './src/RegisterScreen';
@@ -15,6 +15,7 @@ import BasketScreen from "./src/BasketScreen";
 import NavigationService from "./src/services/navigationService";
 import categoryProductScreen from "./src/CategoryProductScreen";
 import CategoryProductScreen from "./src/CategoryProductScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Tab = createBottomTabNavigator();
 
 
@@ -40,6 +41,11 @@ function App() {
     },[]);
     const handleFilterToggle = () => {
         setFilterOpen(!isFilterOpen);
+    };
+
+    const logout = (navigation) => {
+        AsyncStorage.removeItem('user');
+        navigation.navigate('Giriş');
     };
 
     const Home2 = () => {
@@ -83,11 +89,20 @@ function App() {
                         ),
                         headerShown: true,
                         headerRight: () => (
-                            <CustomButton
-                                icon={"basket-outline"}
-                                onPress={() => navigation.navigate('Sepet')}
-                                title="Düğme"
-                            />
+                            <View style={styles.buttonArea}>
+                                <CustomButton style={styles.customButton}
+                                    icon={"basket-outline"}
+                                    onPress={() => navigation.navigate('Sepet')}
+                                    title="Düğme"
+                                />
+                                <CustomButton style={styles.customButton}
+                                    icon={"exit-outline"}
+                                    onPress={() => {
+                                        logout(navigation);
+                                    }}
+                                    title="Düğme"
+                                />
+                            </View>
                         ),
                     })}
                 />
@@ -101,11 +116,20 @@ function App() {
                         ),
                         headerShown: true,
                         headerRight: () => (
-                            <CustomButton
-                                icon={"basket-outline"}
-                                onPress={() => navigation.navigate('Sepet')}
-                                title="Düğme"
-                            />
+                            <View style={styles.buttonArea}>
+                                <CustomButton style={styles.customButton}
+                                              icon={"basket-outline"}
+                                              onPress={() => navigation.navigate('Sepet')}
+                                              title="Düğme"
+                                />
+                                <CustomButton style={styles.customButton}
+                                              icon={"exit-outline"}
+                                              onPress={() => {
+                                                  logout(navigation);
+                                              }}
+                                              title="Düğme"
+                                />
+                            </View>
                         ),
                     })}
                 />
@@ -125,6 +149,12 @@ function App() {
                                     onPress={() => navigation.navigate('Sepet')}
                                     title="Düğme"
                                 />
+                                <CustomButton style={styles.customButton}
+                                              icon={"exit-outline"}
+                                              onPress={() => {
+                                                  logout(navigation);
+                                              }}
+                                              title="Düğme"></CustomButton>
                             </View>
                         ),
                     })}
@@ -141,11 +171,20 @@ function App() {
                         ),
                         headerShown: true,
                         headerRight: () => (
-                            <CustomButton
-                                icon={"basket-outline"}
-                                onPress={() => navigation.navigate('Sepet')}
-                                title="Düğme"
-                            />
+                            <View style={styles.buttonArea}>
+                                <CustomButton style={styles.customButton}
+                                              icon={"basket-outline"}
+                                              onPress={() => navigation.navigate('Sepet')}
+                                              title="Düğme"
+                                />
+                                <CustomButton style={styles.customButton}
+                                              icon={"exit-outline"}
+                                              onPress={() => {
+                                                  logout(navigation);
+                                              }}
+                                              title="Düğme"
+                                />
+                            </View>
                         ),
                     })}
                 />
@@ -167,16 +206,29 @@ function App() {
                               options={({ navigation }) => ({
                                   headerShown: true,
                                   headerRight: () => (
-                                      <CustomButton
-                                          icon={"basket-outline"}
-                                          onPress={() => navigation.navigate('Sepet')}
-                                          title="Düğme"
-                                      />
+                                      <View style={styles.buttonArea}>
+                                          <CustomButton style={styles.customButton}
+                                                        icon={"basket-outline"}
+                                                        onPress={() => navigation.navigate('Sepet')}
+                                                        title="Düğme"
+                                          />
+                                          <CustomButton style={styles.customButton}
+                                                        icon={"exit-outline"}
+                                                        onPress={() => {
+                                                            logout(navigation);
+                                                        }}
+                                                        title="Düğme"
+                                          />
+                                      </View>
                                   ),
                               })}
                 />
                 <Stack.Screen name="Sepet" component={BasketScreen} />
-                <Stack.Screen name="CatPro" component={CategoryProductScreen} />
+                <Stack.Screen name="CatPro" component={CategoryProductScreen}
+                              options={({ route }) => ({
+                                  title: route.params.currentCategoryName, // Kategori adını başlık olarak ayarlayın
+                              })}
+                />
                 <Stack.Screen
                     name="Details2"
                     component={Home2}
@@ -207,7 +259,14 @@ const styles = StyleSheet.create({
     flex: {
         alignItems: "center",
         flexDirection: "row"
+    },
+    buttonArea : {
+        flexDirection: 'row',
+    },
+    customButton : {
+        flex:1,
     }
+
 });
 
 export default App;

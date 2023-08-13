@@ -13,6 +13,7 @@ const CategoryList = ({ categories }) => {
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('CatPro', {
                         currentCategory: item.id,
+                        currentCategoryName: item.name,
                     })
                 }}>
                     <Image source={{uri: item.image}} style={styles.productImage}/>

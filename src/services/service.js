@@ -21,7 +21,7 @@ const handleAuthenticationAndNavigation = async () => {
 
         if (typeof user !==  'object' ||  !user?.id) {
             console.log("navigateeeee");
-            NavigationService.navigate('Login');
+            NavigationService.navigate('Giriş');
             return false;
         }
 

@@ -28,7 +28,8 @@ const CategoryScreen = () => {
         <TouchableOpacity onPress={
             () => {
                 navigation.navigate('CatPro', {
-                    currentCategory: item.id
+                    currentCategory: item.id,
+                    currentCategoryName: item.name
                 })
             }
         } style={styles.categoryItem}>
