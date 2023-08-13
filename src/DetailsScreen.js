@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import service from "./services/service";
 import {getUserId} from "./services/userService";
+import Notification from "./components/Notification";
 
 function DetailsScreen({ navigation, route }) {
     const [product, setProduct] = useState({});
+    const [notificationVisible, setNotificationVisible] = useState(false);
 
-    const stripHtmlTags = (htmlString) => {
-        return htmlString.replace(/<[^>]+>/g, '');
+    const showNotification = () => {
+        setNotificationVisible(true);
+    };
+
+    const closeNotification = () => {
+        setNotificationVisible(false);
     };
 
     useEffect(() => {
@@ -16,28 +22,37 @@ function DetailsScreen({ navigation, route }) {
         });
     }, []);
     const addToCart =  async () => {
-        console.log("burdayım")
         const userId = await getUserId();
         service.getData(`api/add-to-cart-api/${userId}/${product.id}/1`).then((response) => {
-              console.log(response);
+            showNotification();
+            console.log(response)
         });
+        setTimeout(() => {
+            closeNotification();
+        },5000)
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <Image
-                source={{ uri: "https://www.acar.kodlanabilir.com/storage/products/thumbnails/" + product.picture }}
-                style={styles.productImage}
-            />
-            <View style={styles.detailsContainer}>
-                <Text style={styles.productName}>{product.name}</Text>
-                <Text style={styles.price}>{product.price} TL</Text>
-                <Text style={styles.description}>{product.description}</Text>
-            </View>
-            <TouchableOpacity onPress={() => { addToCart()  }} style={styles.addToCartButton}>
-                <Text style={styles.addToCartButtonText}>Sepete Ekle</Text>
-            </TouchableOpacity>
-        </ScrollView>
+        <>
+            {notificationVisible && (
+                <Notification message="Ürün sepete eklendi." onClose={closeNotification} />
+            )}
+            <ScrollView contentContainerStyle={styles.container}>
+                <Image
+                    source={{ uri: "https://www.acar.kodlanabilir.com/storage/products/thumbnails/" + product.picture }}
+                    style={styles.productImage}
+                />
+                <View style={styles.detailsContainer}>
+                    <Text style={styles.productName}>{product.name}</Text>
+                    <Text style={styles.price}>{product.price} TL</Text>
+                    <Text style={styles.description}>{product.description}</Text>
+                </View>
+                <TouchableOpacity onPress={() => { addToCart()  }} style={styles.addToCartButton}>
+                    <Text style={styles.addToCartButtonText}>Sepete Ekle</Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </>
+
     );
 }
 
@@ -63,7 +78,7 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#FABE00',
+        color: '#040404',
         marginBottom: 10,
     },
     description: {
@@ -72,7 +87,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     addToCartButton: {
-        backgroundColor: '#FABE00',
+        backgroundColor: '#ec1c3c',
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 4,

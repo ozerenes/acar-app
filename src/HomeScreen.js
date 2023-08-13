@@ -3,13 +3,13 @@ import {View, Image, StyleSheet, Dimensions, ScrollView, Text, TouchableOpacity,
 import StoryComponent from "./components/Story";
 import PhotoSlider from '../src/components/PhotoSlider';
 import service from "./services/service";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {getUserId} from "./services/userService";
+import Loading from "../src/components/Loading";
 
 function HomeScreen({ navigation }) {
     const [images, setImages] = useState([]);
     const [featuredProducts, setFeaturedProducts] = useState([]);
-
+    const [loadingStatus, setsLoadingStatus] = useState(false);
     const[stories,setStories] = useState([])
 
     const getSliderData = () => {
@@ -24,6 +24,7 @@ function HomeScreen({ navigation }) {
                     duration : 8
                 }
             }));
+            setsLoadingStatus(false)
         });
     }
 
@@ -42,6 +43,7 @@ function HomeScreen({ navigation }) {
 
 
     useEffect(() => {
+        setsLoadingStatus(true)
         fetchData();
         getSliderData();
         const backAction = () => {
@@ -57,41 +59,48 @@ function HomeScreen({ navigation }) {
     }, []);
 
     return (
-        <ScrollView style={styles.container}>
-            {/* Hikaye Bileşeni */}
-            <StoryComponent stories={stories} />
+        <>
 
-            {/* Öne Çıkan Ürünler */}
-            <View style={styles.featuredProductsContainer}>
-                <Text style={styles.featuredProductsTitle}>Öne Çıkan Ürünler</Text>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    {featuredProducts.map((product, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            style={styles.featuredProductCard}
-s                        >
-                            <Image
-                                source={{ uri: product.imageUrl }}
-                                style={styles.featuredProductImage}
-                                resizeMode="cover"
-                            />
-                            <Text style={styles.featuredProductName}>{product.name}</Text>
-                            <Text style={styles.featuredProductPrice}>{product.price} TL</Text>
+            {
+                loadingStatus ? <Loading/> :
+                    <ScrollView style={styles.container}>
+                    {/* Hikaye Bileşeni */}
+                    <StoryComponent stories={stories} />
+
+                    {/* Öne Çıkan Ürünler */}
+                    <View style={styles.featuredProductsContainer}>
+                        <Text style={styles.featuredProductsTitle}>Öne Çıkan Ürünler</Text>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                            {featuredProducts.map((product, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={styles.featuredProductCard}
+                                    s                        >
+                                    <Image
+                                        source={{ uri: product.imageUrl }}
+                                        style={styles.featuredProductImage}
+                                        resizeMode="cover"
+                                    />
+                                    <Text style={styles.featuredProductName}>{product.name}</Text>
+                                    <Text style={styles.featuredProductPrice}>{product.price} TL</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+
+                        {/* "Ürünleri Gör" Butonu */}
+                        <TouchableOpacity style={styles.customButton} onPress={() => navigation.navigate('Ürün Listesi')}>
+                            <Text style={styles.customText}>Ürünleri Gör</Text>
                         </TouchableOpacity>
-                    ))}
+                    </View>
+
+                    {/* Slider */}
+                    <View style={styles.sliderContainer}>
+                        <PhotoSlider images={images} slideDuration={12000} />
+                    </View>
                 </ScrollView>
 
-                {/* "Ürünleri Gör" Butonu */}
-                <TouchableOpacity style={styles.customButton} onPress={() => navigation.navigate('Ürün Listesi')}>
-                    <Text style={styles.customText}>Ürünleri Gör</Text>
-                </TouchableOpacity>
-            </View>
-
-            {/* Slider */}
-            <View style={styles.sliderContainer}>
-                <PhotoSlider images={images} slideDuration={12000} />
-            </View>
-        </ScrollView>
+            }
+        </>
     );
 }
 
