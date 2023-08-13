@@ -4,9 +4,11 @@ import StoryComponent from "./components/Story";
 import PhotoSlider from '../src/components/PhotoSlider';
 import service from "./services/service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {getUserId} from "./services/userService";
 
 function HomeScreen({ navigation }) {
     const [images, setImages] = useState([]);
+    const [featuredProducts, setFeaturedProducts] = useState([]);
 
     const[stories,setStories] = useState([])
 
@@ -25,7 +27,22 @@ function HomeScreen({ navigation }) {
         });
     }
 
+    const fetchData = async () => {
+        const userId = await getUserId();
+
+        service.getData('api/urunler/' + userId).then(response => {
+            setFeaturedProducts(response.products.map(item => ({
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                imageUrl: "https://www.acar.kodlanabilir.com/storage/products/thumbnails/" + item.picture,
+            })));s
+        });
+    }
+
+
     useEffect(() => {
+        fetchData();
         getSliderData();
         const backAction = () => {
             return true; // Returning true will prevent the back action
@@ -38,20 +55,6 @@ function HomeScreen({ navigation }) {
 
         return () => backHandler.remove();
     }, []);
-
-    const featuredProducts = [
-        {
-            imageUrl: 'https://images.pexels.com/photos/1239158/pexels-photo-1239158.jpeg',
-            name: 'Ürün Adı 1',
-            price: '$19.99',
-        },
-        {
-            imageUrl: 'https://images.pexels.com/photos/4566127/pexels-photo-4566127.jpeg',
-            name: 'Ürün Adı 2',
-            price: '$24.99',
-        },
-        // Diğer ürünler burada...
-    ];
 
     return (
         <ScrollView style={styles.container}>
@@ -66,28 +69,27 @@ function HomeScreen({ navigation }) {
                         <TouchableOpacity
                             key={index}
                             style={styles.featuredProductCard}
-                            onPress={() => navigation.navigate('ProductDetails', { productId: index + 1 })}
-                        >
+s                        >
                             <Image
                                 source={{ uri: product.imageUrl }}
                                 style={styles.featuredProductImage}
                                 resizeMode="cover"
                             />
                             <Text style={styles.featuredProductName}>{product.name}</Text>
-                            <Text style={styles.featuredProductPrice}>{product.price}</Text>
+                            <Text style={styles.featuredProductPrice}>{product.price} TL</Text>
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
 
                 {/* "Ürünleri Gör" Butonu */}
                 <TouchableOpacity style={styles.customButton} onPress={() => navigation.navigate('Ürün Listesi')}>
-                    <Text style={styles.customText}>Tüm Ürünleri Gör</Text>
+                    <Text style={styles.customText}>Ürünleri Gör</Text>
                 </TouchableOpacity>
             </View>
 
             {/* Slider */}
             <View style={styles.sliderContainer}>
-                <PhotoSlider images={images} slideDuration={4000} />
+                <PhotoSlider images={images} slideDuration={12000} />
             </View>
         </ScrollView>
     );
@@ -114,6 +116,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f0f0f0',
         borderRadius: 8,
         padding: 16,
+        paddingBottom: 0,
         marginRight: 16,
         width: 180,
     },

@@ -82,7 +82,7 @@ const StoryComponent = ({ stories }) => {
                         left: 0,
                         right: 0,
                         height: 5,
-                        backgroundColor: '#f48c9c',
+                        backgroundColor: '#ec1c3c',
                         width: (progress / (currentStory?.duration || DEFAULT_DURATION)) * 100 + '%',
                     }}
                 >
@@ -104,9 +104,8 @@ const StoryComponent = ({ stories }) => {
                                 setCurrentStoryIndex(currentStoryIndex === stories.length -1 ? 0 : (currentStoryIndex +1) );
                             }
 
-                        }}
-                        style={styles.modalBackground}>
-                        <Image   source={{ uri: currentStory?.imageUrl }} style={styles.modalImage} />
+                        }}>
+                        <Image  source={{ uri: currentStory?.imageUrl }} style={styles.modalImage} />
                     </TouchableOpacity>
 
                 </View>
@@ -124,13 +123,14 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 5,
+        padding: 5,
         marginHorizontal: 5,
         overflow: 'hidden',
         borderWidth: 2,
         borderColor: '#A0A0A0',
     },
     activeThumbnail: {
-        borderColor: '#cf7381',
+        borderColor: '#ec1c3c',
     },
     thumbnailImage: {
         width: '100%',

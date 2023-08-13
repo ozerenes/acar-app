@@ -18,7 +18,7 @@ const PhotoSlider = ({ images }) => {
                 setCurrentIndex(0);
                 scrollViewRef.current.scrollTo({ x: 0, animated: true });
             }
-        }, 1000);
+        }, 3333);
 
         return () => clearInterval(timer);
     }, [currentIndex, images]);
@@ -44,7 +44,8 @@ const PhotoSlider = ({ images }) => {
 
 const styles = StyleSheet.create({
     container: {
-        margin: 15
+        margin: 15,
+        marginTop: 0
     },
     slide: {
         width: Dimensions.get('window').width,
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     image: {
-        width: Dimensions.get('window').width - 50,
+        width: Dimensions.get('window').width,
         height: 200,
     },
 });

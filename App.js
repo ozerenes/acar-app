@@ -15,18 +15,44 @@ import BasketScreen from "./src/BasketScreen";
 import NavigationService from "./src/services/navigationService";
 import categoryProductScreen from "./src/CategoryProductScreen";
 import CategoryProductScreen from "./src/CategoryProductScreen";
+import {getUserId} from "./src/services/userService";
+import service from "./src/services/service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const Tab = createBottomTabNavigator();
 
 
 const Stack = createStackNavigator();
 
-const CustomButton = ({ onPress, icon }) => {
+const CustomButton = ({ onPress, icon ,count }) => {
     return (
         <TouchableOpacity onPress={onPress}>
-            <View style={{ marginRight: 10 }}>
-                <Icon name={icon} color={"#040404"} size={40} />
-            </View>
+                {
+                    count ?             <View style={{ marginRight: 10 }}>
+                        <View style={{
+                            position: 'absolute',
+                            backgroundColor: "red",
+                            borderRadius: 999, // Yuvarlak yapmak için büyük bir değer kullanıyoruz
+                            justifyContent: 'center', // İçeriği yatay ve dikey olarak ortala
+                            alignItems: 'center',
+                            width: 20,
+                            height: 20,
+                            top: -5, // Konumu ayarla
+                            right: -5,
+                            zIndex: 99,
+                        }}>
+                            <Text style={{
+                                color: "white",
+                                fontSize: 12,
+                            }}>{count}</Text>
+                        </View>
+                        <Icon name={icon} color={"#040404"} size={40} />
+                    </View>
+                    :
+                        <View style={{ marginRight: 10 }}>
+            <Icon name={icon} color={"#040404"} size={40} />
+        </View>
+                }
+
         </TouchableOpacity>
     );
 };
@@ -34,10 +60,20 @@ function App() {
     const isLoggedIn = false; // Bu değişkeni giriş kontrolü sonucunda true/false olarak ayarlayın.
     const navigatorRef = React.useRef();
     const [isFilterOpen, setFilterOpen] = useState(false);
+    const [count, setCount] = useState(false);
+
+
+    const fetchData = async () => {
+        const userId = await getUserId();
+        service.getData(`api/cart-api/${userId}`).then((response) => {
+            setCount(response.length);
+        });
+    }
 
 
     useEffect(() => {
         NavigationService.setTopLevelNavigator(navigatorRef.current);
+        fetchData();
     },[]);
     const handleFilterToggle = () => {
         setFilterOpen(!isFilterOpen);
@@ -93,7 +129,7 @@ function App() {
                                 <CustomButton style={styles.customButton}
                                     icon={"basket-outline"}
                                     onPress={() => navigation.navigate('Sepet')}
-                                    title="Düğme"
+                                    count={count}
                                 />
                                 <CustomButton style={styles.customButton}
                                     icon={"exit-outline"}
@@ -120,7 +156,7 @@ function App() {
                                 <CustomButton style={styles.customButton}
                                               icon={"basket-outline"}
                                               onPress={() => navigation.navigate('Sepet')}
-                                              title="Düğme"
+                                              count={count}
                                 />
                                 <CustomButton style={styles.customButton}
                                               icon={"exit-outline"}
@@ -147,7 +183,7 @@ function App() {
                                 </CustomButton>
                                 <CustomButton icon={"basket-outline"}
                                     onPress={() => navigation.navigate('Sepet')}
-                                    title="Düğme"
+                                    count={count}
                                 />
                                 <CustomButton style={styles.customButton}
                                               icon={"exit-outline"}
@@ -175,7 +211,7 @@ function App() {
                                 <CustomButton style={styles.customButton}
                                               icon={"basket-outline"}
                                               onPress={() => navigation.navigate('Sepet')}
-                                              title="Düğme"
+                                              count={count}
                                 />
                                 <CustomButton style={styles.customButton}
                                               icon={"exit-outline"}
@@ -196,7 +232,6 @@ function App() {
 
     return (
         <>
-
         <NavigationContainer ref={navigatorRef}>
 
             <Stack.Navigator>
@@ -210,7 +245,7 @@ function App() {
                                           <CustomButton style={styles.customButton}
                                                         icon={"basket-outline"}
                                                         onPress={() => navigation.navigate('Sepet')}
-                                                        title="Düğme"
+                                                        count={count}
                                           />
                                           <CustomButton style={styles.customButton}
                                                         icon={"exit-outline"}
