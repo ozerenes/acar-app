@@ -1,8 +1,10 @@
 import React, {useEffect, useState,useRef} from 'react';
-import {View, Text, StyleSheet, Button, TouchableOpacity,ScrollView, Linking} from 'react-native';
+import {View, Text, StyleSheet, Button, TouchableOpacity,ScrollView, Linking,Dimensions} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import service from "./services/service";
 import Icon from "react-native-vector-icons/Ionicons";
+import WebView from 'react-native-webview';
+
 
 const CompanyLocation = () => {
     // Şirketin konumu (enlem ve boylam değerleri)
@@ -13,6 +15,7 @@ const CompanyLocation = () => {
     useEffect(() => {
         service.getData('api/store').then( (response) => {
              setInfo(response.data)
+             setCurrentLocation(0);
         });
     },[])
 
@@ -31,7 +34,8 @@ const CompanyLocation = () => {
             location: {
                 latitude: 41.01513555405315,
                 longitude: 28.967504267999328
-            }
+            },
+            iframe : '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3010.4717858656145!2d28.964940075947553!3d41.01493317134959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab993201be31f%3A0x9e8282e06a3af2b!2zTWVyY2FuLCBVenVuIMOHYXLFn8SxIENkLiBObzoxMjYgRDoxLCAzNDExNiBGYXRpaC_EsHN0YW5idWw!5e0!3m2!1str!2str!4v1691960899389!5m2!1str!2str" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
         },
         {
             title: info.store_long_name,
@@ -41,7 +45,8 @@ const CompanyLocation = () => {
             location: {
                 latitude: 41.01513555405315,
                 longitude: 28.967504267999328
-            }
+            },
+            iframe: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12372.101807515328!2d28.793568667934462!3d41.05924613641787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa57a0b1b6ebf%3A0x80ec77fba8f89ff9!2zQXLEsSBLxLFydGFzaXllIFNhbmF5aSB2ZSBExLHFnyBUaWNhcmV0IExpbWl0ZWQgxZ5pcmtldGk!5e0!3m2!1str!2str!4v1691960989334!5m2!1str!2str" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
         },
         {
             title: info.store_long_name,
@@ -51,7 +56,8 @@ const CompanyLocation = () => {
             location: {
                 latitude: 41.157767315348416,
                 longitude: 28.642693810335047
-            }
+            },
+            iframe: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3003.9410305188508!2d28.640151075954925!3d41.15763807132999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14b557b2442fb20f%3A0xf95f50ff769cc3aa!2zU2F6bMSxYm9zbmEsIEhhcmHDp8OnxLEtSGFkxLFta8O2eSBZb2x1IENkLiBObzoyLCAzNDU1NSBBcm5hdnV0a8O2eS_EsHN0YW5idWw!5e0!3m2!1str!2str!4v1691961034380!5m2!1str!2str" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
         },
     ];
 
@@ -83,24 +89,12 @@ const CompanyLocation = () => {
         <ScrollView style={styles.container} ref={scrollViewRef}>
 
             {
-                <MapView
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: companyContactInfo[currentLocation].location.latitude,
-                        longitude: companyContactInfo[currentLocation].location.longitude,
-                        latitudeDelta: 0.5,
-                        longitudeDelta: 0.5,
-                    }}
-                >
-                    {companyContactInfo.map((item, index) => (
-                        <Marker
-                            key={index}
-                            coordinate={companyContactInfo[currentLocation].location}
-                            title={companyContactInfo[currentLocation].title}
-                            description={companyContactInfo[currentLocation].address}
-                        />
-                    ))}
-                </MapView>
+                <View style={styles.webviewContainer}>
+                    <WebView
+                        source={{ html: companyContactInfo[currentLocation].iframe }}
+                        style={styles.webview}
+                    />
+                </View>
             }
 
             <View style={styles.flexContainer}>
@@ -206,6 +200,14 @@ const styles = StyleSheet.create({
         height: 40,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    webview: {
+        flex: 1,
+        width: '100%',
+        height: 188,
+    },
+    webviewContainer: {
+        flex: 1
     }
 });
 
