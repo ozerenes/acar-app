@@ -13,38 +13,26 @@ function HomeScreen({ navigation }) {
     const[stories,setStories] = useState([])
 
     const getSliderData = () => {
-        service.getData('api/sliders-api').then(response => {
+        service.getData('api/home').then(response => {
             setImages(response.sliders.map(item => "https://www.acar.kodlanabilir.com/storage/sliders/" + item.picture));
-        });
-
-        service.getData('api/storys-api').then(response => {
-            setStories(response.sliders.map(item => {
+            setStories(response.storys.map(item => {
                 return {
                     imageUrl: "https://www.acar.kodlanabilir.com/storage/storys/" + item.picture,
                     duration : 8
                 }
             }));
-            setsLoadingStatus(false)
-        });
-    }
-
-    const fetchData = async () => {
-        const userId = await getUserId();
-
-        service.getData('api/urunler/' + userId).then(response => {
             setFeaturedProducts(response.products.map(item => ({
                 id: item.id,
                 name: item.name,
                 price: item.price,
                 imageUrl: "https://www.acar.kodlanabilir.com/storage/products/thumbnails/" + item.picture,
-            })));s
+            })));
+            setsLoadingStatus(false)
         });
     }
 
-
     useEffect(() => {
         setsLoadingStatus(true)
-        fetchData();
         getSliderData();
         const backAction = () => {
             return true; // Returning true will prevent the back action
@@ -75,7 +63,11 @@ function HomeScreen({ navigation }) {
                                 <TouchableOpacity
                                     key={index}
                                     style={styles.featuredProductCard}
-                                    s                        >
+                                    s onPress={() => {
+                                    navigation.navigate('Detaylar', {
+                                        itemId: product.id
+                                    })
+                                }}                        >
                                     <Image
                                         source={{ uri: product.imageUrl }}
                                         style={styles.featuredProductImage}
