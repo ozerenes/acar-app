@@ -3,17 +3,20 @@ import { View, StyleSheet, FlatList, Image, TouchableOpacity, Text } from 'react
 import service from "./services/service";
 import { getUserId } from "./services/userService";
 import {useNavigation} from "@react-navigation/native";
+import Loading from "../src/components/Loading";
 
 const CategoryScreen = () => {
     const navigation =useNavigation()
 
     const [categories, setCategories] = useState([]);
+    const [loadingStatus, setLoadingStatus] = useState(false);
 
     useEffect(() => {
         fetchData();
     }, []);
 
     const fetchData = async () => {
+        setLoadingStatus(true)
         const userId = await getUserId();
         service.getData('api/urunler/' + userId).then(response => {
             setCategories(response.categories.map(item => ({
@@ -21,6 +24,7 @@ const CategoryScreen = () => {
                 name: item.name,
                 image: "https://www.acar.kodlanabilir.com/storage/categories/" + item.picture,
             })));
+            setLoadingStatus(false)
         });
     }
 
@@ -40,13 +44,18 @@ const CategoryScreen = () => {
 
     return (
         <View style={styles.container}>
-            <FlatList
-                data={categories}
-                renderItem={renderCategoryItem}
-                keyExtractor={(item) => item.id.toString()}
-                contentContainerStyle={styles.listContainer}
-                numColumns={2}
-            />
+            {
+                loadingStatus ? <Loading/> :
+                    <FlatList
+                        data={categories}
+                        renderItem={renderCategoryItem}
+                        keyExtractor={(item) => item.id.toString()}
+                        contentContainerStyle={styles.listContainer}
+                        numColumns={2}
+                    />
+            }
+
+
         </View>
     );
 };

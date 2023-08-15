@@ -3,10 +3,21 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getUserId } from "./services/userService";
 import service from "./services/service";
+import Notification from "../src/components/Notification";
+import Loading from "../src/components/Loading";
+
 
 const ShoppingCart = () => {
     const [cartItems, setCartItems] = useState([]);
+    const [notificationVisible, setNotificationVisible] = useState(false);
 
+    const showNotification = () => {
+        setNotificationVisible(true);
+    };
+
+    const closeNotification = () => {
+        setNotificationVisible(false);
+    };
     useEffect(() => {
         fetchData();
     }, []);
@@ -24,8 +35,12 @@ const ShoppingCart = () => {
             if (response === 'OK') {
                 const updatedCart = cartItems.filter((item) => item.id !== itemId);
                 setCartItems(updatedCart);
+                showNotification();
             }
         });
+        setTimeout(() => {
+            closeNotification();
+        },5000)
     };
 
     const renderItem = ({ item }) => (
@@ -40,6 +55,9 @@ const ShoppingCart = () => {
 
     return (
         <View style={styles.container}>
+            {notificationVisible && (
+                <Notification message="Ürün sepeten silindi." onClose={closeNotification} />
+            )}
             <Text style={styles.title}>Sepet Listesi</Text>
             {cartItems.length > 0 ? (
                 <FlatList
@@ -48,7 +66,7 @@ const ShoppingCart = () => {
                     keyExtractor={(item) => item.id.toString()}
                 />
             ) : (
-                <Text style={styles.emptyText}>Sepetiniz boş.</Text>
+                <Loading/>
             )}
         </View>
     );

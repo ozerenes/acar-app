@@ -3,11 +3,12 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import ProductList from './components/ProductList';
 import service from "./services/service";
 import { getUserId } from "./services/userService";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import Loading from "../src/components/Loading";
 
 const ProductsScreen = ({ isFilterOpen }) => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [loadingStatus, setLoadingStatus] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -15,7 +16,7 @@ const ProductsScreen = ({ isFilterOpen }) => {
 
     const fetchData = async () => {
         const userId = await getUserId();
-
+        setLoadingStatus(true)
         service.getData('api/urunler/' + userId).then(response => {
             setProducts(response.products.map(item => ({
                 id: item.id,
@@ -28,12 +29,17 @@ const ProductsScreen = ({ isFilterOpen }) => {
                 name: item.name,
                 image: "https://www.acar.kodlanabilir.com/storage/products/thumbnails/" + item.picture,
             })));
+            setLoadingStatus(false)
         });
     }
 
     return (
         <View style={styles.container}>
-            <ProductList isFilterOpen={isFilterOpen} products={products} categories={categories} />
+            {
+                loadingStatus ? <Loading/> :
+                    <ProductList isFilterOpen={isFilterOpen} products={products} categories={categories} />
+
+            }
         </View>
     );
 };
