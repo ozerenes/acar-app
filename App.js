@@ -18,6 +18,7 @@ import CategoryProductScreen from "./src/CategoryProductScreen";
 import {getUserId} from "./src/services/userService";
 import service from "./src/services/service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import OrderScreen from "./src/OrderScreen";
 const Tab = createBottomTabNavigator();
 
 
@@ -197,6 +198,33 @@ function App() {
                 >
                     {() => <ProductsScreen isFilterOpen={isFilterOpen} />}
                 </Tab.Screen>
+
+                <Tab.Screen
+                    name="Sipariş Listesi"
+                    component={OrderScreen}
+                    options={({ navigation }) => ({
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon name="medkit-outline" color={color} size={size} />
+                        ),
+                        headerShown: true,
+                        headerRight: () => (
+                            <View style={styles.buttonArea}>
+                                <CustomButton style={styles.customButton}
+                                              icon={"basket-outline"}
+                                              onPress={() => navigation.navigate('Sepet')}
+                                              count={count}
+                                />
+                                <CustomButton style={styles.customButton}
+                                              icon={"exit-outline"}
+                                              onPress={() => {
+                                                  logout(navigation);
+                                              }}
+                                              title="Düğme"
+                                />
+                            </View>
+                        ),
+                    })}
+                />
 
                 <Tab.Screen
                     name="İletişim"

@@ -25,7 +25,6 @@ function DetailsScreen({ navigation, route }) {
         const userId = await getUserId();
         service.getData(`api/add-to-cart-api/${userId}/${product.id}/1`).then((response) => {
             showNotification();
-            console.log(response)
         });
         setTimeout(() => {
             closeNotification();
@@ -47,8 +46,12 @@ function DetailsScreen({ navigation, route }) {
                     <Text style={styles.price}>{product.price} TL</Text>
                     <Text style={styles.description}>{product.description}</Text>
                 </View>
-                <TouchableOpacity onPress={() => { addToCart()  }} style={styles.addToCartButton}>
-                    <Text style={styles.addToCartButtonText}>Sepete Ekle</Text>
+                <TouchableOpacity onPress={() => {
+                    if(product.stock > 0){
+                        addToCart()
+                    }
+                }} style={[styles.addToCartButton,product.stock < 1 && styles.opac]}>
+                    <Text style={styles.addToCartButtonText}>{product.stock < 1 ? "Ürün Yok" : "Sepete Ekle"}</Text>
                 </TouchableOpacity>
             </ScrollView>
         </>
@@ -111,6 +114,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
+    opac:{
+        opacity: 0.4
+    }
 });
 
 export default DetailsScreen;

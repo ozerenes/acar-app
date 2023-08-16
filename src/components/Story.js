@@ -90,20 +90,15 @@ const StoryComponent = ({ stories }) => {
             </TouchableOpacity>
             <Modal visible={showModal} transparent={true} onRequestClose={handleModalClose}>
                 <View style={styles.modalContainer}>
-                    <TouchableOpacity  style={styles.modalBackground} onPress={handleModalClose} />
                     <TouchableOpacity style= {styles.modalBackground}
                         onPress={(e) => {
                             const x = e.nativeEvent.pageX;
-                            console.log(SCREEN_WIDTH)
                             if(x < SCREEN_WIDTH/2) {
-                                console.log("geri");
                                setCurrentStoryIndex(currentStoryIndex === 0 ? (stories.length -1) : (currentStoryIndex -1) );
                             }
                             else {
-                                console.log("ileri");
                                 setCurrentStoryIndex(currentStoryIndex === stories.length -1 ? 0 : (currentStoryIndex +1) );
                             }
-
                         }}>
                         <Image  source={{ uri: currentStory?.imageUrl }} style={styles.modalImage} />
                     </TouchableOpacity>
@@ -144,12 +139,11 @@ const styles = StyleSheet.create({
     },
     modalBackground: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        backgroundColor: 'rgb(255,255,255)',
     },
     modalImage: {
-        left:'5%',
-        width: '90%',
-        height: '50%',
+        width: '100%',
+        height: '100%',
         resizeMode: 'contain',
     },
 });
