@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, FlatList, StyleSheet, ScrollView } from 'react-native';
+import {useNavigation} from "@react-navigation/native";
 
 const Filter = ({ onSearch, onSort, selectedSort }) => {
     const [searchText, setSearchText] = useState('');
@@ -15,25 +16,7 @@ const Filter = ({ onSearch, onSort, selectedSort }) => {
 
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.searchInput}
-                placeholder="Ara..."
-                value={searchText}
-                onChangeText={handleInputChange}
-            />
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <TouchableOpacity
-                    style={[styles.sortOption, selectedSort === 'price_low_to_high' && styles.selectedOption]}
-                    onPress={() => handleSortChange('price_low_to_high')}
-                >
-                    <Text style={[styles.sortOptionText, selectedSort === 'price_low_to_high' && styles.selectedText]}>Fiyat: Azdan Çoka</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.sortOption, selectedSort === 'price_high_to_low' && styles.selectedOption]}
-                    onPress={() => handleSortChange('price_high_to_low')}
-                >
-                    <Text style={[styles.sortOptionText, selectedSort === 'price_high_to_low' && styles.selectedText]}>Fiyat: Çoktan Aza</Text>
-                </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.sortOption, selectedSort === 'name_asc' && styles.selectedOption]}
                     onPress={() => handleSortChange('name_asc')}
@@ -46,23 +29,49 @@ const Filter = ({ onSearch, onSort, selectedSort }) => {
                 >
                     <Text style={[styles.sortOptionText, selectedSort === 'name_desc' && styles.selectedText]}>İsim: Z den A ya</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.sortOption, selectedSort === 'price_low_to_high' && styles.selectedOption]}
+                    onPress={() => handleSortChange('price_low_to_high')}
+                >
+                    <Text style={[styles.sortOptionText, selectedSort === 'price_low_to_high' && styles.selectedText]}>Fiyat: Azdan Çoka</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.sortOption, selectedSort === 'price_high_to_low' && styles.selectedOption]}
+                    onPress={() => handleSortChange('price_high_to_low')}
+                >
+                    <Text style={[styles.sortOptionText, selectedSort === 'price_high_to_low' && styles.selectedText]}>Fiyat: Çoktan Aza</Text>
+                </TouchableOpacity>
             </ScrollView>
+            <TextInput
+                style={styles.searchInput}
+                placeholder="Ara..."
+                value={searchText}
+                onChangeText={handleInputChange}
+            />
         </View>
     );
 };
 
-const Item = ({ title }) => (
-    <Text style={styles.item}>{title}</Text>
-);
-
 const FilterComponent = ({ data }) => {
-    const [searchedText, setSearchedText] = useState('');
     const [sortedData, setSortedData] = useState(data);
-    const [selectedSort, setSelectedSort] = useState(null);
-
+    const [selectedSort, setSelectedSort] = useState("name_asc");
+    const navigation = useNavigation(); // Move the useNavigation hook here
+    const listRenderItem = ( item ) => {
+        return (
+            <TouchableOpacity
+                style={styles.itemContainer}
+                onPress={() => {
+                    navigation.navigate('Detaylar', {
+                        itemId: item.id,
+                    })
+                }}>
+                <Text style={styles.itemText}>
+                    {item.name + "  (" + item.price + "TL)"}
+                </Text>
+            </TouchableOpacity>
+        )
+    };
     const handleSearch = (text) => {
-        setSearchedText(text);
-        // Perform filtering logic here based on 'text'
         const filteredData = data.filter((item) =>
             item.name.toLowerCase().includes(text.toLowerCase())
         );
@@ -99,7 +108,7 @@ const FilterComponent = ({ data }) => {
             <FlatList
                 data={sortedData}
                 keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <Item title={item.name} />}
+                renderItem={({ item }) => listRenderItem(item)}
             />
         </>
     );
@@ -116,11 +125,21 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 8,
         marginBottom: 10,
+        marginTop: 10
     },
     sortContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
+    },
+    itemContainer: {
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+    },
+    itemText: {
+        fontSize: 16,
     },
     sortOption: {
         paddingVertical: 6,

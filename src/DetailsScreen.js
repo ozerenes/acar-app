@@ -44,7 +44,6 @@ function DetailsScreen({ navigation, route }) {
                 <View style={styles.detailsContainer}>
                     <Text style={styles.productName}>{product.name}</Text>
                     <Text style={styles.price}>{product.price} TL</Text>
-                    <Text style={styles.description}>{product.description}</Text>
                 </View>
                 <TouchableOpacity onPress={() => {
                     if(product.stock > 0){

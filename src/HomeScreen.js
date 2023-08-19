@@ -63,11 +63,11 @@ function HomeScreen({ navigation }) {
                                 <TouchableOpacity
                                     key={index}
                                     style={styles.featuredProductCard}
-                                    s onPress={() => {
+                                    onPress={() => {
                                     navigation.navigate('Detaylar', {
                                         itemId: product.id
                                     })
-                                }}                        >
+                                }} >
                                     <Image
                                         source={{ uri: product.imageUrl }}
                                         style={styles.featuredProductImage}

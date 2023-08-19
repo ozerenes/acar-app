@@ -10,6 +10,7 @@ import Loading from "../src/components/Loading";
 const ShoppingCart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [notificationVisible, setNotificationVisible] = useState(false);
+    const [notificatioonForOrder, setNotificatioonForOrder] = useState(false);
 
     const showNotification = () => {
         setNotificationVisible(true);
@@ -53,21 +54,35 @@ const ShoppingCart = () => {
         </View>
     );
 
+    const payment = async () => {
+            const userId = await getUserId();
+            service.postData('api/payment',{
+                "userid":userId
+            }).then(response => {
+                setNotificatioonForOrder(true)
+            });
+        }
+
     return (
         <View style={styles.container}>
             {notificationVisible && (
                 <Notification message="Ürün sepeten silindi." onClose={closeNotification} />
             )}
+            {notificatioonForOrder && (
+                <Notification message="Sipariş Verildi" onClose={closeNotification} />
+            )}
             <Text style={styles.title}>Sepet Listesi</Text>
-            {cartItems.length > 0 ? (
                 <FlatList
                     data={cartItems}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id.toString()}
                 />
-            ) : (
-                <Loading/>
-            )}
+
+            <TouchableOpacity onPress={payment} style={styles.filterButton}>
+                <Icon name={"card-outline"} color={"#fff"} size={30} />
+                <Text style={styles.filterButtonText}>Sipariş Ver</Text>
+            </TouchableOpacity>
+
         </View>
     );
 };
@@ -104,6 +119,18 @@ const styles = StyleSheet.create({
     emptyText: {
         fontSize: 18,
         textAlign: 'center',
+    },
+    filterButton: {
+        backgroundColor: '#ec1c3c',
+        padding: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    filterButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        marginLeft: 15
     },
 });
 

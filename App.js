@@ -12,6 +12,7 @@ import ProductsScreen from './src/ProductsScreen';
 import CategoryScreen from "./src/CategoryScreen";
 import DetailsScreen from "./src/DetailsScreen";
 import BasketScreen from "./src/BasketScreen";
+import CustomButton from "./src/components/CustomButton";
 import NavigationService from "./src/services/navigationService";
 import categoryProductScreen from "./src/CategoryProductScreen";
 import CategoryProductScreen from "./src/CategoryProductScreen";
@@ -24,39 +25,7 @@ const Tab = createBottomTabNavigator();
 
 const Stack = createStackNavigator();
 
-const CustomButton = ({ onPress, icon ,count }) => {
-    return (
-        <TouchableOpacity onPress={onPress}>
-                {
-                    count ?             <View style={{ marginRight: 10 }}>
-                        <View style={{
-                            position: 'absolute',
-                            backgroundColor: "red",
-                            borderRadius: 999, // Yuvarlak yapmak için büyük bir değer kullanıyoruz
-                            justifyContent: 'center', // İçeriği yatay ve dikey olarak ortala
-                            alignItems: 'center',
-                            width: 20,
-                            height: 20,
-                            top: -5, // Konumu ayarla
-                            right: -5,
-                            zIndex: 99,
-                        }}>
-                            <Text style={{
-                                color: "white",
-                                fontSize: 12,
-                            }}>{count}</Text>
-                        </View>
-                        <Icon name={icon} color={"#040404"} size={40} />
-                    </View>
-                    :
-                        <View style={{ marginRight: 10 }}>
-            <Icon name={icon} color={"#040404"} size={40} />
-        </View>
-                }
 
-        </TouchableOpacity>
-    );
-};
 function App() {
     const isLoggedIn = false; // Bu değişkeni giriş kontrolü sonucunda true/false olarak ayarlayın.
     const navigatorRef = React.useRef();
@@ -76,9 +45,6 @@ function App() {
         NavigationService.setTopLevelNavigator(navigatorRef.current);
         fetchData();
     },[]);
-    const handleFilterToggle = () => {
-        setFilterOpen(!isFilterOpen);
-    };
 
     const logout = (navigation) => {
         AsyncStorage.removeItem('user');
@@ -173,6 +139,7 @@ function App() {
 
                 <Tab.Screen
                     name="Ürün Listesi"
+                    component={ProductsScreen}
                     options={({ navigation }) => ({
                         tabBarIcon: ({ color, size }) => (
                             <Icon name="grid-outline" color={color} size={size} />
@@ -180,8 +147,6 @@ function App() {
                         headerShown: true,
                         headerRight: () => (
                             <View style={styles.flex}>
-                                <CustomButton icon={"filter-outline"} style={styles.filterButton} onPress={handleFilterToggle}>
-                                </CustomButton>
                                 <CustomButton icon={"basket-outline"}
                                     onPress={() => navigation.navigate('Sepet')}
                                     count={count}
@@ -196,35 +161,34 @@ function App() {
                         ),
                     })}
                 >
-                    {() => <ProductsScreen isFilterOpen={isFilterOpen} />}
                 </Tab.Screen>
 
-                <Tab.Screen
-                    name="Sipariş Listesi"
-                    component={OrderScreen}
-                    options={({ navigation }) => ({
-                        tabBarIcon: ({ color, size }) => (
-                            <Icon name="medkit-outline" color={color} size={size} />
-                        ),
-                        headerShown: true,
-                        headerRight: () => (
-                            <View style={styles.buttonArea}>
-                                <CustomButton style={styles.customButton}
-                                              icon={"basket-outline"}
-                                              onPress={() => navigation.navigate('Sepet')}
-                                              count={count}
-                                />
-                                <CustomButton style={styles.customButton}
-                                              icon={"exit-outline"}
-                                              onPress={() => {
-                                                  logout(navigation);
-                                              }}
-                                              title="Düğme"
-                                />
-                            </View>
-                        ),
-                    })}
-                />
+                {/*<Tab.Screen*/}
+                {/*    name="Sipariş Listesi"*/}
+                {/*    component={OrderScreen}*/}
+                {/*    options={({ navigation }) => ({*/}
+                {/*        tabBarIcon: ({ color, size }) => (*/}
+                {/*            <Icon name="file-tray-full-outline" color={color} size={size} />*/}
+                {/*        ),*/}
+                {/*        headerShown: true,*/}
+                {/*        headerRight: () => (*/}
+                {/*            <View style={styles.buttonArea}>*/}
+                {/*                <CustomButton style={styles.customButton}*/}
+                {/*                              icon={"basket-outline"}*/}
+                {/*                              onPress={() => navigation.navigate('Sepet')}*/}
+                {/*                              count={count}*/}
+                {/*                />*/}
+                {/*                <CustomButton style={styles.customButton}*/}
+                {/*                              icon={"exit-outline"}*/}
+                {/*                              onPress={() => {*/}
+                {/*                                  logout(navigation);*/}
+                {/*                              }}*/}
+                {/*                              title="Düğme"*/}
+                {/*                />*/}
+                {/*            </View>*/}
+                {/*        ),*/}
+                {/*    })}*/}
+                {/*/>*/}
 
                 <Tab.Screen
                     name="İletişim"

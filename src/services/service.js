@@ -68,7 +68,6 @@ service.interceptors.request.use(
 
 service.getData = async (url,params = []) => {
     try {
-        console.log("get data");
         let parameter = []
 
         Object.keys(params).map((param) => {

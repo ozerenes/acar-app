@@ -102,15 +102,18 @@ const ProductList = ({ categories, isFilterOpen }) => {
     return (
         <View>
             <TextSlider categories={categories} setCurrentCategory={setCurrentCategory} />
-            {isFilterOpen && <FilterComponent data={products} />}
-            <FlatList
-                style={{ marginTop: 15 }}
-                data={products}
-                renderItem={renderProductItem}
-                keyExtractor={(item) => item.id.toString()}
-                contentContainerStyle={styles.container}
-                numColumns={2} // İki elemanı yan yana sıralamak için numColumns'u 2 olarak ayarlayın
-            />
+            {
+                isFilterOpen ? <FilterComponent data={products} setCurrentCategory={setCurrentCategory} /> :
+                <FlatList
+                    style={{ marginTop: 15 }}
+                    data={products}
+                    renderItem={renderProductItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    contentContainerStyle={styles.container}
+                    numColumns={2} // İki elemanı yan yana sıralamak için numColumns'u 2 olarak ayarlayın
+                />
+            }
+
         </View>
 
     );

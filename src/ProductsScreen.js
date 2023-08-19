@@ -4,11 +4,14 @@ import ProductList from './components/ProductList';
 import service from "./services/service";
 import { getUserId } from "./services/userService";
 import Loading from "../src/components/Loading";
+import Icon from "react-native-vector-icons/Ionicons";
 
-const ProductsScreen = ({ isFilterOpen }) => {
+const ProductsScreen = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loadingStatus, setLoadingStatus] = useState(false);
+    const [isFilterOpen, setFilterOpen] = useState(false);
+
 
     useEffect(() => {
         fetchData();
@@ -33,8 +36,17 @@ const ProductsScreen = ({ isFilterOpen }) => {
         });
     }
 
+
+    const handleFilterToggle = () => {
+        setFilterOpen(!isFilterOpen);
+    };
+
     return (
         <View style={styles.container}>
+            <TouchableOpacity onPress={handleFilterToggle} style={styles.filterButton}>
+                            <Icon name={"filter-outline"} color={"#fff"} size={30} />
+                            <Text style={styles.filterButtonText}>Filtrele</Text>
+            </TouchableOpacity>
             {
                 loadingStatus ? <Loading/> :
                     <ProductList isFilterOpen={isFilterOpen} products={products} categories={categories} />
@@ -55,13 +67,15 @@ const styles = StyleSheet.create({
     },
     filterButton: {
         backgroundColor: '#ec1c3c',
-        padding: 12,
-        borderRadius: 8,
-        alignSelf: 'flex-end',
+        padding: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
     },
     filterButtonText: {
         color: '#fff',
         fontWeight: 'bold',
+        marginLeft: 15
     },
 });
 

@@ -14,9 +14,11 @@ const OrderScreen = ({ isFilterOpen }) => {
 
     const fetchData = async () => {
         const userId = await getUserId();
-        service.getData('api/payments/' + userId).then(response => {
-            console.log(response)
+        service.postData('api/payment',{
+            "userid":userId
+        }).then(response => {
             console.log("geldi")
+            console.log(response)
         });
     }
 
