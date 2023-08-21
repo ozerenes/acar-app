@@ -1,38 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect, useState,useCallback } from 'react';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import service from "./services/service";
 import { getUserId } from "./services/userService";
 import Loading from "../src/components/Loading";
 import OrderList from "./components/OrderList";
+import { useFocusEffect } from '@react-navigation/native';
 
 const OrderScreen = ({ isFilterOpen }) => {
     const [loadingStatus, setLoadingStatus] = useState(false);
+    const [orders, setOrders] = useState([]);
+    //{ id: 1, totalAmount: 50.0 },
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            console.log("burdayım")
+            fetchData();
+        }, [])
+    );
 
     const fetchData = async () => {
         const userId = await getUserId();
-        service.postData('api/payment',{
+        setLoadingStatus(true)
+        service.getData('api/siparislerim/'+userId,{
             "userid":userId
         }).then(response => {
+            setLoadingStatus(false)
             console.log("geldi")
-            console.log(response)
+           setOrders(response.orders.map(item => {
+               console.log(item)
+               return {
+                   id : item.order_no,
+                   totalAmount : item.total_paid,
+                   products : item.products,
+                   address : item.billing_address,
+                   city :item.billing_address,
+                   district : item.billing_address_district
+
+               }
+           }))
         });
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             {
                 loadingStatus ? <Loading/> :
-                    <OrderList orders={[
-                    { id: 1, totalAmount: 50.0 },
-                    { id: 2, totalAmount: 75.5 },
-                        ]} />
+                    <OrderList orders={orders} />
 
             }
-        </View>
+        </ScrollView>
     );
 };
 

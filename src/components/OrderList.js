@@ -9,9 +9,21 @@ const OrderHistoryComponent = ({ orders }) => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.orderItem}>
-                        <Text style={styles.orderId}>Order ID: {item.id}</Text>
-                        <Text style={styles.totalAmount}>Total: ${item.totalAmount.toFixed(2)}</Text>
-                        {/* Diğer sipariş detayları */}
+                        <Text style={styles.orderId}>Sipariş ID: {item.id}</Text>
+                        <Text style={styles.totalAmount}>Toplam: {item.totalAmount} ₺</Text>
+                        {
+                            item.products.map(elem => {
+                                return (
+                                    <Text>{elem.name} | {elem.price } ₺ | {elem.pivot.quantity} adet</Text>
+                                )
+                            })
+                        }
+
+                        <Text style={styles.totalAmount}>Adres :  {item.address} ₺</Text>
+
+                        <Text style={styles.totalAmount}>Şehir/İlçe: {item.city} / {item.district} </Text>
+
+
                     </View>
                 )}
             />

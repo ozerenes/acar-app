@@ -7,7 +7,7 @@ import Notification from "../src/components/Notification";
 import Loading from "../src/components/Loading";
 
 
-const ShoppingCart = ({navigation}) => {
+const ShoppingCart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [notificationVisible, setNotificationVisible] = useState(false);
     const [notificatioonForOrder, setNotificatioonForOrder] = useState(false);
@@ -55,13 +55,13 @@ const ShoppingCart = ({navigation}) => {
     );
 
     const payment = async () => {
-            const userId = await getUserId();
-            service.postData('api/payment',{
-                "userid":userId
-            }).then(response => {
-                setNotificatioonForOrder(true)
-            });
-        }
+        const userId = await getUserId();
+        service.postData('api/payment',{
+            "userid":userId
+        }).then(response => {
+            setNotificatioonForOrder(true)
+        });
+    }
 
     return (
         <View style={styles.container}>
@@ -72,15 +72,15 @@ const ShoppingCart = ({navigation}) => {
                 <Notification message="Sipariş Verildi" onClose={closeNotification} />
             )}
             <Text style={styles.title}>Sepet Listesi</Text>
-                <FlatList
-                    data={cartItems}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
-                />
+            <FlatList
+                data={cartItems}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id.toString()}
+            />
 
-            <TouchableOpacity onPress={(e) =>{if(cartItems.length) navigation.navigate("Sipariş Tamamla")} } style={styles.filterButton}>
+            <TouchableOpacity onPress={payment} style={styles.filterButton}>
                 <Icon name={"card-outline"} color={"#fff"} size={30} />
-                <Text style={styles.filterButtonText}>Siparişe Devam Et</Text>
+                <Text style={styles.filterButtonText}>Sipariş Ver</Text>
             </TouchableOpacity>
 
         </View>

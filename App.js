@@ -12,6 +12,7 @@ import ProductsScreen from './src/ProductsScreen';
 import CategoryScreen from "./src/CategoryScreen";
 import DetailsScreen from "./src/DetailsScreen";
 import BasketScreen from "./src/BasketScreen";
+import CompeleteBasket from "./src/CompeteBasket";
 import CustomButton from "./src/components/CustomButton";
 import NavigationService from "./src/services/navigationService";
 import categoryProductScreen from "./src/CategoryProductScreen";
@@ -163,32 +164,35 @@ function App() {
                 >
                 </Tab.Screen>
 
-                {/*<Tab.Screen*/}
-                {/*    name="Sipariş Listesi"*/}
-                {/*    component={OrderScreen}*/}
-                {/*    options={({ navigation }) => ({*/}
-                {/*        tabBarIcon: ({ color, size }) => (*/}
-                {/*            <Icon name="file-tray-full-outline" color={color} size={size} />*/}
-                {/*        ),*/}
-                {/*        headerShown: true,*/}
-                {/*        headerRight: () => (*/}
-                {/*            <View style={styles.buttonArea}>*/}
-                {/*                <CustomButton style={styles.customButton}*/}
-                {/*                              icon={"basket-outline"}*/}
-                {/*                              onPress={() => navigation.navigate('Sepet')}*/}
-                {/*                              count={count}*/}
-                {/*                />*/}
-                {/*                <CustomButton style={styles.customButton}*/}
-                {/*                              icon={"exit-outline"}*/}
-                {/*                              onPress={() => {*/}
-                {/*                                  logout(navigation);*/}
-                {/*                              }}*/}
-                {/*                              title="Düğme"*/}
-                {/*                />*/}
-                {/*            </View>*/}
-                {/*        ),*/}
-                {/*    })}*/}
-                {/*/>*/}
+                <Tab.Screen
+                    name="Sipariş Listesi"
+                    component={OrderScreen}
+                    options={({ navigation }) => ({
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon name="file-tray-full-outline" color={color} size={size} />
+                        ),
+                        headerShown: true,
+                        headerRight: () => (
+                            <View style={styles.buttonArea}>
+                                <CustomButton
+                                    style={styles.customButton}
+                                    icon={"basket-outline"}
+                                    onPress={() => navigation.navigate('Sepet')}
+                                    count={count}
+                                />
+                                <CustomButton
+                                    style={styles.customButton}
+                                    icon={"exit-outline"}
+                                    onPress={() => {
+                                        logout(navigation);
+                                    }}
+                                    title="Düğme"
+                                />
+                            </View>
+                        ),
+                    })}
+                />
+
 
                 <Tab.Screen
                     name="İletişim"
@@ -251,6 +255,7 @@ function App() {
                               })}
                 />
                 <Stack.Screen name="Sepet" component={BasketScreen} />
+                <Stack.Screen name="Sipariş Tamamla" component={CompeleteBasket} />
                 <Stack.Screen name="CatPro" component={CategoryProductScreen}
                               options={({ route }) => ({
                                   title: route.params.currentCategoryName, // Kategori adını başlık olarak ayarlayın

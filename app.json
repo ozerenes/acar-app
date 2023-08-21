@@ -24,12 +24,17 @@
       },
       "permissions": [
         "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATsION"
+        "ACCESS_FINE_LOCATION"
       ],
       "package": "com.makyuz.acarapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f16fe01a-3fb2-469b-8be0-fb434df01d78"
+      }
     }
   }
 }
