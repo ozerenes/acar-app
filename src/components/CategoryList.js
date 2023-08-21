@@ -39,17 +39,16 @@ const CategoryList = ({ categories }) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#f0f0f0',
     },
     productItem: {
         flex: 1,
-        borderWidth: 1,
-        borderColor: '#040404',
-        paddingVertical: 15,
-        alignItems: 'center', // Elemanları yatayda merkezlemek için alignItems'u 'center' olarak ayarlayın
-        maxWidth: '50%', // Yan yana sıralanan elemanların maksimum genişliğini yüzde 50 olarak ayarlayın
-        borderBottomWidth: 0,
-        borderRightWidth: 0
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        padding: 16,
+        margin: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     productImage: {
         width: 100,
@@ -73,12 +72,9 @@ const styles = StyleSheet.create({
         width: 28,
         height: 28,
         position: "absolute",
+        zIndex: 122122,
         right: 15,
         top: 15
     },
-    lastItem: {
-        borderBottomWidth: 1,
-        borderRightWidth: 1
-    }
 });
 export default CategoryList;

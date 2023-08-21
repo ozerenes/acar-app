@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import {View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 import TextSlider from "./TextSlider";
 import service from "../services/service";
@@ -10,6 +10,7 @@ import axios from "axios";
 import FilterComponent from "./Filter";
 import { getUserId } from "../services/userService";
 
+const screenWidth = Dimensions.get('window').width / 2;
 const ProductList = ({ categories, isFilterOpen }) => {
     const navigation = useNavigation();
 
@@ -73,10 +74,8 @@ const ProductList = ({ categories, isFilterOpen }) => {
     }
 
     const renderProductItem = ({ item, index }) => {
-        const isLastItem = index === categories.length - 1;
-        const notEven = (index % 2 !== 0 && index === categories.length - 2);
         return (
-            <View style={styles.productItem}>
+            <View style={[(products.length - 1 === index) ? styles.lastItem : styles.productItem]}>
                 <TouchableOpacity onPress={() => {
                     likeUnlike(item.id, item.liked)
                 }} style={styles.heart}>
@@ -100,7 +99,7 @@ const ProductList = ({ categories, isFilterOpen }) => {
     };
 
     return (
-        <View>
+        <View style={{marginBottom: 110}}>
             <TextSlider categories={categories} setCurrentCategory={setCurrentCategory} />
             {
                 isFilterOpen ? <FilterComponent data={products} setCurrentCategory={setCurrentCategory} /> :
@@ -158,6 +157,15 @@ const styles = StyleSheet.create({
         right: 15,
         top: 15
     },
+    lastItem: {
+        width: screenWidth - 15,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        padding: 16,
+        margin: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 });
 
 export default ProductList;
