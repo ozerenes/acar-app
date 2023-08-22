@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
     filterButtonText: {
         color: '#fff',
         fontWeight: 'bold',
-        marginLeft: 15
+        marginLeft: 15,
+        fontSize: 16
     },
 });
 
