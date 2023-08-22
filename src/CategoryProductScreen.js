@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity ,Dimensions } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
-import TextSlider from "./components/TextSlider";
 import service from "./services/service";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getUserId} from "./services/userService";
 
-
+const screenWidth = Dimensions.get('window').width / 2;
 const CategoryProductScreen = ({ route }) => {
     const navigation = useNavigation();
 
@@ -72,9 +71,8 @@ const CategoryProductScreen = ({ route }) => {
     }
 
     const renderProductItem = ({ item ,index }) => {
-
         return (
-            <View style={[styles.productItem, styles.lastItem]}>
+            <View style={[(products.length - 1 === index) ? styles.lastItem : styles.productItem]}>
                 <TouchableOpacity onPress={() => {
                     likeUnlike(item.id, item.liked)
                 }} style={styles.heart}>
@@ -116,16 +114,16 @@ const CategoryProductScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#f0f0f0',
     },
     productItem: {
         flex: 1,
-        borderWidth: 1,
-        borderColor: '#040404',
-        paddingVertical: 15,
-        alignItems: 'center', // Elemanları yatayda merkezlemek için alignItems'u 'center' olarak ayarlayın
-        maxWidth: '50%', // Yan yana sıralanan elemanların maksimum genişliğini yüzde 50 olarak ayarlayın
-        borderRightWidth: 0
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        padding: 16,
+        margin: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     productImage: {
         width: 100,
@@ -149,13 +147,18 @@ const styles = StyleSheet.create({
         width: 28,
         height: 28,
         position: "absolute",
-        zIndex:122122,
+        zIndex: 122122,
         right: 15,
         top: 15
     },
     lastItem: {
-        borderBottomWidth: 1,
-        borderRightWidth: 1
+        width: screenWidth - 15,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        padding: 16,
+        margin: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });
 

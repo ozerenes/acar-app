@@ -19,7 +19,7 @@ const OrderHistoryComponent = ({ orders }) => {
                             })
                         }
 
-                        <Text style={styles.totalAmount}>Adres :  {item.address} ₺</Text>
+                        <Text style={styles.totalAmount}>Adres :  {item.address}</Text>
 
                         <Text style={styles.totalAmount}>Şehir/İlçe: {item.city} / {item.district} </Text>
 
