@@ -14,13 +14,13 @@ const service = axios.create({
 
 const handleAuthenticationAndNavigation = async () => {
     try {
-        console.log("controlldeyim");
+
         let user = await AsyncStorage.getItem('user');
 
         user = JSON.parse(user);
 
         if (typeof user !==  'object' ||  !user?.id) {
-            console.log("navigateeeee");
+
             NavigationService.navigate('Giriş');
             return false;
         }
@@ -55,7 +55,6 @@ service.interceptors.request.use(
                 return Promise.reject({});
             }
         }
-        console.log(config)
 
         return config
 
@@ -78,7 +77,7 @@ service.getData = async (url,params = []) => {
             url = url + "?"+ parameter.join('&');
         }
         const response = await service.get(url); // API'nizin verileri almak için uygun endpoint'i kullanın
-        console.log(Object.keys(response))
+
         return response.data; // API'den dönen veriyi döndürür
     } catch (error) {
         throw error; // Hata durumunda hata nesnesini fırlatır
@@ -89,10 +88,8 @@ service.getData = async (url,params = []) => {
 service.postData = async (url,data = {}) => {
     try {
 
-        console.log(data);
+
         const response = await service.post(url, data); // API'nizin verilere veri göndermek için uygun endpoint'i kullanın
-        console.log(response.data);
-        console.log("response",response);
         return response.data; // API'den dönen yanıtı döndürür
     } catch (error) {
         console.log(error); // Hata durumunda hata nesnesini fırlatır

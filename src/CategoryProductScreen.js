@@ -44,9 +44,6 @@ const CategoryProductScreen = ({ route }) => {
             url = 'product-unlike'
         }
         url = `api/${url}`;
-
-        console.log(url);
-        console.log(url);
         let params = {
             userid : userId,
             productid : product_id

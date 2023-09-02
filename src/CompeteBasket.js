@@ -50,7 +50,7 @@ const CompleteBasket = () => {
 
     const payment = async () => {
         const vali = Object.keys(data).every(item => data[item] != "" )
-        console.log(data);
+
         if(vali === false) {
             setValidationError(true);
             return;
@@ -62,7 +62,7 @@ const CompleteBasket = () => {
             "userid":userId,
             ...data
         }).then(response => {
-            console.log(response);
+
             if (response.message == 'ok'){
                 setData({
                     name: "",
