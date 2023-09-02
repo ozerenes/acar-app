@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, FlatList, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getUserId } from "./services/userService";
 import service from "./services/service";
 import Notification from "../src/components/Notification";
 import Loading from "../src/components/Loading";
+import {useFocusEffect} from "@react-navigation/native";
 
 
 const ShoppingCart = ({navigation}) => {
@@ -20,9 +21,13 @@ const ShoppingCart = ({navigation}) => {
     const closeNotification = () => {
         setNotificationVisible(false);
     };
-    useEffect(() => {
-        fetchData();
-    }, []);
+
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchData();
+        }, [])
+    );
 
     const fetchData = async () => {
         setLoadingStatus(true)
