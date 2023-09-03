@@ -48,8 +48,6 @@ const ProductList = ({ categories, isFilterOpen }) => {
         }
         url = `api/${url}`;
 
-        console.log(url);
-        console.log(url);
         let params = {
             userid : userId,
             productid : product_id

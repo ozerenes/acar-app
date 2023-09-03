@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {View, Text, FlatList, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getUserId } from "./services/userService";
 import service from "./services/service";
 import Notification from "../src/components/Notification";
 import Loading from "../src/components/Loading";
+import {useFocusEffect} from "@react-navigation/native";
 
 
 const ShoppingCart = ({navigation}) => {
     const [cartItems, setCartItems] = useState([]);
     const [notificationVisible, setNotificationVisible] = useState(false);
     const [notificatioonForOrder, setNotificatioonForOrder] = useState(false);
+    const [loadingStatus, setLoadingStatus] = useState(false);
 
     const showNotification = () => {
         setNotificationVisible(true);
@@ -19,14 +21,26 @@ const ShoppingCart = ({navigation}) => {
     const closeNotification = () => {
         setNotificationVisible(false);
     };
-    useEffect(() => {
-        fetchData();
-    }, []);
+
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchData();
+        }, [])
+    );
 
     const fetchData = async () => {
+        setLoadingStatus(true)
         const userId = await getUserId();
         service.getData(`api/cart-api/${userId}`).then((response) => {
-            setCartItems(response);
+            setCartItems(response.map(item => {
+                return {
+                    ...item,
+                    picture :"https://www.acar.kodlanabilir.com/storage/products/thumbnails/"+item.picture,
+                }
+            }));
+        }).finally(()=>{
+            setLoadingStatus(false)
         });
     }
 
@@ -44,13 +58,49 @@ const ShoppingCart = ({navigation}) => {
         },5000)
     };
 
+    const addToCart =  async (id,status) => {
+        const userId = await getUserId();
+        service.getData(`api/add-to-cart-api/${userId}/${id}/${status}`).then((response) => {
+            fetchData();
+        });
+    }
+
     const renderItem = ({ item }) => (
         <View style={styles.itemContainer}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemPrice}>{item.price} TL</Text>
+            <Image source={{ uri: item.picture }} style={styles.productImage} />
+            <View style={{
+                position: 'absolute',
+                backgroundColor: "red",
+                borderRadius: 999, // Yuvarlak yapmak için büyük bir değer kullanıyoruz
+                justifyContent: 'center', // İçeriği yatay ve dikey olarak ortala
+                alignItems: 'center',
+                width: 20,
+                height: 20,
+                top: 30, // Konumu ayarla
+                left: 75,
+                zIndex: 99,
+            }}>
+                <Text style={{
+                    color: "white",
+                    fontSize: 12,
+                }}>{item.quantity}</Text>
+            </View>
+            <View style={styles.columnText}>
+                <Text style={styles.itemName}>{item.name}</Text>
+                <Text style={styles.itemPrice}>{item.price} TL</Text>
+            </View>
+
             <TouchableOpacity onPress={() => handleRemoveItem(item.id)} style={styles.removeButton}>
                 <Icon name="trash-outline" size={24} color="red" />
             </TouchableOpacity>
+            <View style={styles.addRemove}>
+                <TouchableOpacity onPress={() => addToCart(item.id,1)} style={styles.addRemoveButton}>
+                    <Text style={styles.customText}>+</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => addToCart(item.id,-1)} style={styles.addRemoveButton}>
+                    <Text style={styles.customText}>-</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 
@@ -71,13 +121,16 @@ const ShoppingCart = ({navigation}) => {
             {notificatioonForOrder && (
                 <Notification message="Sipariş Verildi" onClose={closeNotification} />
             )}
-            <Text style={styles.title}>Sepet Listesi</Text>
-                <FlatList
-                    data={cartItems}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
-                />
 
+            {
+                loadingStatus ? <Loading/> :
+                    <FlatList
+                        data={cartItems}
+                        renderItem={renderItem}
+                        keyExtractor={(item) => item.id.toString()}
+                    />
+
+            }
             <TouchableOpacity onPress={(e) =>{if(cartItems.length) navigation.navigate("Sipariş Tamamla")} } style={styles.filterButton}>
                 <Icon name={"card-outline"} color={"#fff"} size={30} />
                 <Text style={styles.filterButtonText}>Siparişe Devam Et</Text>
@@ -89,8 +142,7 @@ const ShoppingCart = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 16,
+        flex: 1
     },
     title: {
         fontSize: 24,
@@ -101,20 +153,27 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingVertical: 8,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
+        padding: 16,
     },
     itemName: {
-        fontSize: 18,
+        fontSize: 14,
         flex: 1,
     },
     itemPrice: {
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: 'bold',
     },
     removeButton: {
+        padding: 8
+    },
+    addRemoveButton: {
         padding: 8,
+        marginBottom: 8
+    },
+    customText: {
+        fontSize: 25,
     },
     emptyText: {
         fontSize: 18,
@@ -132,6 +191,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 15
     },
+    productImage: {
+        width: 90,
+        height: 90,
+        resizeMode: 'contain',
+    },
+    addRemove: {
+        flexDirection: "column"
+    },
+    columnText: {
+        flexDirection: "column",
+        height: 50,
+    }
 });
 
 export default ShoppingCart;

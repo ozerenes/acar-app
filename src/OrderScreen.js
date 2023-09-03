@@ -1,5 +1,5 @@
-import React, { useEffect, useState,useCallback } from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import React, { useState,useCallback } from 'react';
+import { StyleSheet, ScrollView} from 'react-native';
 import service from "./services/service";
 import { getUserId } from "./services/userService";
 import Loading from "../src/components/Loading";
@@ -13,7 +13,6 @@ const OrderScreen = ({ isFilterOpen }) => {
 
     useFocusEffect(
         useCallback(() => {
-            console.log("burdayım")
             fetchData();
         }, [])
     );
@@ -25,9 +24,7 @@ const OrderScreen = ({ isFilterOpen }) => {
             "userid":userId
         }).then(response => {
             setLoadingStatus(false)
-            console.log("geldi")
-           setOrders(response.orders.map(item => {
-               console.log(item)
+            setOrders(response.orders.map(item => {
                return {
                    id : item.order_no,
                    totalAmount : item.total_paid,

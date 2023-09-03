@@ -31,7 +31,7 @@ function App() {
     const isLoggedIn = false; // Bu değişkeni giriş kontrolü sonucunda true/false olarak ayarlayın.
     const navigatorRef = React.useRef();
     const [isFilterOpen, setFilterOpen] = useState(false);
-    const [count, setCount] = useState(false);
+    const [count, setCount] = useState(0);
 
 
     const fetchData = async () => {
@@ -65,6 +65,9 @@ function App() {
                         } else if (route.name === 'Kategoriler') {
                             iconName = 'settings-outline';
                         }
+                        else if (route.name === 'Sepet') {
+                            iconName = 'basket-outline';
+                        }
                         else if (route.name === 'İletişim') {
                             iconName = 'person-outline';
                         }
@@ -95,11 +98,6 @@ function App() {
                         headerRight: () => (
                             <View style={styles.buttonArea}>
                                 <CustomButton style={styles.customButton}
-                                    icon={"basket-outline"}
-                                    onPress={() => navigation.navigate('Sepet')}
-                                    count={count}
-                                />
-                                <CustomButton style={styles.customButton}
                                     icon={"exit-outline"}
                                     onPress={() => {
                                         logout(navigation);
@@ -111,7 +109,7 @@ function App() {
                     })}
                 />
 
-                <Tab.Screen
+                {/* <Tab.Screen
                     name="Kategoriler"
                     component={CategoryScreen}
                     options={({ navigation }) => ({
@@ -136,7 +134,7 @@ function App() {
                             </View>
                         ),
                     })}
-                />
+                /> */}
 
                 <Tab.Screen
                     name="Ürün Listesi"
@@ -148,16 +146,58 @@ function App() {
                         headerShown: true,
                         headerRight: () => (
                             <View style={styles.flex}>
-                                <CustomButton icon={"basket-outline"}
-                                    onPress={() => navigation.navigate('Sepet')}
-                                    count={count}
-                                />
+
                                 <CustomButton style={styles.customButton}
                                               icon={"exit-outline"}
                                               onPress={() => {
                                                   logout(navigation);
                                               }}
                                               title="Düğme"></CustomButton>
+                            </View>
+                        ),
+                    })}
+                >
+                </Tab.Screen>
+
+                <Tab.Screen
+                    name="Sepet"
+                    component={BasketScreen}
+                    options={({ navigation }) => ({
+                        tabBarIcon: ({ color, size }) => (
+                            <View>
+                                <Icon name="basket-outline" type="ionicon" color={color} size={size} />
+                                {/* Burada "badge" ekleyin ve içeriği öğe sayısına ayarlayın */}
+                                <View style={{
+                                    position: 'absolute',
+                                    backgroundColor: "red",
+                                    borderRadius: 999, // Yuvarlak yapmak için büyük bir değer kullanıyoruz
+                                    justifyContent: 'center', // İçeriği yatay ve dikey olarak ortala
+                                    alignItems: 'center',
+                                    width: 20,
+                                    height: 20,
+                                    top: -5, // Konumu ayarla
+                                    right: -10,
+                                    zIndex: 99,
+                                }}>
+                                    <Text style={{
+                                        color: "white",
+                                        fontSize: 12,
+                                    }}>{count}</Text>
+                                </View>
+                            </View>
+                        ),
+                        headerShown: true,
+                        headerRight: () => (
+                            <View style={styles.buttonArea}>
+
+                                <CustomButton
+                                    style={styles.customButton}
+                                    icon={"exit-outline"}
+                                    onPress={() => {
+                                        logout(navigation);
+                                    }}
+                                    title="Düğme"
+                                />
                             </View>
                         ),
                     })}
@@ -174,12 +214,7 @@ function App() {
                         headerShown: true,
                         headerRight: () => (
                             <View style={styles.buttonArea}>
-                                <CustomButton
-                                    style={styles.customButton}
-                                    icon={"basket-outline"}
-                                    onPress={() => navigation.navigate('Sepet')}
-                                    count={count}
-                                />
+
                                 <CustomButton
                                     style={styles.customButton}
                                     icon={"exit-outline"}
@@ -204,11 +239,7 @@ function App() {
                         headerShown: true,
                         headerRight: () => (
                             <View style={styles.buttonArea}>
-                                <CustomButton style={styles.customButton}
-                                              icon={"basket-outline"}
-                                              onPress={() => navigation.navigate('Sepet')}
-                                              count={count}
-                                />
+
                                 <CustomButton style={styles.customButton}
                                               icon={"exit-outline"}
                                               onPress={() => {
@@ -238,11 +269,6 @@ function App() {
                                   headerShown: true,
                                   headerRight: () => (
                                       <View style={styles.buttonArea}>
-                                          <CustomButton style={styles.customButton}
-                                                        icon={"basket-outline"}
-                                                        onPress={() => navigation.navigate('Sepet')}
-                                                        count={count}
-                                          />
                                           <CustomButton style={styles.customButton}
                                                         icon={"exit-outline"}
                                                         onPress={() => {
