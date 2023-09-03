@@ -109,7 +109,7 @@ function App() {
                     })}
                 />
 
-                {/* <Tab.Screen
+                <Tab.Screen
                     name="Kategoriler"
                     component={CategoryScreen}
                     options={({ navigation }) => ({
@@ -120,11 +120,6 @@ function App() {
                         headerRight: () => (
                             <View style={styles.buttonArea}>
                                 <CustomButton style={styles.customButton}
-                                              icon={"basket-outline"}
-                                              onPress={() => navigation.navigate('Sepet')}
-                                              count={count}
-                                />
-                                <CustomButton style={styles.customButton}
                                               icon={"exit-outline"}
                                               onPress={() => {
                                                   logout(navigation);
@@ -134,9 +129,9 @@ function App() {
                             </View>
                         ),
                     })}
-                /> */}
+                />
 
-                <Tab.Screen
+                {/*<Tab.Screen
                     name="Ürün Listesi"
                     component={ProductsScreen}
                     options={({ navigation }) => ({
@@ -157,7 +152,7 @@ function App() {
                         ),
                     })}
                 >
-                </Tab.Screen>
+                </Tab.Screen> */}
 
                 <Tab.Screen
                     name="Sepet"
@@ -282,7 +277,7 @@ function App() {
                 />
                 <Stack.Screen name="Sepet" component={BasketScreen} />
                 <Stack.Screen name="Sipariş Tamamla" component={CompeleteBasket} />
-                <Stack.Screen name="CatPro" component={CategoryProductScreen}
+                <Stack.Screen name="Liste" component={CategoryProductScreen}
                               options={({ route }) => ({
                                   title: route.params.currentCategoryName, // Kategori adını başlık olarak ayarlayın
                               })}

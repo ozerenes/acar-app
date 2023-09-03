@@ -11,7 +11,7 @@ const CategoryList = ({ categories }) => {
         return (
             <View style={[styles.productItem,(isLastItem || notEven) && styles.lastItem]}>
                 <TouchableOpacity onPress={() => {
-                    navigation.navigate('CatPro', {
+                    navigation.navigate('Liste', {
                         currentCategory: item.id,
                         currentCategoryName: item.name,
                     })
