@@ -2,30 +2,34 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 
 const OrderHistoryComponent = ({ orders }) => {
+
+    const renderItems = ({item,index}) => {
+        return (
+            <View style={styles.orderItem}>
+                <Text style={styles.orderId}>Sipariş ID: {item.id}</Text>
+                <Text style={styles.totalAmount}>Toplam: {item.totalAmount} ₺</Text>
+                {
+                    item.products.map(elem => {
+                        return (
+                            <Text>{elem.name} | {elem.price } ₺ | {elem.pivot.quantity} adet</Text>
+                        )
+                    })
+                }
+
+                <Text style={styles.totalAmount}>Adres :  {item.address}</Text>
+
+                <Text style={styles.totalAmount}>Şehir/İlçe: {item.city} / {item.district} </Text>
+
+
+            </View>
+        )
+    }
     return (
         <View style={styles.container}>
             <FlatList
                 data={orders}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                    <View style={styles.orderItem}>
-                        <Text style={styles.orderId}>Sipariş ID: {item.id}</Text>
-                        <Text style={styles.totalAmount}>Toplam: {item.totalAmount} ₺</Text>
-                        {
-                            item.products.map(elem => {
-                                return (
-                                    <Text>{elem.name} | {elem.price } ₺ | {elem.pivot.quantity} adet</Text>
-                                )
-                            })
-                        }
-
-                        <Text style={styles.totalAmount}>Adres :  {item.address}</Text>
-
-                        <Text style={styles.totalAmount}>Şehir/İlçe: {item.city} / {item.district} </Text>
-
-
-                    </View>
-                )}
+                renderItem={renderItems}
             />
         </View>
     );
