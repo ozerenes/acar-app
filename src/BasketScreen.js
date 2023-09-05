@@ -124,17 +124,29 @@ const ShoppingCart = ({navigation}) => {
 
             {
                 loadingStatus ? <Loading/> :
-                    <FlatList
-                        data={cartItems}
-                        renderItem={renderItem}
-                        keyExtractor={(item) => item.id.toString()}
-                    />
+                   ( cartItems.length === 0 ?
+                           <View style={styles.centerView}>
+                               <Icon name="file-tray-outline" size={144} color="black" />
+                               <Text style={{fontSize: 20}}>Sepete ürün ekleyin.</Text>
+                           </View>
+
+                        :
+                           <View>
+                               <FlatList
+                                   data={cartItems}
+                                   renderItem={renderItem}
+                                   keyExtractor={(item) => item.id.toString()}
+                               />
+                               <TouchableOpacity onPress={(e) =>{if(cartItems.length) navigation.navigate("Sipariş Tamamla")} } style={styles.filterButton}>
+                                   <Icon name={"card-outline"} color={"#fff"} size={30} />
+                                   <Text style={styles.filterButtonText}>Siparişe Devam Et</Text>
+                               </TouchableOpacity>
+                           </View>
+
+                   )
 
             }
-            <TouchableOpacity onPress={(e) =>{if(cartItems.length) navigation.navigate("Sipariş Tamamla")} } style={styles.filterButton}>
-                <Icon name={"card-outline"} color={"#fff"} size={30} />
-                <Text style={styles.filterButtonText}>Siparişe Devam Et</Text>
-            </TouchableOpacity>
+
 
         </View>
     );
@@ -143,6 +155,11 @@ const ShoppingCart = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    centerView : {
+        flex: 1 ,
+        alignItems: "center",
+        justifyContent: "center"
     },
     title: {
         fontSize: 24,
