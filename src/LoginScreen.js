@@ -132,7 +132,7 @@ function LoginScreen({ navigation }) {
                    </TouchableOpacity>
 
                    <TouchableOpacity onPress={()=>openLink("https://www.acar.kodlanabilir.com/parolami-unuttum")}>
-                       <Text>Şifremi unuttum</Text>
+                       <Text style={styles.linkedText}>Şifremi unuttum</Text>
                    </TouchableOpacity>
 
                    <View style={styles.space} />
@@ -224,6 +224,10 @@ const styles = StyleSheet.create({
         top: 100,
         left: (Dimensions.get('window').width / 2) - 100
     },
+    linkedText : {
+        textDecorationLine: "underline",
+        marginTop: 15
+    }
 });
 
 export default LoginScreen;
