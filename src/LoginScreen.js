@@ -8,7 +8,7 @@ import {
     Image,
     BackHandler,
     Button,
-    Dimensions, Linking
+    Dimensions, Linking, ScrollView
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -22,6 +22,7 @@ function LoginScreen({ navigation }) {
     const [images, setImages] = useState([]);
     const [userName,setUserName] = useState("admin@kodlanabilir.com");
     const [password, setPassword] = useState("123123");
+    const [loginInfo, setLoginInfo] = useState(null);
     const [error ,setError] = useState(false);
     const [userId,setUserId] = useState(1);
 
@@ -49,6 +50,7 @@ function LoginScreen({ navigation }) {
 
     const getImages = () => {
         service.getData('api/loginpage').then(async (response) => {
+            setLoginInfo(response)
             setImages(response.sliders.map(item => "https://www.acar.kodlanabilir.com/storage/homeslider/" + item.picture));
         }).catch((e)=> console.log("error",e))
     }
@@ -74,7 +76,26 @@ function LoginScreen({ navigation }) {
                     return Linking.openURL(url);
                 }
             })
-            .catch((err) => console.error('Instagram açılamadı: ', err));
+            .catch((err) => console.error('Hata açılamadı: ', err));
+    };
+
+    const callPhoneNumber = (phoneNumber) => {
+        const phoneUrl = `tel:${phoneNumber}`;
+        Linking.openURL(phoneUrl)
+            .catch((err) => {
+                console.error('Hata:', err);
+            });
+    };
+
+    const openEmail = (emailAddress) => {
+        const subject = 'Konu'; // E-posta konusu (isteğe bağlı)
+        const body = 'E-posta içeriği'; // E-posta içeriği (isteğe bağlı)
+        const mailtoUrl = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
+
+        Linking.openURL(mailtoUrl)
+            .catch((err) => {
+                console.error('Hata:', err);
+            });
     };
     const login = () => {
         setError(0);
@@ -92,59 +113,81 @@ function LoginScreen({ navigation }) {
         })
     }
     return (
-       !userId ?  <View style={styles.container}>
+       !userId ?
+           <ScrollView>
+               <View style={styles.container}>
 
-           <PhotoSlider bigSize={true} images={images} slideDuration={12000} />
-           <Image source={require('../assets/acar.png')} style={styles.modalImage} />
-           <View style={styles.centerView}>
-               <Text style={{width: 300,marginBottom: 5,fontWeight: "bold"}}>Kullancı Adı</Text>
-               <View style={styles.inputContainer}>
-                   <TextInput
-                       value={"admin@kodlanabilir.com"}
-                       style={styles.customInput}
-                       placeholder={"Kullanıcı adı girin ..."}
-                       placeholderTextColor="#A0A0A0"
-                       onChangeText={setUserName}
-                   />
+                   <PhotoSlider bigSize={true} images={images} slideDuration={12000} />
+                   <Image source={require('../assets/acar.png')} style={styles.modalImage} />
+                   <View style={styles.centerView}>
+                       <Text style={{width: Dimensions.get('window').width - 60,marginBottom: 5,fontWeight: "bold"}}>Kullancı Adı</Text>
+                       <View style={styles.inputContainer}>
+                           <TextInput
+                               value={"admin@kodlanabilir.com"}
+                               style={styles.customInput}
+                               placeholder={"Kullanıcı adı girin ..."}
+                               placeholderTextColor="#A0A0A0"
+                               onChangeText={setUserName}
+                           />
+                       </View>
+                       <Text style={{width: Dimensions.get('window').width - 60,marginBottom: 5,fontWeight: "bold"}}>Şifre</Text>
+                       <View style={styles.inputContainer}>
+                           <TextInput
+                               value={"123123"}
+                               style={styles.customInput}
+                               placeholder={"Password"}
+                               placeholderTextColor="#A0A0A0"
+                               secureTextEntry={true}
+                               onChangeText={setPassword}
+                           />
+                       </View>
+                       <View style={styles.map}>
+                           <TouchableOpacity style={styles.customButton}
+                                             onPress={() => {
+                                                 login()
+                                                 // Burada giriş kontrolü yapabilirsiniz.
+                                                 // Eğer giriş başarılıysa ana ekrana geçiş yapabilirsiniz.
+                                                 // Örnek olarak, navigation.navigate('Home') gibi bir yönlendirme yapabilirsiniz.
+                                             }}
+
+                           >
+                               <Text style={styles.buttonText}>Login</Text>
+                           </TouchableOpacity>
+
+                           <TouchableOpacity onPress={()=>openLink("https://www.acar.kodlanabilir.com/parolami-unuttum")}>
+                               <Text style={styles.linkedText}>Şifremi unuttum</Text>
+                           </TouchableOpacity>
+
+                           <View style={styles.space} />
+                           {
+                               error ?
+                                   <Text style={styles.errorText}> Kullanıcı Adı veya Şifre Yanlış</Text> : <></>
+                           }
+                           <View style={styles.footer}>
+                               <TouchableOpacity style={styles.contractButtonLeft} onPress={()=>callPhoneNumber(loginInfo?.info?.help_tel)}>
+                                   <Text  style={styles.whiteText}>Telefon</Text>
+                               </TouchableOpacity>
+                               <TouchableOpacity  style={styles.contractButton} onPress={()=>openEmail(loginInfo?.info?.help_mail)}>
+                                   <Text style={styles.whiteText}>Eposta</Text>
+                               </TouchableOpacity>
+                           </View>
+
+                           <View style={styles.footer}>
+                               <TouchableOpacity style={styles.contractButtonLeft} onPress={()=>openLink(loginInfo?.info?.help_wp)}>
+                                   <Text  style={styles.whiteText}>Facebook</Text>
+                               </TouchableOpacity>
+                               <TouchableOpacity  style={styles.contractButton} onPress={()=>openLink("https://www.acar.kodlanabilir.com/storage/catalog/" +loginInfo?.info?.catalog)}>
+                                   <Text style={styles.whiteText}>Katalog</Text>
+                               </TouchableOpacity>
+                           </View>
+
+                       </View>
+                   </View>
+
+
                </View>
-               <Text style={{width: 300,marginBottom: 5,fontWeight: "bold"}}>Şifre</Text>
-               <View style={styles.inputContainer}>
-                   <TextInput
-                       value={"123123"}
-                       style={styles.customInput}
-                       placeholder={"Password"}
-                       placeholderTextColor="#A0A0A0"
-                       secureTextEntry={true}
-                       onChangeText={setPassword}
-                   />
-               </View>
-               <View style={styles.map}>
-                   <TouchableOpacity style={styles.customButton}
-                                     onPress={() => {
-                                         login()
-                                         // Burada giriş kontrolü yapabilirsiniz.
-                                         // Eğer giriş başarılıysa ana ekrana geçiş yapabilirsiniz.
-                                         // Örnek olarak, navigation.navigate('Home') gibi bir yönlendirme yapabilirsiniz.
-                                     }}
-
-                   >
-                       <Text style={styles.buttonText}>Login</Text>
-                   </TouchableOpacity>
-
-                   <TouchableOpacity onPress={()=>openLink("https://www.acar.kodlanabilir.com/parolami-unuttum")}>
-                       <Text style={styles.linkedText}>Şifremi unuttum</Text>
-                   </TouchableOpacity>
-
-                   <View style={styles.space} />
-                   {
-                       error ?
-                           <Text style={styles.errorText}> Kullanıcı Adı veya Şifre Yanlış</Text> : <></>
-                   }
-               </View>
-           </View>
-
-
-        </View> : <></>
+           </ScrollView>
+           : <></>
     );
 }
 
@@ -155,10 +198,10 @@ const styles = StyleSheet.create({
     centerView : {
       flex: 1,
       alignItems: "center",
-        marginTop: 60
+        marginTop: 30
     },
     map: {
-        width: 300,
+        width: Dimensions.get('window').width - 60,
     },
     titleHead: {
         height: 80,
@@ -182,7 +225,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         minWidth: '100%',
-        maxWidth: 300,
+        maxWidth: Dimensions.get('window').width - 60,
         backgroundColor: '#F5F5F5',
         borderRadius: 10,
         paddingHorizontal: 16,
@@ -227,6 +270,34 @@ const styles = StyleSheet.create({
     linkedText : {
         textDecorationLine: "underline",
         marginTop: 15
+    },
+    contractButton : {
+        backgroundColor : "#ec1c3c",
+        color: "white",
+        width: (Dimensions.get('window').width / 2) - 40,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        marginTop: 10
+    },
+    contractButtonLeft: {
+        backgroundColor : "#ec1c3c",
+        width: (Dimensions.get('window').width / 2) - 40,
+        marginRight: 15,
+        paddingVertical: 28,
+        paddingHorizontal: 24,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        marginTop: 10
+    },
+    footer: {
+        flexDirection: "row"
+    },
+    whiteText: {
+        color: "white",
     }
 });
 
