@@ -88,22 +88,11 @@ const CompanyLocation = () => {
     return (
         <ScrollView style={styles.container} ref={scrollViewRef}>
 
-            {
-                <View style={styles.webviewContainer}>
-                    <WebView
-                        source={{ html: companyContactInfo[currentLocation].iframe }}
-                        style={styles.webview}
-                    />
-                </View>
-            }
 
             <View style={styles.flexContainer}>
                 {getCustomButtons("logo-facebook",info?.social_facebook)}
                 {getCustomButtons("logo-instagram",info?.social_instagram)}
-                {getCustomButtons("logo-pinterest",info?.social_pinterest)}
-                {getCustomButtons("logo-twitter",info?.social_twitter)}
-                {getCustomButtons("logo-youtube",info?.social_youtube)}
-                {getCustomButtons("logo-wordpress",info?.store_web_site)}
+                {getCustomButtons("logo-whatsapp",info?.social_whatsapp)}
             </View>
 
 
@@ -111,22 +100,22 @@ const CompanyLocation = () => {
                 {
                     companyContactInfo.map((item,index) => {
                         return (
+                            <>
+                            <View style={styles.webviewContainer}>
+                                <WebView
+                                    source={{ html: item.iframe }}
+                                    style={styles.webview}
+                                />
+                            </View>
                             <View style={styles.card} key={index}>
                                 <Text style={styles.title}>{item.title}</Text>
                                 <Text style={styles.contactInfoText}>Adres: {item.address}</Text>
                                 <Text style={styles.contactInfoText}>Telefon: {item.phone}</Text>
                                 <Text style={styles.contactInfoText}>E-posta: {item.email}</Text>
-                                <View style={styles.detailFooter}>
-                                    <TouchableOpacity onPress={() => {
-                                        setCurrentLocation(index);
-                                        scrollToTop()
-
-                                    }} style={styles.customButton}>
-                                        <Text  style={styles.customText}>Konumu İncele</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                
 
                                 </View>
+                            </>
                             )
 
 
