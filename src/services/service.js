@@ -47,7 +47,7 @@ service.interceptors.response.use(
 );
 service.interceptors.request.use(
     async(config) => {
-        if(config.url != 'api/login'){
+        if(config.url.indexOf('api/login') == -1){
             const isAuthenticated = await handleAuthenticationAndNavigation();
 
             if (!isAuthenticated) {
@@ -78,8 +78,9 @@ service.getData = async (url,params = []) => {
         }
         const response = await service.get(url); // API'nizin verileri almak için uygun endpoint'i kullanın
 
-        return response.data; // API'den dönen veriyi döndürür
+        return response?.data ?? response; // API'den dönen veriyi döndürür
     } catch (error) {
+
         throw error; // Hata durumunda hata nesnesini fırlatır
     }
 };
