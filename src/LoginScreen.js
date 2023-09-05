@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image,BackHandler} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image,BackHandler,Switch} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import service from "./services/service";
@@ -7,10 +7,11 @@ import axios from "axios";
 import {getUserId} from "./services/userService";
 
 function LoginScreen({ navigation }) {
-    const [userName,setUserName] = useState("admin@kodlanabilir.com");
-    const [password, setPassword] = useState("123123");
+    const [userName,setUserName] = useState("");
+    const [password, setPassword] = useState("");
     const [error ,setError] = useState(false);
     const [userId,setUserId] = useState(1);
+    const [rememberMe, setRememberMe] = useState(false);
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerShown:false, // Hide the back button
@@ -40,6 +41,12 @@ function LoginScreen({ navigation }) {
             navigation.navigate('Details2', { screen: 'Ana sayfa' });
         }else
         {
+            const username = await AsyncStorage.getItem('username');
+            const password = await AsyncStorage.getItem('password');
+            if(username && password){
+                setUserName(username);
+                setPassword(password);
+            }
             setUserId(userId);
         }
     }
@@ -51,6 +58,10 @@ function LoginScreen({ navigation }) {
         }).then(async (response) => {
             if(response?.user?.id){
                 await AsyncStorage.setItem('user',JSON.stringify(response.user));
+                if(rememberMe){
+                    await AsyncStorage.setItem('username', userName);
+                    await AsyncStorage.setItem('password', password);
+                }
                 navigation.navigate('Details2', { screen: 'Ana sayfa' });
             }
             else{
@@ -63,7 +74,7 @@ function LoginScreen({ navigation }) {
             <Image source={require('../assets/acar.png')} style={styles.modalImage} />
             <View style={styles.inputContainer}>
                 <TextInput
-                    value={"admin@kodlanabilir.com"}
+                    value={userName}
                     style={styles.customInput}
                     placeholder={"Username"}
                     placeholderTextColor="#A0A0A0"
@@ -72,7 +83,7 @@ function LoginScreen({ navigation }) {
             </View>
             <View style={styles.inputContainer}>
                 <TextInput
-                    value={"123123"}
+                    value={password}
                     style={styles.customInput}
                     placeholder={"Password"}
                     placeholderTextColor="#A0A0A0"
@@ -80,6 +91,10 @@ function LoginScreen({ navigation }) {
                     onChangeText={setPassword}
                 />
             </View>
+           <View  style={styles.switch}>
+               <Text>Beni Hatırla</Text>
+               <Switch value={rememberMe} onValueChange={(value) => setRememberMe(value)} />
+           </View>
             <View style={styles.map}>
                 <TouchableOpacity style={styles.customButton}
                     onPress={() => {
@@ -172,6 +187,11 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         marginBottom: 20
     },
+    switch:{
+        alignItems:'center',
+        justifyContent:'flex-start',
+        flexDirection:'row'
+    }
 });
 
 export default LoginScreen;
