@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
     bigSize: {
         width: Dimensions.get('window').width,
-        height: 400,
+        height: 340,
     }
 });
 

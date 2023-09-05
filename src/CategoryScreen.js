@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, Image, TouchableOpacity, Text } from 'react-native';
+import {View, StyleSheet, FlatList, Image, TouchableOpacity, Text, Dimensions} from 'react-native';
 import service from "./services/service";
 import { getUserId } from "./services/userService";
 import {useNavigation} from "@react-navigation/native";
@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 10,
         left: 10,
-        width: 160,
-        height: 160,
+        width: (Dimensions.get('window').width / 2) - 45,
+        height: (Dimensions.get('window').width / 2) - 45,
         marginBottom: 8,
         resizeMode: 'cover',
     },
