@@ -188,7 +188,7 @@ function LoginScreen({ navigation }) {
 
                            <View style={styles.footer}>
                                <TouchableOpacity style={styles.contractButtonLeft} onPress={()=>openLink(loginInfo?.info?.help_wp)}>
-                                   <Text  style={styles.whiteText}>Facebook</Text>
+                                   <Text  style={styles.whiteText}>Whatsapp</Text>
                                </TouchableOpacity>
                                <TouchableOpacity  style={styles.contractButton} onPress={()=>openLink("https://www.acar.kodlanabilir.com/storage/catalog/" +loginInfo?.info?.catalog)}>
                                    <Text style={styles.whiteText}>Katalog</Text>
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'flex-start',
         flexDirection:'row'
-    }
+    },
     linkedText : {
         textDecorationLine: "underline",
         marginTop: 15

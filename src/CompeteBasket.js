@@ -15,6 +15,7 @@ const CompleteBasket = () => {
     const [notificatioonForOrder, setNotificatioonForOrder] = useState(false);
     const [validationError, setValidationError] = useState(false);
     const [messageError, setMessageError] = useState(false);
+    const [dissable, setDisabble] = useState(false);
     const [data,setData] = useState({
         name: "",
         lastname :"",
@@ -49,6 +50,8 @@ const CompleteBasket = () => {
 
 
     const payment = async () => {
+        setDisabble(true)
+
         const vali = Object.keys(data).every(item => data[item] != "" )
 
         if(vali === false) {
@@ -63,7 +66,7 @@ const CompleteBasket = () => {
             ...data
         }).then(response => {
 
-            if (response.message == 'ok'){
+
                 setData({
                     name: "",
                     lastname :"",
@@ -76,13 +79,11 @@ const CompleteBasket = () => {
                 });
                 setNotificatioonForOrder(true);
                 navigation.navigate('Details2', { screen: 'Sipariş Listesi' });
-            }
-            else{
-                 setMessageError(true)
-            }
 
-
-
+        }).catch((e)=> {
+            setMessageError(true)
+        }).finally(() => {
+            setDisabble(false)
         });
     }
 
@@ -153,7 +154,7 @@ const CompleteBasket = () => {
                 onChangeText={(text) => { handleInputChange(text,'note')}}
                 value={data.note}
             />
-            <TouchableOpacity onPress={payment} style={styles.filterButton}>
+            <TouchableOpacity disabled={dissable} onPress={payment} style={styles.filterButton}>
                 <Icon name={"card-outline"} color={"#fff"} size={30} />
                 <Text style={styles.filterButtonText}>Siparişi Tamamla</Text>
             </TouchableOpacity>
