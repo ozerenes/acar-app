@@ -18,6 +18,7 @@ function DetailsScreen({ navigation, route }) {
 
     useEffect(() => {
         service.getData("api/urundetay/" + route.params.itemId).then(response => {
+            console.log(response)
             setProduct(response.product);
         });
     }, []);
@@ -43,6 +44,10 @@ function DetailsScreen({ navigation, route }) {
                 />
                 <View style={styles.detailsContainer}>
                     <Text style={styles.productName}>{product.name}</Text>
+                    <Text style={styles.productDesc}>Stok kodu : {product.stock_code}</Text>
+                    <Text style={styles.productDesc}>Barkod kodu : {product.barcode_code}</Text>
+                    <Text style={styles.productDesc}>Renk : {product.measure}</Text>
+                    <Text style={styles.productDesc}>{product.description}</Text>
                     <Text style={styles.price}>{product.price} TL</Text>
                 </View>
                 <TouchableOpacity onPress={() => {
@@ -71,6 +76,9 @@ const styles = StyleSheet.create({
     },
     detailsContainer: {
         marginTop: 20,
+    },
+    productDesc: {
+        fontSize: 14,
     },
     productName: {
         fontSize: 24,

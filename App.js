@@ -158,7 +158,7 @@ function App() {
                     options={({ navigation }) => ({
                         tabBarIcon: ({ color, size }) => (
                             <View>
-                                <Icon name="basket-outline" type="ionicon" color={color} size={28} />
+                                <Icon name="basket-outline" type="ionicon" color={color} size={30} />
                                 {/* Burada "badge" ekleyin ve içeriği öğe sayısına ayarlayın */}
                                 <View style={{
                                     position: 'absolute',
