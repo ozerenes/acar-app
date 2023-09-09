@@ -150,7 +150,7 @@ const CategoryProductScreen = ({ route }) => {
                     <Image source={{uri: item.image}} style={styles.productImage}/>
                     <View style={styles.productItemFooter}>
                         <Text style={styles.productName}>{item.name}</Text>
-                        <Text style={styles.productPrice}>{item.price} TL</Text>
+                        <Text style={styles.productName}>{item.price} TL</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -227,15 +227,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         borderRadius: 8,
-        padding: 16,
         margin: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
     },
     productImage: {
-        width: 100,
-        height: 100,
-        resizeMode: 'contain',
+        width: (Dimensions.get('window').width / 2) - 15,
+        height: 140,
+        resizeMode: 'stretch',
+        marginBottom: 15,
+        borderTopLeftRadius: 7,
+        borderTopRightRadius: 7
     },
     productName: {
         fontSize: 16,
@@ -248,7 +249,8 @@ const styles = StyleSheet.create({
     productItemFooter: {
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginBottom: 15
     },
     heart: {
         width: 28,
