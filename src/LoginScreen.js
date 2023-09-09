@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
     },
     map: {
         width: Dimensions.get('window').width - 60,
+        marginBottom:20
     },
     titleHead: {
         height: 80,

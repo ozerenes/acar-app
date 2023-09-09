@@ -6,6 +6,7 @@ import service from "./services/service";
 import Notification from "../src/components/Notification";
 import Loading from "../src/components/Loading";
 import {useFocusEffect} from "@react-navigation/native";
+import {useCount} from "./context/CountContext";
 
 
 const ShoppingCart = ({navigation}) => {
@@ -13,7 +14,7 @@ const ShoppingCart = ({navigation}) => {
     const [notificationVisible, setNotificationVisible] = useState(false);
     const [notificatioonForOrder, setNotificatioonForOrder] = useState(false);
     const [loadingStatus, setLoadingStatus] = useState(false);
-
+    const {count,setCountFunc} = useCount()
     const showNotification = () => {
         setNotificationVisible(true);
     };
@@ -39,6 +40,7 @@ const ShoppingCart = ({navigation}) => {
                     picture :"https://www.acar.kodlanabilir.com/storage/products/thumbnails/"+item.picture,
                 }
             }));
+            setCountFunc(response.length)
         }).finally(()=>{
             setLoadingStatus(false)
         });

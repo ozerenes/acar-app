@@ -22,7 +22,7 @@ const CategoryProductScreen = ({ route }) => {
 
     const [products,setProducts]  = useState([]);
     const [bgProducts,setBgProducts]  = useState([]);
-    const [isFilterOpen, setFilterOpen] = useState(true);
+    const [isFilterOpen, setFilterOpen] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [sort, setSort] = useState('');
     useEffect(() => {

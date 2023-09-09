@@ -7,6 +7,7 @@ import {getUserId} from "./services/userService";
 import Loading from "../src/components/Loading";
 
 function HomeScreen({ navigation }) {
+
     const [images, setImages] = useState([]);
     const [featuredProducts, setFeaturedProducts] = useState([]);
     const [loadingStatus, setsLoadingStatus] = useState(false);

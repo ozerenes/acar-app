@@ -3,8 +3,12 @@ import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'rea
 import service from "./services/service";
 import {getUserId} from "./services/userService";
 import Notification from "./components/Notification";
+import WebView from 'react-native-webview';
+import {useCount} from "./context/CountContext";
 
 function DetailsScreen({ navigation, route }) {
+
+    const {count ,setCountFunc} = useCount();
     const [product, setProduct] = useState({});
     const [notificationVisible, setNotificationVisible] = useState(false);
 
@@ -24,7 +28,9 @@ function DetailsScreen({ navigation, route }) {
     }, []);
     const addToCart =  async () => {
         const userId = await getUserId();
+        console.log('addtocart')
         service.getData(`api/add-to-cart-api/${userId}/${product.id}/1`).then((response) => {
+            setCountFunc(count+1);
             showNotification();
         });
         setTimeout(() => {
@@ -51,10 +57,10 @@ function DetailsScreen({ navigation, route }) {
                     <Text style={styles.price}>{product.price} TL</Text>
                 </View>
                 <TouchableOpacity onPress={() => {
-                    if(product.stock > 0){
+
                         addToCart()
-                    }
-                }} style={[styles.addToCartButton,product.stock < 1 && styles.opac]}>
+
+                }} style={[styles.addToCartButton]}>
                     <Text style={styles.addToCartButtonText}>{product.stock < 1 ? "Ürün Yok" : "Sepete Ekle"}</Text>
                 </TouchableOpacity>
             </ScrollView>
